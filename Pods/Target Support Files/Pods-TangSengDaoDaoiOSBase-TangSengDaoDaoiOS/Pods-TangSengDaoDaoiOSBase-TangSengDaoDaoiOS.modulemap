@@ -1,0 +1,6 @@
+framework module Pods_TangSengDaoDaoiOSBase_TangSengDaoDaoiOS {
+  umbrella header "Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

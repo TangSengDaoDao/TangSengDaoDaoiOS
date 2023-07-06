@@ -1,0 +1,73 @@
+{
+  "name": "LiMaoQCRTC",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoQCRTC.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoQCRTC",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@qihyunxin.com"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoQCRTC.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "LiMaoQCRTC/Classes/**/*",
+  "resource_bundles": {
+    "LiMaoQCRTC_images": [
+      "LiMaoQCRTC/Assets/Images.xcassets"
+    ]
+  },
+  "xcconfig": {
+    "ENABLE_BITCODE": "NO",
+    "OTHER_LDFLAGS": "-ObjC"
+  },
+  "vendored_frameworks": "LiMaoQCRTC/sdk/{QCRTCSDK,WebRTC}.framework",
+  "vendored_libraries": "LiMaoQCRTC/sdk/libsioclient.a",
+  "ios": {
+    "resources": "LiMaoQCRTC/sdk/QCRTCSDK.framework/QCAVCallResource.bundle"
+  },
+  "resources": [
+    "LiMaoQCRTC/Assets/Lang"
+  ],
+  "frameworks": [
+    "UIKit",
+    "SystemConfiguration"
+  ],
+  "libraries": [
+    "c++",
+    "sqlite3"
+  ],
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "PromiseKit/CorePromise": [
+      "~> 6.0"
+    ],
+    "Masonry": [
+      "1.1.0"
+    ],
+    "ReactiveObjC": [
+      "3.1.1"
+    ],
+    "SDWebImage": [
+
+    ],
+    "lottie-ios": [
+      "~> 2.5.3"
+    ],
+    "CocoaLumberjack": [
+
+    ],
+    "Socket.IO-Client-Swift": [
+      "15.2.0"
+    ]
+  }
+}

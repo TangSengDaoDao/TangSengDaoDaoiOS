@@ -1,0 +1,135 @@
+{
+  "name": "LiMaoBase",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoBase.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoBase",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoBase.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "resource_bundles": {
+    "LiMaoBase_images": [
+      "LiMaoBase/Assets/Images.xcassets"
+    ],
+    "LiMaoBase_resources": [
+      "LiMaoBase/Assets/DB",
+      "LiMaoBase/Assets/emoji",
+      "LiMaoBase/Assets/Other"
+    ]
+  },
+  "resources": [
+    "LiMaoBase/Assets/Lang"
+  ],
+  "private_header_files": "LiMaoBase/Classes/Vendor/**/*",
+  "source_files": "LiMaoBase/Classes/**/*",
+  "vendored_frameworks": "LiMaoBase/Bugly.framework",
+  "libraries": [
+    "c++",
+    "stdc++"
+  ],
+  "dependencies": {
+    "WuKongIMSDK": [
+
+    ],
+    "CocoaLumberjack": [
+
+    ],
+    "PromiseKit/CorePromise": [
+      "~> 6.0"
+    ],
+    "AFNetworking": [
+      "~> 4.0"
+    ],
+    "Toast": [
+
+    ],
+    "MBProgressHUD": [
+      "~> 1.1.0"
+    ],
+    "DGActivityIndicatorView": [
+      "~> 2.1.1"
+    ],
+    "M80AttributedLabel": [
+      "~> 1.9.9"
+    ],
+    "YBImageBrowser/NOSD": [
+
+    ],
+    "YYImage/WebP": [
+
+    ],
+    "TZImagePickerController": [
+      "~>3.6.4"
+    ],
+    "LBXScan/LBXNative": [
+      "~> 2.5"
+    ],
+    "LBXScan/LBXZXing": [
+      "~> 2.5"
+    ],
+    "LBXScan/UI": [
+      "~> 2.5"
+    ],
+    "MJRefresh": [
+
+    ],
+    "CocoaAsyncSocket": [
+      "~> 7.6.2"
+    ],
+    "TOCropViewController": [
+      "~> 2.5.3"
+    ],
+    "SDWebImage": [
+      "~> 5.9.1"
+    ],
+    "SDWebImageWebPCoder": [
+
+    ],
+    "FMDB/SQLCipher": [
+      "~>2.7.5"
+    ],
+    "lottie-ios": [
+      "~> 2.5.3"
+    ],
+    "SDWebImageLottieCoder": [
+
+    ],
+    "GZIP": [
+      "~> 1.3.0"
+    ],
+    "ZLPhotoBrowser": [
+      "~> 4.3.7"
+    ],
+    "ZLImageEditor": [
+      "~> 1.1.1"
+    ],
+    "ActionSheetPicker-3.0": [
+
+    ],
+    "AsyncDisplayKit": [
+
+    ],
+    "FPSCounter": [
+      "~> 4.1"
+    ],
+    "librlottie": [
+
+    ]
+  },
+  "frameworks": [
+    "UIKit",
+    "MapKit",
+    "AVFoundation"
+  ]
+}

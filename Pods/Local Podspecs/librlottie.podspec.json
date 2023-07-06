@@ -1,0 +1,54 @@
+{
+  "name": "librlottie",
+  "version": "0.1.7",
+  "license": {
+    "type": "Apache 2"
+  },
+  "homepage": "http://texturegroup.org",
+  "authors": {
+    "tangtao": "412145540@qq.com"
+  },
+  "summary": "Smooth asynchronous user interfaces for iOS apps.",
+  "source": {
+    "git": "https://github.com/tangtaoit/librlottie.git"
+  },
+  "module_name": "librlottie",
+  "header_dir": "librlottie",
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": [
+    "rlottie/src/**/*.cpp",
+    "rlottie/src/**/*.h",
+    "rlottie/inc/**/*.h",
+    "config.h",
+    "PublicHeaders/**/*",
+    "LottieInstance.mm"
+  ],
+  "exclude_files": [
+    "rlottie/src/vector/vdrawhelper_neon.cpp",
+    "rlottie/src/vector/stb/**/*",
+    "rlottie/src/lottie/rapidjson/msinttypes/**/*"
+  ],
+  "public_header_files": [
+    "PublicHeaders/**/*",
+    "rlottie/inc/rlottie_capi.h",
+    "rlottie/inc/rlottiecommon.h"
+  ],
+  "libraries": [
+    "stdc++",
+    "z",
+    "c++"
+  ],
+  "pod_target_xcconfig": {
+    "OTHER_CFLAGS": [
+      "-Dpixman_region_selfcheck(x)=1",
+      "-DLOTTIE_DISABLE_ARM_NEON=1",
+      "-DLOTTIE_THREAD_SAFE=1",
+      "-DLOTTIE_IMAGE_MODULE_DISABLED=1"
+    ]
+  },
+  "user_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "LiMaoIMSDK",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoIMSDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://gitee.com/LiMaoIM/LiMaoIMSDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://112.73.74.59/mos/LiMaoIMiOSSDK.git"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "requires_arc": true,
+  "vendored_libraries": "LiMaoIMSDK/Classes/private/arm/lib/*.a",
+  "preserve_paths": [
+    "LiMaoIMSDK/Classes/private/arm/lib/*.a",
+    "LiMaoIMSDK/Classes/private/curve25519/ed25519/**/*.{c,h}"
+  ],
+  "libraries": [
+    "opencore-amrnb",
+    "opencore-amrwb",
+    "vo-amrwbenc"
+  ],
+  "source_files": "LiMaoIMSDK/Classes/**/*",
+  "public_header_files": "LiMaoIMSDK/Classes/**/*.h",
+  "private_header_files": "LiMaoIMSDK/Classes/private/**/*.h",
+  "frameworks": [
+    "UIKit",
+    "MapKit",
+    "Security"
+  ],
+  "resource_bundles": {
+    "LiMaoIMSDK": [
+      "LiMaoIMSDK/Assets/*.png",
+      "LiMaoIMSDK/Assets/Migrations/*"
+    ]
+  },
+  "pod_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64",
+    "DEFINES_MODULE": "YES"
+  },
+  "user_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  },
+  "dependencies": {
+    "CocoaAsyncSocket": [
+      "~> 7.6.4"
+    ],
+    "FMDB/SQLCipher": [
+      "~>2.7.5"
+    ],
+    "25519": [
+      "~>2.0.2"
+    ],
+    "libsignal-protocol-c": [
+
+    ]
+  }
+}

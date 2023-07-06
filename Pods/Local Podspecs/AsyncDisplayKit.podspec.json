@@ -1,0 +1,42 @@
+{
+  "name": "AsyncDisplayKit",
+  "version": "1.0.0",
+  "license": {
+    "type": "Apache 2"
+  },
+  "homepage": "http://texturegroup.org",
+  "authors": {
+    "tangtao": "412145540@qq.com"
+  },
+  "summary": "Smooth asynchronous user interfaces for iOS apps.",
+  "source": {
+    "git": "https://github.com/tangtaoit/AsyncDisplayKit.git"
+  },
+  "module_name": "AsyncDisplayKit",
+  "header_dir": "AsyncDisplayKit",
+  "documentation_url": "http://texturegroup.org/appledoc/",
+  "platforms": {
+    "ios": "10.0"
+  },
+  "swift_versions": "5.0",
+  "libraries": "c++",
+  "source_files": "Source/**/*",
+  "pod_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64",
+    "DEFINES_MODULE": "YES"
+  },
+  "xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) MINIMAL_ASDK=1"
+  },
+  "private_header_files": "Source/*.h",
+  "public_header_files": "Source/PublicHeaders/AsyncDisplayKit/*.h",
+  "frameworks": [
+    "Foundation",
+    "UIKit",
+    "QuartzCore",
+    "CoreMedia",
+    "CoreText",
+    "CoreGraphics"
+  ],
+  "swift_version": "5.0"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "LiMaoLabel",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoLabel.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoLabel",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoLabel.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "LiMaoLabel/Classes/**/*",
+  "resource_bundles": {
+    "LiMaoLabel_images": [
+      "LiMaoLabel/Assets/Images.xcassets"
+    ]
+  },
+  "resources": [
+    "LiMaoLabel/Assets/Lang"
+  ],
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "LiMaoIMSDK": [
+
+    ]
+  }
+}

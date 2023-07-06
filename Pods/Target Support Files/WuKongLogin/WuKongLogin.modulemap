@@ -1,0 +1,6 @@
+framework module WuKongLogin {
+  umbrella header "WuKongLogin-umbrella.h"
+
+  export *
+  module * { export * }
+}

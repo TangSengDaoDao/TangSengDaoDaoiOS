@@ -1,0 +1,46 @@
+{
+  "name": "LiMaoCommunity",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoCommunity.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/3895878/LiMaoCommunity",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "3895878": "tangtao@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/3895878/LiMaoCommunity.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "resource_bundles": {
+    "LiMaoCommunity_images": [
+      "LiMaoCommunity/Assets/Images.xcassets"
+    ],
+    "LiMaoCommunity_resources": [
+      "LiMaoCommunity/Assets/DB"
+    ]
+  },
+  "resources": [
+    "LiMaoCommunity/Assets/Lang",
+    "LiMaoCommunity/Assets/Html"
+  ],
+  "source_files": "LiMaoCommunity/Classes/**/*",
+  "private_header_files": "LiMaoCommunity/Classes/Vendor/**/*",
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "LiMaoIMSDK": [
+
+    ],
+    "SDWebImage": [
+      "~> 5.9.1"
+    ]
+  }
+}

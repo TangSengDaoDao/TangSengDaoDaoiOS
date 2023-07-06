@@ -1,0 +1,48 @@
+{
+  "name": "LiMaoWallet",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoWallet.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoWallet",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoWallet.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "xcconfig": {
+    "OTHER_LDFLAGS": "-ObjC"
+  },
+  "source_files": "LiMaoWallet/Classes/**/*",
+  "private_header_files": "LiMaoWallet/Classes/Vendor/**/*",
+  "vendored_libraries": "LiMaoWallet/Classes/Vendor/**/*.a",
+  "vendored_frameworks": "LiMaoWallet/Classes/Vendor/alipay/AlipaySDK.framework",
+  "ios": {
+    "resources": "LiMaoWallet/Classes/Vendor/alipay/AlipaySDK.bundle"
+  },
+  "frameworks": "CoreTelephony",
+  "resource_bundles": {
+    "LiMaoWallet_images": [
+      "LiMaoWallet/Assets/Images.xcassets"
+    ],
+    "LiMaoWallet_resources": [
+      "LiMaoWallet/Assets/Sound"
+    ]
+  },
+  "resources": [
+    "LiMaoWallet/Assets/Lang"
+  ],
+  "dependencies": {
+    "LiMaoBase": [
+
+    ]
+  }
+}

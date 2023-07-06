@@ -1,0 +1,6 @@
+framework module M80AttributedLabel {
+  umbrella header "M80AttributedLabel-umbrella.h"
+
+  export *
+  module * { export * }
+}

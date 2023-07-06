@@ -1,0 +1,45 @@
+{
+  "name": "LiMaoMoment",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoMoment.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoMoment",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoMoment.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "LiMaoMoment/Classes/**/*",
+  "private_header_files": "LiMaoMoment/Classes/Vendor/**/*",
+  "resource_bundles": {
+    "LiMaoMoment_images": [
+      "LiMaoMoment/Assets/Images.xcassets"
+    ],
+    "LiMaoMoment_resources": [
+      "LiMaoMoment/Assets/DB"
+    ]
+  },
+  "resources": [
+    "LiMaoMoment/Assets/Lang"
+  ],
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "LiMaoIMSDK": [
+
+    ],
+    "SDWebImage": [
+      "~> 5.9.1"
+    ]
+  }
+}

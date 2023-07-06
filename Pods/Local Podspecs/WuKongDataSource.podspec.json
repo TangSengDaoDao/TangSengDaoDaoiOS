@@ -1,0 +1,33 @@
+{
+  "name": "WuKongDataSource",
+  "version": "0.1.0",
+  "summary": "A short description of WuKongDataSource.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/WuKongDataSource",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@wukong.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/WuKongDataSource.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "WuKongDataSource/Classes/**/*",
+  "resources": [
+    "WuKongDataSource/Assets/Lang"
+  ],
+  "dependencies": {
+    "WuKongBase": [
+
+    ],
+    "WuKongIMSDK": [
+
+    ]
+  }
+}

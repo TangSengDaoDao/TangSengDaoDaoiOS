@@ -1,0 +1,41 @@
+{
+  "name": "LiMaoSmallVideo",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoSmallVideo.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoSmallVideo",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoSmallVideo.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "resource_bundles": {
+    "LiMaoSmallVideo_images": [
+      "LiMaoSmallVideo/Assets/Images.xcassets"
+    ]
+  },
+  "resources": [
+    "LiMaoSmallVideo/Assets/Lang"
+  ],
+  "source_files": "LiMaoSmallVideo/Classes/**/*",
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "PromiseKit/CorePromise": [
+      "~> 6.0"
+    ],
+    "LiMaoIMSDK": [
+
+    ]
+  }
+}

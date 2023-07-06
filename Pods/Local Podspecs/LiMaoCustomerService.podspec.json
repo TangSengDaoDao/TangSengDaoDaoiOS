@@ -1,0 +1,44 @@
+{
+  "name": "LiMaoCustomerService",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoCustomerService.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/3895878/LiMaoCustomerService",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "3895878": "tangtao@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoCustomerService.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "resource_bundles": {
+    "LiMaoCustomerService_images": [
+      "LiMaoCustomerService/Assets/Images.xcassets"
+    ],
+    "LiMaoCustomerService_resources": [
+      "LiMaoCustomerService/Assets/DB"
+    ]
+  },
+  "resources": [
+    "LiMaoCustomerService/Assets/Lang"
+  ],
+  "source_files": "LiMaoCustomerService/Classes/**/*",
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "PromiseKit/CorePromise": [
+      "~> 6.0"
+    ],
+    "LiMaoIMSDK": [
+
+    ]
+  }
+}

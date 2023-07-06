@@ -1,0 +1,51 @@
+{
+  "name": "LiMaoLocation",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoLocation.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tangtaoit/LiMaoLocation",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tangtaoit": "tt@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/tangtaoit/LiMaoLocation.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "LiMaoLocation/Classes/**/*",
+  "static_framework": true,
+  "resource_bundles": {
+    "LiMaoLocation_images": [
+      "LiMaoLocation/Assets/Images.xcassets"
+    ],
+    "LiMaoLocation_lang": [
+      "LiMaoLocation/Assets/Lang"
+    ]
+  },
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "AMapFoundation": [
+      "1.8"
+    ],
+    "AMapSearch": [
+      "~>9.5"
+    ],
+    "AMap3DMap": [
+      "~>9.5"
+    ],
+    "AMapLocation": [
+      "~>2.9"
+    ],
+    "MJRefresh": [
+
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+framework module librlottie {
+  umbrella header "librlottie-umbrella.h"
+
+  export *
+  module * { export * }
+}

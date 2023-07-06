@@ -1,0 +1,6 @@
+framework module SDWebImageLottieCoder {
+  umbrella header "SDWebImageLottieCoder-umbrella.h"
+
+  export *
+  module * { export * }
+}

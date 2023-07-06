@@ -1,0 +1,6 @@
+framework module WuKongDataSource {
+  umbrella header "WuKongDataSource-umbrella.h"
+
+  export *
+  module * { export * }
+}

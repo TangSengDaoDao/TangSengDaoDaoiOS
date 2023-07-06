@@ -1,0 +1,48 @@
+{
+  "name": "LiMaoRichTextEditor",
+  "version": "0.1.0",
+  "summary": "A short description of LiMaoRichTextEditor.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/3895878/LiMaoRichTextEditor",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "3895878": "tangtao@limao.ai"
+  },
+  "source": {
+    "git": "https://github.com/3895878/LiMaoRichTextEditor.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "LiMaoRichTextEditor/Classes/**/*",
+  "resources": [
+    "LiMaoRichTextEditor/Assets/Lang",
+    "LiMaoRichTextEditor/Assets/Other",
+    "LiMaoRichTextEditor/Assets/Images/ZSS*.png",
+    "LiMaoRichTextEditor/Assets/js/ZSSRichTextEditor.js",
+    "LiMaoRichTextEditor/Assets/js/editor.html",
+    "**/jQuery.js",
+    "LiMaoRichTextEditor/Assets/js/JSBeautifier.js"
+  ],
+  "resource_bundles": {
+    "LiMaoRichTextEditor_images": [
+      "LiMaoRichTextEditor/Assets/Images.xcassets"
+    ]
+  },
+  "frameworks": [
+    "CoreGraphics",
+    "CoreText"
+  ],
+  "dependencies": {
+    "LiMaoBase": [
+
+    ],
+    "LiMaoIMSDK": [
+
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+module SocketIO {
+  umbrella header "Socket.IO-Client-Swift-library-umbrella.h"
+
+  export *
+  module * { export * }
+}
