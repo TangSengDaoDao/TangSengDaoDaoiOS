@@ -16,7 +16,7 @@
 #import "SELUpdateAlert.h"
 
 
-#define SERVER_IP @"chatapi.githubim.com"
+#define SERVER_IP @"api.tgo.ai"
 #define HTTPS_ON true // https开关
 
 

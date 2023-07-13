@@ -9,6 +9,7 @@
 #import "WuKongbase.h"
 #import "WKMessageList.h"
 #import "WKEndToEndEncryptHitContent.h"
+#import "WKConversationListVM.h"
 @interface WKMessageListDataProviderImp ()
 
 @property(nonatomic,strong) WKChannel *channel;
@@ -42,16 +43,24 @@
 
 // 请求第一屏消息
 -(void) pullFirst:(WKConversationPosition*)position complete:(void(^)(bool more))complete  {
+    
+    WKConversationWrapModel *model = [[WKConversationListVM shared] modelAtChannel:self.channel];
+    uint32_t maxMessageSeq = 0;
+    if(model && model.lastMessage && model.lastMessage.messageSeq>0) {
+        maxMessageSeq = model.lastMessage.messageSeq;
+    }
+    
+    
     if(position) {
         __weak typeof(self) weakSelf = self;
-        [[WKSDK shared].chatManager pullAround:self.channel orderSeq:position.orderSeq limit:[WKApp shared].config.eachPageMsgLimit complete:^(NSArray<WKMessage *> * _Nonnull messages, NSError * _Nonnull error) {
+        [[WKSDK shared].chatManager pullAround:self.channel orderSeq:position.orderSeq maxMessageSeq:maxMessageSeq limit:[WKApp shared].config.eachPageMsgLimit complete:^(NSArray<WKMessage *> * _Nonnull messages, NSError * _Nonnull error) {
             [weakSelf.messageList clearMessages]; // 现清除原来的数据
             [weakSelf handleMessages:[weakSelf messagesToMessageModels:messages] insertFirst:false complete:complete];
         }];
     }else {
         __weak typeof(self) weakSelf = self;
-        
-        [[WKSDK shared].chatManager pullLastMessages:self.channel endOrderSeq:0 limit:[WKApp shared].config.eachPageMsgLimit complete:^(NSArray<WKMessage *> * _Nonnull messages, NSError * _Nonnull error) {
+       
+        [[WKSDK shared].chatManager pullLastMessages:self.channel endOrderSeq:0 maxMessageSeq: maxMessageSeq limit:[WKApp shared].config.eachPageMsgLimit complete:^(NSArray<WKMessage *> * _Nonnull messages, NSError * _Nonnull error) {
             if(error) {
                 WKLogError(@"获取第一屏消息失败！->%@",error);
                 [[WKNavigationManager shared].topViewController.view showHUDWithHide:@"获取消息失败！"];
@@ -60,9 +69,6 @@
             [weakSelf.messageList clearMessages]; // 现清除原来的数据
             [weakSelf handleMessages:[weakSelf messagesToMessageModels:messages] insertFirst:false complete:complete];
             
-//            if(!hasMore && weakSelf.channel.channelType == WK_PERSON) { // 插入端对端提示
-//                [weakSelf insertEndToEndEncryptHitMessageIfNeed];
-//            }
         }];
     }
 }

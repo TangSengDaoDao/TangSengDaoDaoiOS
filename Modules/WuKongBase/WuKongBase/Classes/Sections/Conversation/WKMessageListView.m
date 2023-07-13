@@ -1324,6 +1324,7 @@
         
         CGFloat cellOffsetTop = cellRect.origin.y - (self.tableView.contentOffset.y + self.tableView.contentInset.top);// cell顶部偏移量
         
+        
         [self animateMessageWithBlock:^{
             [cell refresh:messageModel];
             [cell layoutSubviews];
