@@ -112,7 +112,7 @@ PODS:
   - WuKongDataSource (0.1.0):
     - WuKongBase
     - WuKongIMSDK
-  - WuKongIMSDK (1.0.0):
+  - WuKongIMSDK (1.0.4):
     - 25519 (~> 2.0.2)
     - CocoaAsyncSocket (~> 7.6.4)
     - FMDB/SQLCipher (~> 2.7.5)
@@ -146,7 +146,7 @@ DEPENDENCIES:
   - WuKongBase (from `./Modules/WuKongBase`)
   - WuKongContacts (from `./Modules/WuKongContacts`)
   - WuKongDataSource (from `./Modules/WuKongDataSource`)
-  - WuKongIMSDK (from `../WuKongIMiOSSDK`)
+  - WuKongIMSDK (from `./Modules/WuKongIMiOSSDK-Framework`)
   - WuKongLogin (from `./Modules/WuKongLogin`)
   - YBImageBrowser/NOSD (from `https://github.com/tangtaoit/YBImageBrowser.git`)
   - YYImage/WebP (from `https://github.com/tangtaoit/YYImage.git`)
@@ -198,7 +198,7 @@ EXTERNAL SOURCES:
   WuKongDataSource:
     :path: "./Modules/WuKongDataSource"
   WuKongIMSDK:
-    :path: "../WuKongIMiOSSDK"
+    :path: "./Modules/WuKongIMiOSSDK-Framework"
   WuKongLogin:
     :path: "./Modules/WuKongLogin"
   YBImageBrowser:
@@ -256,13 +256,13 @@ SPEC CHECKSUMS:
   WuKongBase: 3bc0a4edd61dde1cd5b88bfd0f3618618c8bb522
   WuKongContacts: 9a7748952bd1760ba84fe7f595200d4c19d52d8b
   WuKongDataSource: 239cffd62c1d6d14b137102de5ec59b6c1f16cf7
-  WuKongIMSDK: 4034cb47352179393f3f5b2970ba11ae274377ba
+  WuKongIMSDK: d6332b6f14b4a830f39954c31976232a6622e53b
   WuKongLogin: 2d596bfee21d022435908bd10ea56739e5e54dc7
   YBImageBrowser: 7ecc8bf33ffa5f3b94c397c29b4f3638dd37f527
   YYImage: 6db68da66f20d9f169ceb94dfb9947c3867b9665
   ZLImageEditor: ee86f044fb7c5dec6b5de49eb7bb6fd42286f2ae
   ZLPhotoBrowser: 02b3569b8f702d2e153e8fdb1f6b32fef3a2867c
 
-PODFILE CHECKSUM: 0a689c838b4bd731ee6f43bcd01015c73a34476b
+PODFILE CHECKSUM: 0dddc0ca883474469fb7f2bc6088563ab6f06a80
 
 COCOAPODS: 1.11.0

@@ -1,52 +1,41 @@
 {
   "name": "WuKongIMSDK",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "summary": "悟空IM是一款简单，高效，支持完全私有化的即时通讯.",
-  "description": "悟空IM是一款简单，高效，支持完全私有化的即时通讯，提供群聊，点对点通讯解决方案.",
-  "homepage": "https://github.com/WuKongIM/WuKongIMiOSSDK",
   "license": {
     "type": "MIT",
-    "file": "LICENSE"
+    "file": "ios/LICENSE"
   },
   "authors": {
     "tangtaoit": "tt@tgo.ai"
   },
-  "source": {
-    "git": "https://gitee.com/WuKongIM/WuKongIMiOSSDK.git"
-  },
-  "platforms": {
-    "ios": "11.0"
-  },
-  "requires_arc": true,
-  "vendored_libraries": "WuKongIMSDK/Classes/private/arm/lib/*.a",
-  "preserve_paths": [
-    "WuKongIMSDK/Classes/private/arm/lib/*.a",
-    "WuKongIMSDK/Classes/private/curve25519/ed25519/**/*.{c,h}"
-  ],
-  "libraries": [
-    "opencore-amrnb",
-    "opencore-amrwb",
-    "vo-amrwbenc"
-  ],
-  "source_files": "WuKongIMSDK/Classes/**/*",
-  "public_header_files": "WuKongIMSDK/Classes/**/*.h",
-  "private_header_files": "WuKongIMSDK/Classes/private/**/*.h",
+  "homepage": "https://githubim.com",
+  "description": "悟空IM是一款简单，高效，支持完全私有化的即时通讯，提供群聊，点对点通讯解决方案",
   "frameworks": [
     "UIKit",
     "MapKit",
-    "Security"
+    "AVFoundation"
   ],
-  "resource_bundles": {
-    "WuKongIMSDK": [
-      "WuKongIMSDK/Assets/*.png",
-      "WuKongIMSDK/Assets/Migrations/*"
+  "ios": {
+    "libraries": [
+      "c++",
+      "sqlite3",
+      "z"
     ]
   },
-  "pod_target_xcconfig": {
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64",
-    "DEFINES_MODULE": "YES"
+  "source": {
+    "git": "https://github.com/WuKongIM/WuKongIMiOSSDK-Framework.git",
+    "tag": "1.0.4"
   },
-  "user_target_xcconfig": {
+  "requires_arc": true,
+  "platforms": {
+    "ios": "11.0"
+  },
+  "resources": "ios/WuKongIMSDK.framework/WuKongIMSDK.bundle",
+  "vendored_frameworks": "ios/WuKongIMSDK.framework",
+  "xcconfig": {
+    "OTHER_LDFLAGS": "-ObjC",
+    "LIBRARY_SEARCH_PATHS": "${PODS_ROOT}/../../WuKongIMiOSSDK-Framework/ios/lib",
     "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
   },
   "dependencies": {

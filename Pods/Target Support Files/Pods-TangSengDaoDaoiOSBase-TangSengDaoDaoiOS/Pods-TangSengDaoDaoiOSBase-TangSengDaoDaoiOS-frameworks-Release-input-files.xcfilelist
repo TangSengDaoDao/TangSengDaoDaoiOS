@@ -31,7 +31,7 @@ ${BUILT_PRODUCTS_DIR}/Toast/Toast.framework
 ${BUILT_PRODUCTS_DIR}/WuKongBase/WuKongBase.framework
 ${BUILT_PRODUCTS_DIR}/WuKongContacts/WuKongContacts.framework
 ${BUILT_PRODUCTS_DIR}/WuKongDataSource/WuKongDataSource.framework
-${BUILT_PRODUCTS_DIR}/WuKongIMSDK/WuKongIMSDK.framework
+${PODS_ROOT}/../Modules/WuKongIMiOSSDK-Framework/ios/WuKongIMSDK.framework
 ${BUILT_PRODUCTS_DIR}/WuKongLogin/WuKongLogin.framework
 ${BUILT_PRODUCTS_DIR}/YBImageBrowser/YBImageBrowser.framework
 ${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework

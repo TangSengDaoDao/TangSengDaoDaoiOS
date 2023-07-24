@@ -46,7 +46,7 @@ abstract_target 'TangSengDaoDaoiOSBase' do
   pod 'AsyncDisplayKit', :git => 'https://github.com/tangtaoit/AsyncDisplayKit.git'
   pod 'librlottie', :git => 'https://github.com/tangtaoit/librlottie.git'
   
-  pod 'WuKongIMSDK',  :path => '../WuKongIMiOSSDK'   ## WuKongIMiOSSDK工具包
+  pod 'WuKongIMSDK',  :path => './Modules/WuKongIMiOSSDK-Framework'   ## WuKongBase 基础工具包  源码地址 https://github.com/WuKongIM/WuKongIMiOSSDK
 #  pod  'WuKongIMSDK', '~> 1.0.2' ## 源码地址 https://github.com/WuKongIM/WuKongIMiOSSDK
   pod 'WuKongBase',  :path => './Modules/WuKongBase'   ## WuKongBase 基础工具包
   pod 'WuKongLogin', :path => './Modules/WuKongLogin'  ##  登录模块
