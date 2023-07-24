@@ -207,7 +207,7 @@ typedef BOOL(^MessageStoreBeforeIntercept)(WKMessage*message);
  查询指定orderSeq周围的消息 上5条下5条 ，比如 orderSeq 为 20 则查询 16 17 18 19 20 21 22 23 24 25 主要使用在定位消息
  @param channel 频道
  @param orderSeq 以此OrderSeq查询周围的消息
- @param maxMessageSeq 目前服务器最大的messageSeq（目前第一屏数据不请求接口）
+ @param maxMessageSeq 目前服务器最大的messageSeq（目的第一屏数据不请求接口）
  */
 -(void) pullAround:(WKChannel*)channel orderSeq:(uint32_t)orderSeq maxMessageSeq:(uint32_t)maxMessageSeq  limit:(int)limit complete:(void(^)(NSArray<WKMessage*> *messages,NSError *error))complete;
 
