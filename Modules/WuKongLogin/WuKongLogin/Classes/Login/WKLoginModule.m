@@ -8,7 +8,7 @@
 #import "WKLoginModule.h"
 #import "WKLoginVC.h"
 #import "WKGrantLoginVC.h"
-#import "WKThirdLoginVC.h"
+#import "WKLoginVC.h"
 @WKModule(WKLoginModule)
 @implementation WKLoginModule
 
@@ -21,7 +21,7 @@
     
     // 显示登录页面
     [self setMethod:WKPOINT_LOGIN_SHOW handler:^id _Nullable(id  _Nonnull param) {
-        WKThirdLoginVC *loginVC = [WKThirdLoginVC new];
+        WKLoginVC *loginVC = [WKLoginVC new];
         [[WKNavigationManager shared] resetRootViewController:loginVC];
         return nil;
     }];

@@ -557,20 +557,30 @@
     if(disableModules && [disableModules containsObject:sid]) {
         return false;
     }
-    if(self.modules && self.modules.count>0) {
-        WKAppModuleResp *existResp;
-        for (WKAppModuleResp *resp in self.modules) {
-            if([resp.sid isEqualToString:sid]) {
-                existResp = resp;
-                break;
-            }
-        }
-        if(!existResp) {
-            return true;
-        }
-        return existResp.status != WKAppModuleStatusDisable;
+    return [self mustModule:sid];
+//    if(self.modules && self.modules.count>0) {
+//        WKAppModuleResp *existResp;
+//        for (WKAppModuleResp *resp in self.modules) {
+//            if([resp.sid isEqualToString:sid]) {
+//                existResp = resp;
+//                break;
+//            }
+//        }
+//        if(!existResp) {
+//            return true;
+//        }
+//        return existResp.status != WKAppModuleStatusDisable;
+//    }
+//    return true;
+}
+
+// 是否是必须支持的模块
+static NSMutableArray *mustSupportModules;
+-(BOOL) mustModule:(NSString*)sid {
+    if(!mustSupportModules) {
+        mustSupportModules = [NSMutableArray arrayWithArray:@[@"WuKongBase",@"WuKongLogin",@"WuKongContacts"]];
     }
-    return true;
+    return [mustSupportModules containsObject:sid];
 }
 
 - (BOOL)moduleHasSetting:(NSString *)sid {
@@ -625,7 +635,7 @@
         sid = @"WuKongPush";
         resp.hidden = YES;
     }else if([sid isEqualToString:@"rtc"]) {
-        sid = @"WuKongQCRTC";
+        sid = @"WuKongRTC";
     }else if([sid isEqualToString:@"moment"]) {
         sid = @"WuKongMoment";
     }else if([sid isEqualToString:@"sticker"]) {
@@ -653,6 +663,10 @@
         sid = @"WuKongLocation";
     }else if([sid isEqualToString:@"customerService"]) {
         sid = @"WuKongCustomerService";
+    }else if([sid isEqualToString:@"rich"]) {
+        sid = @"WuKongRichTextEditor";
+    }else if([sid isEqualToString:@"label"]) {
+        sid = @"WuKongLabel";
     }
     resp.sid = sid;
     resp.name = dictory[@"name"]?:@"";
