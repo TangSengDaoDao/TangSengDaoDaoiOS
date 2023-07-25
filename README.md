@@ -1,4 +1,4 @@
 
 ## 文档地址
 
-https://chatdocs.githubim.com/
+https://tangsengdaodao.com/dev/ios/intro.html
