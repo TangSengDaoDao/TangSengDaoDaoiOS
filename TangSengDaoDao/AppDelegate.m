@@ -16,7 +16,7 @@
 #import "SELUpdateAlert.h"
 
 
-#define SERVER_IP @"api.tgo.ai"
+#define SERVER_IP @"api.botgate.cn"
 #define HTTPS_ON true // https开关
 
 

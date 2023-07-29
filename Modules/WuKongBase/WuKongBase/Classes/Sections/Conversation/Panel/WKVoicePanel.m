@@ -51,6 +51,7 @@
 }
 
 -(void) talkBackViewSendRecord:(CWTalkBackView*) view second:(NSInteger)second {
+    NSLog(@"录音文件地址：%@",[CWRecorder shareInstance].recordPath);
     NSData *voiceData = [[NSData alloc] initWithContentsOfFile:[CWRecorder shareInstance].recordPath];
     if(voiceData) {
         [self sendVoiceMessage:voiceData second:second waveform:[CWRecordModel shareInstance].levels];

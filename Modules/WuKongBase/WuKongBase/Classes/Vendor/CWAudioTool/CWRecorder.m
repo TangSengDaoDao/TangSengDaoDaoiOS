@@ -36,9 +36,9 @@ singtonImplement(CWRecorder);
     // 设置编码格式
     [recordSettings setValue :[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey: AVFormatIDKey];
     // 采样率
-    [recordSettings setValue :[NSNumber numberWithFloat:48000.0] forKey: AVSampleRateKey];
+    [recordSettings setValue :[NSNumber numberWithFloat:8000] forKey: AVSampleRateKey];
     // 通道数
-    [recordSettings setValue :[NSNumber numberWithInt:2] forKey: AVNumberOfChannelsKey];
+    [recordSettings setValue :[NSNumber numberWithInt:1] forKey: AVNumberOfChannelsKey];
      [recordSettings setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
     //音频质量,采样质量
     [recordSettings setValue:[NSNumber numberWithInt:AVAudioQualityMin] forKey:AVEncoderAudioQualityKey];
