@@ -8,7 +8,8 @@
 #import "WKLoginModule.h"
 #import "WKLoginVC.h"
 #import "WKGrantLoginVC.h"
-#import "WKLoginVC.h"
+#import "WKThirdLoginVC.h"
+#import "WKLoginSettingVC.h"
 @WKModule(WKLoginModule)
 @implementation WKLoginModule
 
@@ -19,9 +20,11 @@
 - (void)moduleInit:(WKModuleContext*)context{
     NSLog(@"【WuKongLogin】模块初始化！");
     
+    [WKLoginSettingVC setAppConfigIfNeed];
+    
     // 显示登录页面
     [self setMethod:WKPOINT_LOGIN_SHOW handler:^id _Nullable(id  _Nonnull param) {
-        WKLoginVC *loginVC = [WKLoginVC new];
+        WKThirdLoginVC *loginVC = [WKThirdLoginVC new];
         [[WKNavigationManager shared] resetRootViewController:loginVC];
         return nil;
     }];

@@ -76,7 +76,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1985EBDDFA8C1ABBF21F8A28 /* Pods-LiMaoIMDemoBase-LiMaoIMDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiMaoIMDemoBase-LiMaoIMDemo.debug.xcconfig"; path = "Target Support Files/Pods-LiMaoIMDemoBase-LiMaoIMDemo/Pods-LiMaoIMDemoBase-LiMaoIMDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		5CA0841FAD4ACC73F9DC603F /* Pods_TangSengDaoDaoiOSBase_TangSengDaoDaoiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TangSengDaoDaoiOSBase_TangSengDaoDaoiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71018ED405ABC6ED8448075E /* Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.release.xcconfig"; path = "Target Support Files/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.release.xcconfig"; sourceTree = "<group>"; };
 		71275E7D240A7BD600A7502C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -129,9 +128,6 @@
 		71DB3FA4239B5DE700181E94 /* WKMainTabController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKMainTabController.h; sourceTree = "<group>"; };
 		71DB3FA5239B5DE700181E94 /* WKMainTabController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKMainTabController.m; sourceTree = "<group>"; };
 		71F7E3DB2A47F66900E8D20D /* QUESTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUESTION.md; sourceTree = "<group>"; };
-		7F3004C5653A5EC00AD66BC1 /* Pods-WuKongChatiOSBase-WuKongChatiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WuKongChatiOSBase-WuKongChatiOS.release.xcconfig"; path = "Target Support Files/Pods-WuKongChatiOSBase-WuKongChatiOS/Pods-WuKongChatiOSBase-WuKongChatiOS.release.xcconfig"; sourceTree = "<group>"; };
-		AA8095254A3ECC23C9817332 /* Pods-WuKongChatiOSBase-WuKongChatiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WuKongChatiOSBase-WuKongChatiOS.debug.xcconfig"; path = "Target Support Files/Pods-WuKongChatiOSBase-WuKongChatiOS/Pods-WuKongChatiOSBase-WuKongChatiOS.debug.xcconfig"; sourceTree = "<group>"; };
-		CE96416E294F8BED8348D27C /* Pods-LiMaoIMDemoBase-LiMaoIMDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiMaoIMDemoBase-LiMaoIMDemo.release.xcconfig"; path = "Target Support Files/Pods-LiMaoIMDemoBase-LiMaoIMDemo/Pods-LiMaoIMDemoBase-LiMaoIMDemo.release.xcconfig"; sourceTree = "<group>"; };
 		DE5455F84CCB2C45ED689AA0 /* Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.debug.xcconfig"; path = "Target Support Files/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -293,10 +289,6 @@
 		D0600169DB45E883707B86A6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1985EBDDFA8C1ABBF21F8A28 /* Pods-LiMaoIMDemoBase-LiMaoIMDemo.debug.xcconfig */,
-				CE96416E294F8BED8348D27C /* Pods-LiMaoIMDemoBase-LiMaoIMDemo.release.xcconfig */,
-				AA8095254A3ECC23C9817332 /* Pods-WuKongChatiOSBase-WuKongChatiOS.debug.xcconfig */,
-				7F3004C5653A5EC00AD66BC1 /* Pods-WuKongChatiOSBase-WuKongChatiOS.release.xcconfig */,
 				DE5455F84CCB2C45ED689AA0 /* Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.debug.xcconfig */,
 				71018ED405ABC6ED8448075E /* Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS.release.xcconfig */,
 			);
@@ -717,6 +709,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -783,6 +776,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

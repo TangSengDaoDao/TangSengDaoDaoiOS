@@ -20,6 +20,7 @@
 #import "WKLoginPhoneCheckStartVC.h"
 #import "WKLoginPhoneCheckVC.h"
 #import "WKLoginPhoneCheckVM.h"
+#import "WKLoginSettingVC.h"
 #import "WKLoginVC.h"
 #import "WKLoginView.h"
 #import "WKLoginVM.h"

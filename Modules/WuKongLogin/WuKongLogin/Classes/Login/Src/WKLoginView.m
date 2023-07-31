@@ -268,6 +268,7 @@
     return _registerBtn;
 }
 
+
 #pragma mark -- 公用方法
 
 - (void)setCountry:(NSString *)country {
@@ -378,4 +379,5 @@
 -(UIImage*) image:(NSString*)name {
     return [[WKApp shared] loadImage:name moduleID:@"WuKongLogin"];
 }
+
 @end
