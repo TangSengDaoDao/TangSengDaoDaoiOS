@@ -29,6 +29,12 @@
         lockScreenOn = true;
     }
     
+    BOOL showUpdatePwd = false;
+    NSString *phone = [WKApp shared].loginInfo.extra[@"phone"];
+    if(phone && ![phone isEqualToString:@""]) {
+        showUpdatePwd = true;
+    }
+    
     return @[
         @{
             @"height":@(15.0f),
@@ -60,6 +66,7 @@
                     @{
                         @"class":WKLabelItemModel.class,
                         @"label":LLang(@"登录密码"),
+                        @"hidden": @(!showUpdatePwd),
                         @"onClick":^{
                             [[WKNavigationManager shared] pushViewController:[WKResetLoginPasswordVC new] animated:YES];
                         }

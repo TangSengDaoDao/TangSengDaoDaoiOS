@@ -243,7 +243,9 @@
         config.privacyAgreementUrl = [NSString stringWithFormat:@"%@privacy_policy.html",webURL]; //隐私协议
         config.userAgreementUrl = [NSString stringWithFormat:@"%@user_agreement.html",webURL]; //用户协议
         
-        WKAPIClient.sharedClient.config.baseUrl = apiAddr;
+        WKAPIClientConfig *apiConfig = WKAPIClient.sharedClient.config;
+        apiConfig.baseUrl = apiAddr;
+        WKAPIClient.sharedClient.config = apiConfig; // 这里目的是重新触发WKAPIClient的setConfig方法
     }
 }
 

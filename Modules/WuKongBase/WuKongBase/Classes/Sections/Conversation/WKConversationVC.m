@@ -64,7 +64,9 @@
         [weakSelf.conversationView syncRobot:[weakSelf getMemberRobotIDs]];
         WKChannelMember *memberOfMe = weakSelf.conversationView.conversationVM.memberOfMe;
         if(memberOfMe) {
-            [weakSelf showVideoCall:memberOfMe.status != WKMemberStatusNormal];
+            if(weakSelf.videocallInvoke!=nil) {
+                [weakSelf showVideoCall:memberOfMe.status == WKMemberStatusNormal];
+            }
         }
         
     };
@@ -304,9 +306,9 @@
             [[WKApp shared] invoke:WKPOINT_CONVERSATION_SETTING param:@{@"channel":weakSelf.channel,@"context":weakSelf.conversationView.conversationContext}];
         }];
         
-        WKChannelMember *memberOfMe = weakSelf.conversationView.conversationVM.memberOfMe;
+//        WKChannelMember *memberOfMe = weakSelf.conversationView.conversationVM.memberOfMe;
         BOOL showCall = false;
-        if(self.videocallInvoke!=nil && memberOfMe && memberOfMe.status == WKMemberStatusNormal) {
+        if(self.videocallInvoke!=nil ) {
             showCall = true;
         }
         [self showVideoCall:showCall];

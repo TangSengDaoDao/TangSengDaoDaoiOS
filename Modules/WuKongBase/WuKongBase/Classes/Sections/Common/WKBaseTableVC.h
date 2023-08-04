@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(CGRect) tableViewFrame;
 
 /**
- 将字典数据转换为LIMFormSection
+ 将字典数据转换为WKFormSection
 
  @param sectionArray <#sectionArray description#>
  @return <#return value description#>

@@ -1,5 +1,5 @@
 //
-//  LIMAnimatedStickerResourceSource.swift
+//  WKAnimatedStickerResourceSource.swift
 //  WuKongBase
 //
 //  Created by tt on 2022/6/19.
@@ -27,7 +27,7 @@ public class WKLocalPathAnimatedStickerResourceSource:AnimatedStickerNodeSource 
     
 }
 
-public class LIMAnimatedStickerResourceSource :AnimatedStickerNodeSource {
+public class WKAnimatedStickerResourceSource :AnimatedStickerNodeSource {
     public var fitzModifier: EmojiFitzModifier?
     
     public var isVideo: Bool

@@ -44,7 +44,7 @@
 
 #pragma mark ============== 封装用于排序的 单位 模型 ==================
 @interface WKChineseSortModel : NSObject
-//用将需要排序的对象封装在LIMChineseSort对象中，包含排序的字符串，对象，首字母三个属性
+//用将需要排序的对象封装在WKChineseSort对象中，包含排序的字符串，对象，首字母三个属性
 //进行比较的字符串，
 @property(strong,nonatomic)NSString *string;
 //字符串对应的拼音 首字母
@@ -187,7 +187,7 @@ dispatch_semaphore_t semaphore;
         [WKChineseSort logMsg:@""];
         [WKChineseSort logMsg:[NSString stringWithFormat:@"转拼音用时：\t %f s", (state1-start)]];
 
-        //根据LIMChineseSortModel的pinYin字段 升序 排列
+        //根据WKChineseSortModel的pinYin字段 升序 排列
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"pinYin" ascending:YES selector:@selector(mySort:)];
         [sortModelArray sortUsingDescriptors:@[sortDescriptor]];
 

@@ -28,5 +28,21 @@
    
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if(self.viewModel.settingChange) {
+        [WKAlertUtil alert:@"开启或关闭模块需要重启，是否重启？" buttonsStatement:@[@"否",@"是"] chooseBlock:^(NSInteger buttonIdx) {
+            if(buttonIdx == 1) {
+                exit(0);
+            }
+        }];
+    }
+}
 
 @end

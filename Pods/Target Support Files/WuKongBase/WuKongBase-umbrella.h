@@ -124,6 +124,7 @@
 #import "WKRemoteImageAttachment.h"
 #import "WKRootNavigationController.h"
 #import "WKSDImageLottieCoder.h"
+#import "WKSDWebImageDownloaderOperation.h"
 #import "WKSearchController.h"
 #import "WKSecurityTipManager.h"
 #import "WKSync.h"

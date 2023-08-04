@@ -1,5 +1,5 @@
 //
-//  LIMContextController.swift
+//  WKContextController.swift
 //  WuKongBase
 //
 //  Created by tt on 2022/6/19.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LIMChatMessageContextExtractedContentSource : ContextExtractedContentSource {
+class WKChatMessageContextExtractedContentSource : ContextExtractedContentSource {
     var keepInPlace: Bool
     
     var ignoreContentTouches: Bool
@@ -16,7 +16,7 @@ class LIMChatMessageContextExtractedContentSource : ContextExtractedContentSourc
     var blurBackground: Bool
     
     func takeView() -> ContextControllerTakeViewInfo? {
-        NSLog("LIMChatMessageContextExtractedContentSource---->takeView")
+        NSLog("WKChatMessageContextExtractedContentSource---->takeView")
         guard let visibleCells = self.context.visibleCells?() else {
             return nil
         }
@@ -143,7 +143,7 @@ public typealias OnDismissed = () -> Void
         let account = Account()
         let shareAccountContext = DefaultSharedAccountContext(currentPresentationData: .init(value: presentationData))
         let accountContext = DefaultAccountContext(account: account, sharedContext: shareAccountContext)
-        self.contextController = ContextController(account: account, presentationData: presentationData, source:.extracted( LIMChatMessageContextExtractedContentSource(message: message, context: context)), items: .single(ContextController.Items(content: .list(items), context: accountContext, reactionItems: reactionItems ?? [], tip: nil)),gesture: self.gesture)
+        self.contextController = ContextController(account: account, presentationData: presentationData, source:.extracted( WKChatMessageContextExtractedContentSource(message: message, context: context)), items: .single(ContextController.Items(content: .list(items), context: accountContext, reactionItems: reactionItems ?? [], tip: nil)),gesture: self.gesture)
         
         
         self.contextController?.reactionSelected = { item, isLarge in

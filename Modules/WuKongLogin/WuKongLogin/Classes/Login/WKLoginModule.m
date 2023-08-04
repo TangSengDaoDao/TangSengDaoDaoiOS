@@ -24,7 +24,8 @@
     
     // 显示登录页面
     [self setMethod:WKPOINT_LOGIN_SHOW handler:^id _Nullable(id  _Nonnull param) {
-        WKThirdLoginVC *loginVC = [WKThirdLoginVC new];
+        // WKLoginVC *loginVC = [WKLoginVC new]; // 手机号登录UI
+        WKThirdLoginVC *loginVC = [WKThirdLoginVC new]; // 第三方授权登录UI
         [[WKNavigationManager shared] resetRootViewController:loginVC];
         return nil;
     }];

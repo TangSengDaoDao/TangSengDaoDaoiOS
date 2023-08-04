@@ -355,7 +355,7 @@ static CGFloat const levelMargin = 2.0;
 
 -(UIImage*) imageName:(NSString*)name {
     return [WKApp.shared loadImage:name moduleID:@"WuKongBase"];
-//    return [[LIMResource shared] resourceForImage:name podName:@"WuKongBase_images"];
+//    return [[WKResource shared] resourceForImage:name podName:@"WuKongBase_images"];
 }
 
 @end

@@ -82,6 +82,7 @@
 #import "WKStickerCollectionVC.h"
 #import "WKKeyboardService.h"
 #import <ZLPhotoBrowser/ZLPhotoBrowser-Swift.h>
+#import "WKSDWebImageDownloaderOperation.h"
 
 @import FPSCounter.Swift;
 //#import <PINRemoteImage/PINImageView+PINRemoteImage.h>
@@ -204,6 +205,7 @@ static WKApp *_instance;
     
     [SDImageCacheConfig defaultCacheConfig].maxMemoryCost = 400 * 1024 * 1024; // 400M
     
+    SDWebImageDownloader.sharedDownloader.config.operationClass = WKSDWebImageDownloaderOperation.class;
     
 }
 
@@ -1532,8 +1534,45 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
         }
     }
     
+    
     return [UIApplication sharedApplication].keyWindow;
 }
+//
+//- (UIView *)findKeyboard
+//{
+//    UIView *keyboardView = nil;
+//    NSArray *windows = [[UIApplication sharedApplication] windows];
+//    for (UIWindow *window in [windows reverseObjectEnumerator])//逆序效率更高，因为键盘总在上方
+//    {
+//        keyboardView = [self findKeyboardInView:window];
+//        if (keyboardView)
+//        {
+//            return keyboardView;
+//        }
+//    }
+//    return nil;
+//}
+//
+//- (UIView *)findKeyboardInView:(UIView *)view
+//{
+//    for (UIView *subView in [view subviews])
+//    {
+//        NSLog(@" 打印信息:%s",object_getClassName(subView));
+//        if (strstr(object_getClassName(subView), "UIInputSetHostView"))
+//        {
+//            return subView;
+//        }
+//        else
+//        {
+//            UIView *tempView = [self findKeyboardInView:subView];
+//            if (tempView)
+//            {
+//                return tempView;
+//            }
+//        }
+//    }
+//    return nil;
+//}
 
 -(void) showScreenProtect {
     [self showScreenProtect:true];

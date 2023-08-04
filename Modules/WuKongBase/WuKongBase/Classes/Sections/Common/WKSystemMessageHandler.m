@@ -369,7 +369,7 @@ bool needRemind = false; // 是否需要提醒
 
 -(void) remindUserIfNeed {
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
-    if(state != UIApplicationStateActive) { //app在后台 不播铃声，因为LIMLocalNotificationManager会播
+    if(state != UIApplicationStateActive) { //app在后台 不播铃声，因为WKLocalNotificationManager会播
         return;
     }
     if(WKOnlineStatusManager.shared.muteOfApp) { // app全局静音不做提醒

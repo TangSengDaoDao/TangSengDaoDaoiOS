@@ -6,6 +6,7 @@
 //
 
 #import "WKKeyboardService.h"
+#import "WKNavigationManager.h"
 
 @interface WKKeyboardService ()
 
@@ -27,10 +28,16 @@ static WKKeyboardService *_instance;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center  addObserver:self selector:@selector(keyboardDidShow)  name:UIKeyboardDidShowNotification  object:nil];
     [center addObserver:self selector:@selector(keyboardDidHide)  name:UIKeyboardWillHideNotification object:nil];
+    [center addObserver:self selector:@selector(keyboardChangeFrame)  name:UIKeyboardDidChangeFrameNotification object:nil];
+}
+
+-(void) keyboardChangeFrame {
+  
 }
 
 - (void)keyboardDidShow{
     self.keyboardIsVisible = YES;
+    
 }
  
 - (void)keyboardDidHide{

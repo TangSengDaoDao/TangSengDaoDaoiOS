@@ -135,7 +135,7 @@
         self.titleLabel.lim_left = self.lim_width/2.0f - self.titleLabel.lim_width/2.0f;
     }
     CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.titleLabel.lim_top = (self.lim_height - statusHeight)/2.0f - self.titleLabel.lim_height/2.0f + statusHeight + 10.0f;
+    self.titleLabel.lim_top = (self.lim_height - statusHeight)/2.0f - self.titleLabel.lim_height/2.0f + statusHeight;
     
     
 }
@@ -163,7 +163,7 @@
         
         _rightView.lim_left = self.lim_width - _rightView.lim_width - 20.0f;
          
-         _rightView.lim_top = (self.lim_height - statusHeight)/2.0f - _rightView.lim_height/2.0f + statusHeight + 5;
+         _rightView.lim_top = (self.lim_height - statusHeight)/2.0f - _rightView.lim_height/2.0f + statusHeight;
         
        
         [self addSubview:_rightView];

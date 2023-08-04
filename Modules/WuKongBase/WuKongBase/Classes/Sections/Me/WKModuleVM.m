@@ -20,7 +20,6 @@
     
     NSMutableArray<NSDictionary*> *items = [NSMutableArray array];
     if(modules && modules.count>0) {
-        NSInteger i = 0;
         for (WKAppModuleResp *resp in modules) {
             if(resp.hidden) {
                 continue;
@@ -58,6 +57,7 @@
                         @"onSwitch":^(BOOL on){
                             [WKApp.shared.remoteConfig modules:resp.sid on:on];
                             [weakSelf reloadData];
+                            weakSelf.settingChange = true;
                         }
                     }
                 ],

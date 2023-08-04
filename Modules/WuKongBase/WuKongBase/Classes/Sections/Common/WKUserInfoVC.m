@@ -159,7 +159,7 @@
     }else {
          self.nameInChannelField.hidden = YES;
     }
-    // 狸猫号
+    // 悟空IM号
     NSString *shortNo = self.viewModel.channelInfo.extra[@"short_no"];
     self.shortNoField.value = shortNo?:@"";
     

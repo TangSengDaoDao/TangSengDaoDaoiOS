@@ -126,30 +126,30 @@
     } category:WKPOINT_CATEGORY_COMMONSETTING sort:80000];
     
     // 聊天备份和恢复
-    [[WKApp shared] setMethod:@"commonsetting.chatbackup" handler:^id _Nullable(id  _Nonnull param) {
-        
-        return  @{
-            @"height":WKSectionHeight,
-            @"items":@[
-                    @{
-                        @"class":WKLabelItemModel.class,
-                        @"label":LLang(@"聊天记录备份"),
-                        @"onClick":^{
-                            WKChatBackupVC *vc = [[WKChatBackupVC alloc] init];
-                            [WKNavigationManager.shared pushViewController:vc animated:YES];
-                        }
-                    },
-                    @{
-                        @"class":WKLabelItemModel.class,
-                        @"label":LLang(@"聊天记录恢复"),
-                        @"onClick":^{
-                            WKChatRecoverVC *vc = [[WKChatRecoverVC alloc] init];
-                            [WKNavigationManager.shared pushViewController:vc animated:YES];
-                        }
-                    },
-            ],
-        };
-    } category:WKPOINT_CATEGORY_COMMONSETTING sort:79000];
+//    [[WKApp shared] setMethod:@"commonsetting.chatbackup" handler:^id _Nullable(id  _Nonnull param) {
+//        
+//        return  @{
+//            @"height":WKSectionHeight,
+//            @"items":@[
+//                    @{
+//                        @"class":WKLabelItemModel.class,
+//                        @"label":LLang(@"聊天记录备份"),
+//                        @"onClick":^{
+//                            WKChatBackupVC *vc = [[WKChatBackupVC alloc] init];
+//                            [WKNavigationManager.shared pushViewController:vc animated:YES];
+//                        }
+//                    },
+//                    @{
+//                        @"class":WKLabelItemModel.class,
+//                        @"label":LLang(@"聊天记录恢复"),
+//                        @"onClick":^{
+//                            WKChatRecoverVC *vc = [[WKChatRecoverVC alloc] init];
+//                            [WKNavigationManager.shared pushViewController:vc animated:YES];
+//                        }
+//                    },
+//            ],
+//        };
+//    } category:WKPOINT_CATEGORY_COMMONSETTING sort:79000];
     
     // 多语言
     [[WKApp shared] setMethod:@"commonsetting.lang" handler:^id _Nullable(id  _Nonnull param) {

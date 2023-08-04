@@ -84,26 +84,26 @@
 "添加表情"="Add Emoji";
 
 
-// LIMBaseTableVC
+// WKBaseTableVC
 
 "暂无数据"="No data";
 "数据加载中"="Loading";
 
-// LIMLocalNotificationManager
+// WKLocalNotificationManager
 
 "聊天"="Chat";
 "[图片]"="[Image]";
 "[GIF]"="[GIF]";
 "[语音]"="[Voice]";
 
-// LIMSystemMessageHandler
+// WKSystemMessageHandler
 
 
 "账号已在其他设备上登录！"="The account is already logged in on another device!";
 "[%d条进群申请]"="[%d entry application]";
 "[1条进群申请]"="[1 entry application]";
 
-// LIMMediaPickerController
+// WKMediaPickerController
 
 "相册权限受限"="Album permissions are restricted";
 "检测不到相机设备"="Camera device not detected";
@@ -113,7 +113,7 @@
 "请输入密码"="Please enter password";
 "忘记密码"="Forget password";
 
-// LIMUserInfoVC
+// WKUserInfoVC
 
 "昵称"="Nickname";
 "群昵称"="Group nickname";
@@ -139,7 +139,7 @@
 "进群方式"="Join group way";
 "群内禁言"="Banned in the group";
 
-// LIMConversationGroupSettingVC
+// WKConversationGroupSettingVC
 
 "聊天信息(%lu)"="Group(%lu)";
 "%@在群黑名单中"="%@ in the group blacklist";
@@ -158,11 +158,11 @@
 
 "查看更多群成员"="View More Members";
 
-// LIMConversationNotifySettingVC
+// WKConversationNotifySettingVC
 
 "消息通知设置" = "Message Notification Settings";
 
-// LIMConversationNotifySettingVM
+// WKConversationNotifySettingVM
 "在对话中的截屏，各方均会收到通知"= "Take screenshots in the conversation and all parties will be notified";
 "截屏通知"="Screenshot Notification";
 "在对话中的消息撤回，各方均会收到通知"="Messages in the conversation are withdrawn, all parties will be notified";
@@ -170,11 +170,11 @@
 "关闭后，成员进群将不会响铃/震动"="After closing, members will not ring/vibrate when entering the group";
 "成员进群提醒"="Group Reminder";
 
-// LIMConversationPersonSettingVC
+// WKConversationPersonSettingVC
 
 "聊天详情"="Chat Details";
 
-// LIMConversationSettingVM
+// WKConversationSettingVM
 
 "群聊名称"="Group Name";
 "群二维码"="Group QR Code";
@@ -191,7 +191,7 @@
 "消息回执"="Receipt";
 "开启后，发送的聊天信息会提示已读未读情况"="After turned on, the chat message sent will prompt read and unread status";
 
-// LIMConversationVC
+// WKConversationVC
 
 "换行"="Wrap";
 "%ld条新消息"="%ld New Messages";
@@ -207,54 +207,54 @@
 "选择提醒的人"="Choose who to remind";
 
 
-// LIMConversationInputPanel
+// WKConversationInputPanel
 
 "按住 说话"="Hold to Talk";
 "请在iPhone的“设置-隐私”选项中，允许访问你的麦克风"="Please allow access to your microphone in the \"Settings-Privacy\" option of your iPhone";
 "说话时间太短"="Talking is too short";
 "发送的内容太长！"="The content sent is too long!";
 
-// LIMCardCell
+// WKCardCell
 
 "个人名片"="Contact Card";
 
-// LIMCardContent
+// WKCardContent
 
 "[名片]"="[Card]";
 
-// LIMGIFContent
+// WKGIFContent
 
 "[表情]"="[Expression]";
 
-// LIMHistorySplitTipCell
+// WKHistorySplitTipCell
 
 "以上为历史消息"="The above is historical news";
 
-// LIMMergeForwardCell
+// WKMergeForwardCell
 
 "聊天记录"="Chat History";
 
-// LIMMergeForwardContent
+// WKMergeForwardContent
 
 "群的聊天记录"="Group Chat History";
 "[聊天记录]"="[Chat History]";
 "%@的聊天记录"="%@'s Chat History";
 "%@和%@的聊天记录"="Chat history of %@ and %@";
 
-// LIMMessageRevokeCell
+// WKMessageRevokeCell
 
 "你"="You";
 "%@撤回了一条消息"="%@ recall a message";
 
-// LIMScreenshotContent
+// WKScreenshotContent
 "%@在聊天中截屏了"="%@ took a screenshot in the chat";
 
-// LIMSystemMessageCell
+// WKSystemMessageCell
 
 "去确认"="To confirm";
 "数据错误！"="Data Error";
 
-// LIMTextMessageCell
+// WKTextMessageCell
 
 "%@可能是一个电话号码，你可以"="%@ May be a phone number, you can";
 "呼叫"="Call";
@@ -264,17 +264,17 @@
 "创建新联系人"="Create new contact";
 "添加到现有联系人"="Add to existing contact";
 
-// LIMMultiplePanel
+// WKMultiplePanel
 
 "逐条转发"="Forward one by one";
 "合并转发"="Merge forward";
 
-// LIMMoreItemClickEvent
+// WKMoreItemClickEvent
 
 "权限提醒"="Permission reminder";
 "请在设置里打开图片读取权限！"="Please turn on the image reading permission in the settings!";
 
-// LIMConversationListCell
+// WKConversationListCell
 
 "群聊"="Group Chat";
 "无"="Nothing";
@@ -284,7 +284,7 @@
 "%@ 正在输入"="%@ Typing";
 
 
-// LIMConversationListSelectVM
+// WKConversationListSelectVM
 
 "创建新的聊天"="Create new chat";
 "最近聊天"="Recent chat";
@@ -305,38 +305,38 @@
 "置顶"="Sticky to Top";
 "取消置顶"="Remove from Top";
 
-// LIMChannelMessageSearchVM
+// WKChannelMessageSearchVM
 
 "%lu条与“%@”相关记录"="%lu record related to %@";
 
-// LIMGlobalSearchVM
+// WKGlobalSearchVM
 
 "联系人"="Contact";
 "更多联系人"="More contacts";
 "更多群聊"="More group chats";
 "更多聊天记录"="More chat history";
 
-// LIMSearchContactsCell
+// WKSearchContactsCell
 
 "包含:"="Contain:";
 
-// LIMSearchMessageCell
+// WKSearchMessageCell
 
 "%d 条相关聊天记录"="%d related chat";
 
-// LIMGroupBlacklistVC
+// WKGroupBlacklistVC
 
 "群黑名单"="Group Blacklist";
 "把“%@”拉出群黑名单？"="Pull \"%@\" out of the group blacklist?";
 
-// LIMGroupBlacklistVM
+// WKGroupBlacklistVM
 
 "添加黑名单成员"="Add blacklist members";
 "选择成员"="Select member";
 
 
 
-// LIMGroupQRCodeVC
+// WKGroupQRCodeVC
 
 "该二维码%ld天内(%@)前有效，重新进入将更新"="valid within %ld day, it will be updated after re-entering";
 "保存图片"="Save Image";
@@ -346,11 +346,11 @@
 "只可通过邀请进群"="Can only join the group by invitation";
 "群二维码名片"="Group QR Code";
 
-// LIMBlacklistVC
+// WKBlacklistVC
 
 "黑名单"="Blacklist";
 
-// LIMCommonSettingVC
+// WKCommonSettingVC
 
 "退出后不会删除任何历史数据，下次登录依然可以使用本账号。"="Logout will not delete any data. You can still log in with this account.";
 "退出登录"="Logout";
@@ -361,7 +361,7 @@
 "是否清除缓存"="Whether to clear the cache";
 "清空缓存"="Empty the cache";
 
-// LIMCommonSettingVM
+// WKCommonSettingVM
 
 "深色模式"="Dark Mode";
 "跟随系统"="Automatic";
@@ -370,12 +370,12 @@
 "版本信息"="Version";
 "调试"="Debug";
 
-// LIMDarkModeVM
+// WKDarkModeVM
 
 "开启后，将跟随系统打开或关闭深色模式"="Once turned on, the dark mode will be turned on or off following the system";
 "普通模式"="Normal Mode";
 
-// LIMMeAvatarVC
+// WKMeAvatarVC
 
 "个人头像"="Profile Picture";
 "拍照"="Take Photo";
@@ -387,7 +387,7 @@
 "上传失败"="Upload failed";
 "上传成功"="Upload successfully";
 
-// LIMMeInfoVC
+// WKMeInfoVC
 
 "个人信息"="Personal information";
 "修改名字"="Change Name";
@@ -400,15 +400,15 @@
 "我的二维码"="My QR code";
 "性别"="Sex";
 
-// LIMMeInfoVM
+// WKMeInfoVM
 
 "%@号"="%@ ID";
 
-// LIMMePushSettingVC
+// WKMePushSettingVC
 
 "新消息通知"="Message Notifications";
 
-// LIMMePushSettingVM
+// WKMePushSettingVM
 
 "通知显示消息详情"="Show Preview Text";
 "在%@运行时，您可以设置是否需要声音或震动"="When %@ is running, you can set whether to require sound or vibration";
@@ -416,12 +416,12 @@
 "震动"="Vibrate";
 "关闭后，手机将不再收到新消息通知"="After closing, the phone will no longer receive new message notifications";
 
-// LIMMeQRCodeVC
+// WKMeQRCodeVC
 
 "扫一扫上面的二维码图案，加我%@"="Scan the QR code to add me on %@";
 
 
-// LIMConversationPasswordVM
+// WKConversationPasswordVM
 
 "验证您的登录密码"="Verify your login password";
 "请确认您的登录密码后，再设定6位数字的聊天密码"="Please confirm your login password, and then set a 6-digit chat password";
@@ -431,20 +431,20 @@
 "聊天密码不能为空！"="The chat password cannot be empty!";
 "两次密码输入不一致！"="The two password entries are not consistent!";
 
-// LIMDeviceManagerVC
+// WKDeviceManagerVC
 
 "登录设备管理"="Device Management";
 "最后登录时间: %@"="Last login time";
 "删除设备"="Delete Device";
 
-// LIMDeviceManagerVM
+// WKDeviceManagerVM
 
 "开启登录保护后，在陌生设备登录%@需要进行安全验证。推荐开启，保障你的账号安全"="After the login protection is enabled, security verification is required to log in to %@ on an unfamiliar device. It is recommended to open to protect your account security";
 "登录保护"="Login Protection";
 "通过安全验证的设备"="Safety-verified equipment";
 "你可以查看列表中设备的“最后登录时间”，或删除设备。删除后在该设备登录%@需要重新进行安全验证。"="You can view the \"last login time\" of the devices in the list, or delete the device. After deleting, log in to %@ on this device and you need to perform security verification again.";
 
-// LIMResetLoginPasswordVC
+// WKResetLoginPasswordVC
 
 "登录密码"="Login Password";
 "验证您的电话号码"="Verify your phone number";
@@ -462,11 +462,11 @@
 "验证码不能为空！"="Verification code must be filled!";
 "密码不能为空！"="Password can not be blank!";
 
-// LIMSecuritySettingVC
+// WKSecuritySettingVC
 
 "安全与隐私"="Security Privacy";
 
-// LIMSecuritySettingVM
+// WKSecuritySettingVM
 
 "可以通过以下方式搜索好友"="You can search for friends in the following ways";
 "关闭后，其他用户将不能通过上述信息搜索好友"="After closing, other users will not be able to search for friends through the above information";
@@ -481,7 +481,7 @@
 "断网屏保"="Disconnected Screen Protector";
 "设置解锁密码"="Set Unlock Password";
 
-// LIMScanVC
+// WKScanVC
 
 "扫描失败！"="Scan failed!";
 "知道了"="Understood";
@@ -494,7 +494,7 @@
 "二维码"="QR Code";
 
 
-// LIMTimeTool
+// WKTimeTool
 
 "昨天%@"="yesterday %@";
 "前天%@"="Two days %@";
@@ -535,7 +535,7 @@
 
 
 
-// LIMWebClientInfoVC
+// WKWebClientInfoVC
 
 "网页端"="Web IM";
 "%@网页端"="%@ Web IM";
@@ -543,7 +543,7 @@
 "二维码扫描登录"="QR code scan login";
 "请使用浏览器访问%@,然后扫描二维码登录。为了您更好的体验，建议使用谷歌，火狐浏览器。"="Please use your browser to visit %@ and scan the QR code to log in. For your better experience, it is recommended to use Google and Firefox browsers.";
 
-// LIMDeleteAccount
+// WKDeleteAccount
 
 "注销账号："="Cancel Account:";
 "账号注销是不可恢复的操作，请您仔细考虑，谨慎操作，操作前务必审慎阅读，充分理解以下内容。如您有任何疑问、意见和建议，可联系客服咨询，%@客服将给予您必要的协助。" = "Account cancellation is an irreversible operation, please consider carefully, operate with caution, read carefully before operation, and fully understand the following contents. If you have any questions, comments and suggestions, you can contact customer service for consultation, %@ customer service will give you the necessary assistance.";

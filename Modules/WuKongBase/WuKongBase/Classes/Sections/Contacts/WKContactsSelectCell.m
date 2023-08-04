@@ -36,6 +36,7 @@
     self.checkBox = [[WKCheckBox alloc] initWithFrame:CGRectMake(0, 0, 24.0f, 24.0f)];
     self.checkBox.onFillColor = [WKApp shared].config.themeColor;
     self.checkBox.onCheckColor = [UIColor whiteColor];
+    self.checkBox.onTintColor = [WKApp shared].config.themeColor;
     self.checkBox.onAnimationType = BEMAnimationTypeBounce;
     self.checkBox.offAnimationType = BEMAnimationTypeBounce;
     self.checkBox.animationDuration = 0.0f;

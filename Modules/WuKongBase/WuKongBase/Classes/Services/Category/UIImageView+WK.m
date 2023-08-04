@@ -32,6 +32,7 @@
 
 
 - (void)lim_setImageWithURL:(NSURL *)url placeholderImage:(UIImage*)placeholderImage {
+    
     [self sd_setImageWithURL:url placeholderImage:placeholderImage options:SDWebImageAllowInvalidSSLCertificates];
 }
 

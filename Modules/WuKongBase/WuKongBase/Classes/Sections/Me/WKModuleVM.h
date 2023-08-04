@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKModuleVM : WKBaseTableVM
 
+@property(nonatomic,assign) BOOL settingChange; // 设置是否有改变
+
 @end
 
 NS_ASSUME_NONNULL_END

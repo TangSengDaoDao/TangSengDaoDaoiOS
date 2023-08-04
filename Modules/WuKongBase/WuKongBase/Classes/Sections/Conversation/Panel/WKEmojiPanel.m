@@ -196,7 +196,7 @@
 
 - (void)stickerUserCategoryLoadFinished:(WKStickerManager *)manager {
     
-    // 延迟一点执行 ，让LIMPOINT_CATEGORY_PANELCONTENT注册完成
+    // 延迟一点执行 ，让WKPOINT_CATEGORY_PANELCONTENT注册完成
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.panelContentNewList = [[WKApp shared] invokes:WKPOINT_CATEGORY_PANELCONTENT param:nil];
         [self.tabPageVIew reloadTabPageView];

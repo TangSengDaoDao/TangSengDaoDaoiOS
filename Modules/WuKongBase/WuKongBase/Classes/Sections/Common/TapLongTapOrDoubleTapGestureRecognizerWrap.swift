@@ -1,5 +1,5 @@
 //
-//  LIMTapLongTapOrDoubleTapGestureRecognizer.swift
+//  WKTapLongTapOrDoubleTapGestureRecognizer.swift
 //  WuKongBase
 //
 //  Created by tt on 2022/6/21.

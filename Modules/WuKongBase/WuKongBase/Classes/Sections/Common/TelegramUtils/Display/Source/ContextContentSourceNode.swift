@@ -7,7 +7,7 @@ open class ContextReferenceContentNode: ASDisplayNode {
     }
 }
 
-//@objc public class LIMContextExtractedContentContainingNode:ASDisplayNode {
+//@objc public class WKContextExtractedContentContainingNode:ASDisplayNode {
 //    @objc  public var contentNode: ContextExtractedContentNode {
 //        get {
 //            return self.contextExtractedContentContainingNode.contentNode

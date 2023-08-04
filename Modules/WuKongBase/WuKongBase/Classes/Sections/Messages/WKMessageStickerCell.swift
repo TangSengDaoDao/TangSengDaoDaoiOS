@@ -1,5 +1,5 @@
 //
-//  LIMMessageSticker.swift
+//  WKMessageSticker.swift
 //  WuKongBase
 //
 //  Created by tt on 2022/6/18.
@@ -60,7 +60,7 @@ public class WKMessageStickerCell:WKMessageCell {
         
 //        self.placeholderNode.
         let content = model.content as! WKLottieStickerContent
-        animatedStickerNode.setup(source: LIMAnimatedStickerResourceSource(downloadURL: content.url), width: Int(lottieImgSize.width*2), height: Int(lottieImgSize.height*2),playbackMode: .loop, mode: .direct(cachePathPrefix: "sticker_"))
+        animatedStickerNode.setup(source: WKAnimatedStickerResourceSource(downloadURL: content.url), width: Int(lottieImgSize.width*2), height: Int(lottieImgSize.height*2),playbackMode: .loop, mode: .direct(cachePathPrefix: "sticker_"))
         
         
     }

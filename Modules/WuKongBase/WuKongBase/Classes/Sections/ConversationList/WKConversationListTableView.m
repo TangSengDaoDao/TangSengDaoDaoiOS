@@ -7,7 +7,7 @@
 
 
 /**
- 此LIMConversationListTableView主要解决如下的警告的问题
+ 此WKConversationListTableView主要解决如下的警告的问题
  Warning once only: UITableView was told to layout its visible cells and other contents without being in the view hierarchy....
  
  */

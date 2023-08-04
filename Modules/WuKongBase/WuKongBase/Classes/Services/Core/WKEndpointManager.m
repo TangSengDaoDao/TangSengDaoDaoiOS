@@ -26,6 +26,11 @@
 
 
 -(void) registerEndpoint:(WKEndpoint*)endpoint {
+    if(endpoint.moduleID) {
+        if( ![WKApp.shared.remoteConfig moduleOn:endpoint.moduleID]) {
+            return; // 未开启的模块不进行注册
+        }
+    }
     [self.endpointIDDict setObject:endpoint forKey:endpoint.sid];
     if(endpoint.category && ![endpoint.category isEqualToString:@""]) {
        NSMutableArray<WKEndpoint*> *endpoints =  [self.endpointCategoryDict objectForKey:endpoint.category];
