@@ -10,6 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface WKButtonItemModel2 : WKFormItemModel
 
+@property(nonatomic,assign) CGFloat width;
+@property(nonatomic,assign) CGFloat height;
+
 @property(nonatomic,copy) NSString *title;
 
 @property(nonatomic,copy) void(^onPressed)(void);

@@ -491,6 +491,9 @@
     WKSetting *setting = [WKSetting new];
     if(self.conversationVM.channelInfo) {
         setting.receiptEnabled = self.conversationVM.channelInfo.receipt;
+        if(self.conversationVM.channelInfo.extra[@"msg_auto_delete"]) {
+            setting.expire = [self.conversationVM.channelInfo.extra[@"msg_auto_delete"] integerValue];
+        }
     }
 //    if(self.channel.channelType == WK_PERSON) {
 //        setting.signal = true; // 个人聊天进行signal加密

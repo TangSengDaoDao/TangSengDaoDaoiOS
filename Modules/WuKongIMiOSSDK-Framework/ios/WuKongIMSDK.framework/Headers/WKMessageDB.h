@@ -218,6 +218,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void) deleteMessage:(WKMessage*)message;
 
+-(void) deleteMessagesWithClientSeqs:(NSArray<NSNumber*>*)ids;
+
 
 /**
   彻底将消息从数据库删除 （deleteMessage只是标记为删除）
@@ -295,6 +297,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 获取流
 -(NSArray<WKStream*>*) getStreams:(NSString*)streamNo;
+
+// 获取过期消息
+-(NSArray<WKMessage*>*) getExpireMessages:(NSInteger)limit;
 
 @end
 

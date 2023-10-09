@@ -361,9 +361,10 @@
 		71D695FB23926E3500D092BA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = WK;
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastUpgradeCheck = 1310;
-				ORGANIZATIONNAME = LIMKit;
+				ORGANIZATIONNAME = WK;
 				TargetAttributes = {
 					7130BFC024C6817600B9E04B = {
 						CreatedOnToolsVersion = 11.6;

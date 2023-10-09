@@ -19,6 +19,8 @@
         if(complete) {
             [weakSelf updateChannelInfoByGroupModel:groupModel];
             complete(groupModel.groupNo,nil);
+            
+            [WKSDK.shared.channelManager fetchChannelInfo:[WKChannel groupWithChannelID:groupModel.groupNo]];
         }
     }).catch(^(NSError *error){
         if(complete) {

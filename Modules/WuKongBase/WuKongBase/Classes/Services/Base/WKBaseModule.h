@@ -14,11 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(NSString*) globalID;
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler category:(NSString * __nullable)category;
+-(void) setMethod:(NSString*)sid handler:(id) handler category:(NSString * __nullable)category;
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler category:(NSString* __nullable)category sort:(int)sort;
+-(void) setMethod:(NSString*)sid handler:(id) handler category:(NSString* __nullable)category sort:(int)sort;
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler;
+-(void) setMethod:(NSString*)sid handler:(id) handler;
 
 @end
 

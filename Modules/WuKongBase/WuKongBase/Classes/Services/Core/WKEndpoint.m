@@ -9,7 +9,7 @@
 
 @implementation WKEndpoint
 
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler category:(NSString* __nullable)category sort:(NSNumber* __nullable)sort {
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler category:(NSString* __nullable)category sort:(NSNumber* __nullable)sort {
     WKEndpoint *point = [[WKEndpoint alloc] init];
     point.sid = sid;
     point.handler = handler;
@@ -17,11 +17,11 @@
     point.sort = sort;
     return point;
 }
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler category:(NSString *)category {
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler category:(NSString *)category {
     return [self initWithSid:sid handler:handler category:category sort:nil];
 }
 
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler {
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler {
     return [self initWithSid:sid handler:handler category:nil];
 }
 

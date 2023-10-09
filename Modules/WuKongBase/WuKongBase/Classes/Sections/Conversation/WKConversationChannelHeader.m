@@ -7,6 +7,7 @@
 
 #import "WKConversationChannelHeader.h"
 #import "WKOnlineStatusManager.h"
+#import "WKAutoDeleteView.h"
 @interface WKConversationChannelHeader ()
 
 @property(nonatomic,strong) UIButton *infoBoxBtn;
@@ -15,6 +16,8 @@
 
 @property(nonatomic,strong) UILabel *titleLbl;
 @property(nonatomic,strong) UILabel *subtitleLbl;
+
+@property(nonatomic,strong) WKAutoDeleteView *autoDeleteView;
 
 
 
@@ -41,6 +44,7 @@
     [self.infoBoxBtn addSubview:self.subtitleLbl];
     [self addSubview:self.voiceCallBtn];
     [self addSubview:self.videoCallBtn];
+    [self.avatarImgView addSubview:self.autoDeleteView];
     
     [self.infoBoxBtn addTarget:self action:@selector(infoPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.voiceCallBtn addTarget:self action:@selector(voiceCallPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -122,6 +126,8 @@
     self.subtitleLbl.lim_left = self.titleLbl.lim_left;
     self.subtitleLbl.lim_top = self.titleLbl.lim_bottom + subtitleTop;
     
+    self.autoDeleteView.lim_left = self.avatarImgView.lim_width - self.autoDeleteView.lim_width + 4.0f;
+    self.autoDeleteView.lim_top = self.avatarImgView.lim_height - self.autoDeleteView.lim_height + 2.0f;
     
     
 }
@@ -170,6 +176,15 @@
         }else{
             self.avatarImgView.url = [WKAvatarUtil getGroupAvatar:channelInfo.channel.channelId];
         }
+    }
+    NSInteger msgAutoDelete = 0;
+    if(channelInfo.extra[@"msg_auto_delete"]) {
+        msgAutoDelete = [channelInfo.extra[@"msg_auto_delete"] integerValue];
+    }
+    self.autoDeleteView.hidden = YES;
+    if(msgAutoDelete>0) {
+        self.autoDeleteView.hidden = NO;
+        self.autoDeleteView.second = msgAutoDelete;
     }
 }
 
@@ -230,6 +245,13 @@
         [_voiceCallBtn setTintColor:[WKApp shared].config.navBarButtonColor];
     }
     return _voiceCallBtn;
+}
+
+- (WKAutoDeleteView *)autoDeleteView {
+    if(!_autoDeleteView) {
+        _autoDeleteView = [[WKAutoDeleteView alloc] init];
+    }
+    return _autoDeleteView;
 }
 
 - (UIButton *)videoCallBtn {

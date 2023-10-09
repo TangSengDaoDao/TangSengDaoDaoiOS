@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong) WKSetting *setting;
 
+@property(nonatomic,assign) NSInteger expire; // 消息过期时长
+
 // 客户端提供的序列号，在客户端内唯一
 @property(nonatomic,assign) uint32_t clientSeq;
 

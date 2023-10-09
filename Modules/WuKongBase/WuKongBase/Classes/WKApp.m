@@ -47,7 +47,6 @@
 #import "WKMeItem.h"
 #import "WKMePushSettingVC.h"
 #import "WKCommonSettingVC.h"
-#import "WKSecuritySettingVC.h"
 #import "WKNetworkListener.h"
 #import "WKTypingMessageCell.h"
 #import "WKTypingContent.h"
@@ -242,17 +241,17 @@ static WKApp *_instance;
 }
 
 -(BOOL) appOpenURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    return [[WKModuleManager shared] didOpenURL:url options:options];
+    return [[WKSwiftModuleManager shared] didOpen:url options:options];
 }
 
 -(BOOL) appContinueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
     
-    return [[WKModuleManager shared] didContinueUserActivity:userActivity restorationHandler:restorationHandler];
+    return [[WKSwiftModuleManager shared] didContinue:userActivity restorationHandler:restorationHandler];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
-    [WKModuleManager.shared moduleDidReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+    [WKSwiftModuleManager.shared moduleDidReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
     
     
 }
@@ -269,8 +268,8 @@ static WKApp *_instance;
     }
     
     [WKKeyboardService.shared setup];
-    
-    [WKModuleManager.shared didModuleInit]; // 模块初始化
+    [WKSwiftModuleManager.shared didModuleInit];
+//    [WKModuleManager.shared didModuleInit]; // 模块初始化
     
 //    [self debugSetting];
     
@@ -390,7 +389,7 @@ static WKApp *_instance;
     }
     
     // 模块启动...
-    [[WKModuleManager shared] didFinishLaunching];
+    [[WKSwiftModuleManager shared] didFinishLaunching];
     WKLogDebug(@"=====> 程序启动！<=====");
     
     // 如果已登录 则连接IM
@@ -525,13 +524,21 @@ static WKApp *_instance;
                 NSData *errorData =  error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
                 if(errorData) {
                     WKLogError(@"error->%@",[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding]);
-                    NSDictionary *errorDic = [NSJSONSerialization JSONObjectWithData:errorData options:NSJSONReadingMutableLeaves error:nil];
-                    if(errorDic) {
-                        return [NSError errorWithDomain:errorDic[@"msg"] code:[errorDic[@"status"] integerValue] userInfo:errorDic];
+                }
+                
+                if(response.statusCode == 400) {
+                    if(errorData) {
+                        NSDictionary *errorDic = [NSJSONSerialization JSONObjectWithData:errorData options:NSJSONReadingMutableLeaves error:nil];
+                        if(errorDic) {
+                            return [NSError errorWithDomain:errorDic[@"msg"] code:[errorDic[@"status"] integerValue] userInfo:errorDic];
+                        }
+                    }else {
+                        return [NSError errorWithDomain:error.localizedDescription code:error.code userInfo:error.userInfo];
                     }
                 }else {
-                    return [NSError errorWithDomain:error.localizedDescription code:error.code userInfo:error.userInfo];
+                    return [NSError errorWithDomain:[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] code:error.code userInfo:error.userInfo];
                 }
+                
             }
         }
         return nil;
@@ -751,11 +758,11 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
 }
 
 -(UIImage*) loadImage:(NSString*)name moduleID:(NSString*)moduleID{
-   return  [[[WKModuleManager shared] getModuleWithId:moduleID] ImageForResource:name];
+   return  [[[WKSwiftModuleManager shared] getModuleWithId:moduleID] ImageForResource:name];
 }
 
 -(NSBundle*) resourceBundle:(NSString*)moduleID {
-    return [[[WKModuleManager shared] getModuleWithId:moduleID] resourceBundle];
+    return [[[WKSwiftModuleManager shared] getModuleWithId:moduleID] resourceBundle];
 }
 
 -(NSBundle*) resourceBundleWithClass:(Class)cls {
@@ -1395,12 +1402,7 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
         }];
     } category:WKPOINT_CATEGORY_ME sort:8000];
    
-    // 安全与隐私
-    [self setMethod:WKPOINT_ME_SECURITY handler:^id _Nullable(id  _Nonnull param) {
-        return [WKMeItem initWithTitle:LLangW(@"安全与隐私",weakSelf) icon:[weakSelf imageName:@"Me/Index/IconSecurity"] onClick:^{
-             [[WKNavigationManager shared] pushViewController:[WKSecuritySettingVC new] animated:YES];
-        }];
-    } category:WKPOINT_CATEGORY_ME sort:7000];
+   
     // 通用
     [self setMethod:WKPOINT_ME_COMMON handler:^id _Nullable(id  _Nonnull param) {
         return [WKMeItem initWithTitle:LLangW(@"通用",weakSelf) icon:[weakSelf imageName:@"Me/Index/IconSetting"] onClick:^{

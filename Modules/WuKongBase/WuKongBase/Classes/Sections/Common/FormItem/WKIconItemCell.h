@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKIconItemCell : WKViewItemCell
 
+@property(nonatomic,strong) UIImageView *iconImgView;
+
 @end
 
 NS_ASSUME_NONNULL_END

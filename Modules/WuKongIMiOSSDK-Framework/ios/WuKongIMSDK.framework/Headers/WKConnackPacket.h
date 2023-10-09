@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKConnackPacket : WKPacket<WKPacketBodyCoder>
 
+// 服务端版本
+@property(nonatomic,assign) uint8_t serverVersion;
 // 通过客户端的RSA公钥加密的服务端DH公钥
 @property(nonatomic,copy) NSString *serverKey;
 // 安全吗

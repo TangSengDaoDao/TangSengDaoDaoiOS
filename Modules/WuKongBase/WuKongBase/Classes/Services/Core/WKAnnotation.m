@@ -15,6 +15,7 @@
 #include <mach-o/ldsyms.h>
 #import "WKModuleProtocol.h"
 #import "WKModuleManager.h"
+#import <WuKongBase/WuKongBase-Swift.h>
 NSArray<NSString *>* ATReadConfiguration(char *sectionName,const struct mach_header *mhp);
 static void dyld_callback(const struct mach_header *mhp, intptr_t vmaddr_slide)
 {
@@ -27,7 +28,8 @@ static void dyld_callback(const struct mach_header *mhp, intptr_t vmaddr_slide)
                 id<WKModuleProtocol> module = (id<WKModuleProtocol>)[cls new];
                 
                 // 注册模块
-                [[WKModuleManager shared] registerModule:module];
+//                [[WKModuleManager shared] registerModule:module];
+                [WKSwiftModuleManager.shared registerModule:module];
                
             }
         }

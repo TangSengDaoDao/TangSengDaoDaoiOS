@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy) NSString *label;
 
+@property(nonatomic,copy) UIColor *labelColor;
+
 @end
 
 @interface WKViewItemCell : WKFormItemCell

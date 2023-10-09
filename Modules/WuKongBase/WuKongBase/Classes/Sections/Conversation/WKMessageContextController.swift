@@ -136,7 +136,7 @@ public typealias OnDismissed = () -> Void
         }
         
         // 回应表情
-        let reactionItems = WKApp.shared().invoke(WKPOINT_LONGMENUS_REACTIONS, param: ["message":self.message,"context":self.context]) as? [ReactionContextItem]
+        let reactionItems = WKApp.shared().invoke(WKPOINT_LONGMENUS_REACTIONS, param: ["message":self.message,"context":self.context] as [String : Any]) as? [ReactionContextItem]
         
         
         
@@ -156,11 +156,8 @@ public typealias OnDismissed = () -> Void
     @objc public func show() {
         let window = WKApp.shared().findWindow()
        
-        
-        
         if let contextController = self.contextController {
-            
-           
+
             let topView = WKNavigationManager.shared().topViewController().view!;
             contextController.view.frame = topView.bounds
             self.containerLayoutUpdated(size: topView.size)

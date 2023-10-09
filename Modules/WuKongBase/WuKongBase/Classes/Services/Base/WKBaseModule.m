@@ -10,6 +10,7 @@
 #import "WKApp.h"
 #import "WKResource.h"
 #import "WKModuleManager.h"
+#import <WuKongBase/WuKongBase-Swift.h>
 @implementation WKBaseModule
 
 
@@ -27,7 +28,7 @@
 
 - (UIImage*) ImageForResource:(NSString*)name{
     UIImage *img;
-    NSArray<id<WKModuleProtocol>> *resourceModules = [WKModuleManager.shared getResourceModules];
+    NSArray<id<WKModuleProtocol>> *resourceModules = [WKSwiftModuleManager.shared getResourceModules];
     if(resourceModules && resourceModules.count>0) {
         resourceModules = resourceModules.reverseObjectEnumerator.allObjects;
         for (id<WKModuleProtocol> module in resourceModules) {
@@ -106,19 +107,19 @@
     return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:trait];
 }
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler category:(NSString*)category {
+-(void) setMethod:(NSString*)sid handler:(id) handler category:(NSString*)category {
     WKEndpoint *endpoint = [WKEndpoint initWithSid:sid handler:handler category:category];
     endpoint.moduleID = [self moduleId];
     [self registerEndpoint:endpoint];
 }
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler category:(NSString* __nullable)category sort:(int)sort {
+-(void) setMethod:(NSString*)sid handler:(id) handler category:(NSString* __nullable)category sort:(int)sort {
     WKEndpoint *endpoint = [WKEndpoint initWithSid:sid handler:handler category:category sort:@(sort)];
     endpoint.moduleID = [self moduleId];
      [self registerEndpoint:endpoint];
 }
 
--(void) setMethod:(NSString*)sid handler:(WKHandler) handler {
+-(void) setMethod:(NSString*)sid handler:(id) handler {
     [self setMethod:sid handler:handler category:nil];
 }
 

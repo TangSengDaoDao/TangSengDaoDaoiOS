@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 是否同步一次
 @property(nonatomic,assign) BOOL syncOnce;
 
+// 是否存在服务版本（connack包有效）
+@property(nonatomic,assign) BOOL hasServerVersion;
+
 @end
 
 NS_ASSUME_NONNULL_END

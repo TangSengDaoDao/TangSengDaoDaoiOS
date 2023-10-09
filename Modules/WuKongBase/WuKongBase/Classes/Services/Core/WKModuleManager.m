@@ -7,6 +7,7 @@
 
 #import "WKModuleManager.h"
 #import "WKApp.h"
+#import <WuKongBase/WuKongBase-Swift.h>
 @interface WKModuleManager ()
 @property(nonatomic,strong) NSMutableDictionary<NSString*,id<WKModuleProtocol>> *moduleMap;
 @property(nonatomic,strong) NSLock *lock;
@@ -47,9 +48,15 @@ static WKModuleManager *_instance;
 
 -(NSArray<id<WKModuleProtocol>>*) getAllModules {
     [self.lock lock];
-    NSArray<id<WKModuleProtocol>>* modules = self.moduleMap.allValues;
+    NSArray<id<WKModuleProtocol>>* objcModules = self.moduleMap.allValues;
+    
+    
+    NSMutableArray *modules = [[NSMutableArray alloc] init];
+    [modules addObjectsFromArray:objcModules];
+    
+    
     // 资源模块排到最前
-    modules = [modules sortedArrayUsingComparator:^NSComparisonResult(id<WKModuleProtocol>  _Nonnull obj1, id<WKModuleProtocol>  _Nonnull obj2) {
+   NSArray<id<WKModuleProtocol>> *newmodules = [modules sortedArrayUsingComparator:^NSComparisonResult(id<WKModuleProtocol>  _Nonnull obj1, id<WKModuleProtocol>  _Nonnull obj2) {
         
         if([obj1 moduleType] != WKModuleTypeResource && [obj2 moduleType] == WKModuleTypeResource) {
             return NSOrderedDescending;
@@ -67,7 +74,7 @@ static WKModuleManager *_instance;
     }];
     
     [self.lock unlock];
-    return modules;
+    return newmodules;
 }
 
 -(NSArray<id<WKModuleProtocol>>*) getResourceModules {

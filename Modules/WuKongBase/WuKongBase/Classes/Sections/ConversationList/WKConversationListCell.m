@@ -25,6 +25,7 @@
 #import "WKTypingContent.h"
 #import <WuKongBase/WuKongBase-Swift.h>
 #import "WKUserAvatar.h"
+#import "WKAutoDeleteView.h"
 //#define avatarSize 56.0f
 @interface WKConversationListCell ()
 
@@ -48,6 +49,8 @@
 @property(nonatomic,copy) NSString *revokeTip; // 撤回消息tip
 
 @property(nonatomic,strong) UIView *contextContainerView;
+
+@property(nonatomic,strong) WKAutoDeleteView *autoDeleteView; // 自动删除
 
 @end
 
@@ -91,6 +94,8 @@
         [self.contextContainerView addSubview:self.muteIcon];
         // 官方图标
         [self.contextContainerView addSubview:self.officialTag];
+        // 自动删除图标
+        [self.contextContainerView addSubview:self.autoDeleteView];
         
     }
     return self;
@@ -125,6 +130,12 @@
     return _muteIcon;
 }
 
+- (WKAutoDeleteView *)autoDeleteView {
+    if(!_autoDeleteView) {
+        _autoDeleteView = [[WKAutoDeleteView alloc] init];
+    }
+    return _autoDeleteView;
+}
 
 
 
@@ -170,8 +181,58 @@
     
     // 刷新官方tag
     [self refreshOfficialTag:model];
+    // 自动删除
+    [self refreshAutoDeleteIfNeed:model];
     
     [self layoutSubviews];
+}
+
+-(void) refreshAutoDeleteIfNeed:(WKConversationWrapModel*)model {
+    BOOL hasChannelInfo  = model.channelInfo?true:false;
+    if(!hasChannelInfo) {
+        self.autoDeleteView.hidden = YES;
+        return;
+    }
+    NSInteger msgAutoDelete = 0;
+    if(model.channelInfo.extra[@"msg_auto_delete"]) {
+        msgAutoDelete = [model.channelInfo.extra[@"msg_auto_delete"] integerValue];
+    }
+    if(msgAutoDelete>0) {
+        self.autoDeleteView.hidden = NO;
+        self.autoDeleteView.second = msgAutoDelete;
+        if(model.channelInfo.online) {
+            self.autoDeleteView.hidden = YES;
+        }
+    }else{
+        self.autoDeleteView.hidden = YES;
+    }
+    
+ 
+    
+}
+
+-(NSString*) formatSecond:(NSInteger)second {
+    if(second < 60 * 60 * 24) {
+        return @"";
+    }
+    NSInteger day = second / (60 * 60 * 24);
+    NSInteger week = day / 7;
+    NSInteger month = day / 30;
+    NSInteger year = month / 12;
+    
+    if(year>0) {
+        return [NSString stringWithFormat:@"%ldy",(long)year];
+    }
+    if(month>0) {
+        return [NSString stringWithFormat:@"%ldm",(long)month];
+    }
+    if(week>0) {
+        return [NSString stringWithFormat:@"%ldw",(long)week];
+    }
+    if(day>0) {
+        return [NSString stringWithFormat:@"%ldd",(long)day];
+    }
+    return @"";
 }
 
 -(void) refreshTitle:(WKConversationWrapModel*)model {
@@ -515,6 +576,9 @@
         self.onlineBadgeView.lim_left = self.avatarImgView.lim_right - self.onlineBadgeView.lim_width + 4.0f;
     }
    self.onlineBadgeView.lim_top = self.avatarImgView.lim_bottom - self.onlineBadgeView.lim_height;
+   
+    self.autoDeleteView.lim_left = self.avatarImgView.lim_right - self.autoDeleteView.lim_width + 2.0f;
+    self.autoDeleteView.lim_top = self.avatarImgView.lim_bottom - self.autoDeleteView.lim_height + 2.0f;
     // 名称
     CGFloat statusRightSpace = 2.0f;
     

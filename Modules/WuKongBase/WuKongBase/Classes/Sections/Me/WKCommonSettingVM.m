@@ -10,8 +10,6 @@
 //#import <FLEX/FLEX.h>
 #import "WKLanguageVC.h"
 #import "NSString+WKLocalized.h"
-#import "WKChatBackupVC.h"
-#import "WKChatRecoverVC.h"
 #import "WKModuleVC.h"
 
 @interface WKCommonSettingVM ()

@@ -557,21 +557,21 @@
     if(disableModules && [disableModules containsObject:sid]) {
         return false;
     }
-    return [self mustModule:sid];
-//    if(self.modules && self.modules.count>0) {
-//        WKAppModuleResp *existResp;
-//        for (WKAppModuleResp *resp in self.modules) {
-//            if([resp.sid isEqualToString:sid]) {
-//                existResp = resp;
-//                break;
-//            }
-//        }
-//        if(!existResp) {
-//            return true;
-//        }
-//        return existResp.status != WKAppModuleStatusDisable;
-//    }
-//    return true;
+//    return [self mustModule:sid];
+    if(self.modules && self.modules.count>0) {
+        WKAppModuleResp *existResp;
+        for (WKAppModuleResp *resp in self.modules) {
+            if([resp.sid isEqualToString:sid]) {
+                existResp = resp;
+                break;
+            }
+        }
+        if(!existResp) {
+            return true;
+        }
+        return existResp.status != WKAppModuleStatusDisable;
+    }
+    return true;
 }
 
 // 是否是必须支持的模块

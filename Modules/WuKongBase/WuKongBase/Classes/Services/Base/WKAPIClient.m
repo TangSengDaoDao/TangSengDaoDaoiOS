@@ -11,7 +11,6 @@
 #import "WKModel.h"
 #import "WKApp.h"
 #import <objc/objc.h>
-static NSString * const APIBaseURLString = @"https://api.app.net/";
 
 @implementation  WKAPIClientConfig
 

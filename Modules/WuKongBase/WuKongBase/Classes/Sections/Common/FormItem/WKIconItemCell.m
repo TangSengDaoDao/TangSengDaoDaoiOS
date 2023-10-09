@@ -17,7 +17,7 @@
 
 @interface WKIconItemCell ()
 
-@property(nonatomic,strong) UIImageView *iconImgView;
+
 @end
 
 @implementation WKIconItemCell

@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import "WKModuleManager.h"
 #import "WKDBMigration.h"
+#import <WuKongBase/WuKongBase-Swift.h>
 // 数据库中常见的几种类型
 #define SQL_TEXT     @"TEXT" //文本
 #define SQL_INTEGER  @"INTEGER" //int long integer ...
@@ -90,7 +91,7 @@ static WKKitDB *_instance = nil;
 -(void) migrateDatabase{
     [[WKDBMigration shared] migrateDatabase:[self resourceBundle]];
     
-    [[WKModuleManager shared] didDatabaseLoad];
+    [[WKSwiftModuleManager shared] didDatabaseLoad];
 }
 
 -(BOOL) needSwitchDB:(NSString*)uid {

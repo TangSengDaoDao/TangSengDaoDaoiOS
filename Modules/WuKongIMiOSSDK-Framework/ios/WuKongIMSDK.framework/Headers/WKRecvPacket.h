@@ -41,6 +41,9 @@ typedef enum : NSUInteger {
 @property(nonatomic,copy) NSString *channelId;
 //频道类型（1.个人 2.群组）
 @property(nonatomic,assign) uint8_t channelType;
+// 消息过期时长
+@property(nonatomic,assign) NSInteger expire;
+
 // 话题
 @property(nonatomic,copy) NSString *topic;
 // 负荷数据

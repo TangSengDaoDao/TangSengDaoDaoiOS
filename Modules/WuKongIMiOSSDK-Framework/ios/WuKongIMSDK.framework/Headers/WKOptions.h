@@ -135,6 +135,9 @@ typedef WKConnectInfo*_Nonnull(^WKConnectInfoCallback)(void);
 // 是否追踪db日志
 @property(nonatomic,assign) BOOL traceDBLog;
 
+@property(nonatomic,assign) NSInteger expireMsgCheckInterval; // 过期消息检查间隔 单位秒
+@property(nonatomic,assign) NSInteger expireMsgLimit; // 过期消息每次查询数量
+
 @end
 
 NS_ASSUME_NONNULL_END

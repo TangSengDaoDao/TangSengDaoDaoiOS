@@ -5,6 +5,8 @@
 //  Created by tt on 2020/10/30.
 //
 
+#define labelWidth 60.0f
+
 #import "WKTextFieldItemCell.h"
 
 @implementation WKTextFieldItemModel
@@ -31,6 +33,7 @@
 
 @interface WKTextFieldItemCell ()<UITextFieldDelegate>
 
+@property(nonatomic,strong) UILabel *label;
 @property(nonatomic,strong) UITextField *inputTextFd;
 @property(nonatomic,strong) WKTextFieldItemModel *model;
 @end
@@ -39,6 +42,7 @@
 
 - (void)setupUI {
     [super setupUI];
+    [self.contentView addSubview:self.label];
     [self.contentView addSubview:self.inputTextFd];
     [self.inputTextFd addTarget:self action:@selector(onValueChange:) forControlEvents:UIControlEventEditingChanged];
 }
@@ -52,6 +56,9 @@
 - (void)refresh:(WKTextFieldItemModel *)model {
     [super refresh:model];
     self.model = model;
+    
+    self.label.text = model.label;
+    
     self.inputTextFd.placeholder = model.placeholder;
     self.inputTextFd.secureTextEntry = model.password;
     self.inputTextFd.keyboardType = model.keyboardType.integerValue;
@@ -61,9 +68,25 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.inputTextFd.lim_left = 15.0f;
+    BOOL hasLabel = false;
+    if(self.model.label && ![self.model.label isEqualToString:@""]) {
+        self.label.text = self.model.label;
+        self.label.lim_width = labelWidth;
+        self.label.lim_height = self.lim_height;
+        self.label.lim_left = 15.0f;
+        hasLabel = true;
+    }
+    self.label.hidden = !hasLabel;
+    
     self.inputTextFd.lim_height = self.contentView.lim_height;
-    self.inputTextFd.lim_width = self.contentView.lim_width - self.inputTextFd.lim_left*2;
+    if(hasLabel) {
+        self.inputTextFd.lim_left = self.label.lim_right;
+        self.inputTextFd.lim_width = self.contentView.lim_width - self.label.lim_width - self.label.lim_left;
+    }else {
+        self.inputTextFd.lim_left = 15.0f;
+        self.inputTextFd.lim_width = self.contentView.lim_width - self.inputTextFd.lim_left*2;
+    }
+   
     
 }
 
@@ -72,6 +95,15 @@
         _inputTextFd = [[UITextField alloc] init];
     }
     return _inputTextFd;
+}
+
+- (UILabel *)label {
+    if(!_label) {
+        _label = [[UILabel alloc] init];
+        _label.lineBreakMode = NSLineBreakByTruncatingTail;
+        _label.textAlignment = NSTextAlignmentLeft;
+    }
+    return _label;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{

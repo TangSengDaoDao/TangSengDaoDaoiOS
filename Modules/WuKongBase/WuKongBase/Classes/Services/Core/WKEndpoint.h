@@ -13,9 +13,9 @@ typedef id _Nullable (^WKHandler)(id param);
 
 @interface WKEndpoint : NSObject
 
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler category:(NSString* __nullable)category sort:(NSNumber* __nullable)sort;
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler category:(NSString* __nullable)category;
-+(WKEndpoint*) initWithSid:(NSString*)sid handler:(WKHandler)handler;
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler category:(NSString* __nullable)category sort:(NSNumber* __nullable)sort;
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler category:(NSString* __nullable)category;
++(WKEndpoint*) initWithSid:(NSString*)sid handler:(id)handler;
 
 /**
  端点唯一ID

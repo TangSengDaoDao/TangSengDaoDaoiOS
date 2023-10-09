@@ -18,7 +18,6 @@
 #import "WKMultiLabelItemCell.h"
 #import "WKTableSectionUtil.h"
 #import "WKGroupQRCodeVC.h"
-#import "WKConversationPasswordVC.h"
 
 @interface WKConversationSettingVM ()<WKChannelManagerDelegate>
 
@@ -144,10 +143,6 @@
     // 是否有公告
     BOOL hasNotice  = self.channelInfo && self.channelInfo.notice && ![self.channelInfo.notice isEqualToString:@""];
     
-    
-    
-    // 聊天密码
-    BOOL chatPwdOn = self.channelInfo && [self.channelInfo settingForKey:WKChannelExtraKeyChatPwd defaultValue:false];
     
 
     
@@ -291,33 +286,7 @@
         };
     } category:WKPOINT_CATEGORY_CHANNELSETTING sort:89300];
     
-    [[WKApp shared] setMethod:@"channelsetting.chatpwd" handler:^id _Nullable(id  _Nonnull param) {
-        return @{
-            @"height":@(0.0f),
-            @"items":@[
-                @{
-                    @"class":WKSwitchItemModel.class,
-                    @"label":LLang(@"聊天密码"),
-                    @"on":@(chatPwdOn),
-                    @"showBottomLine":@(NO),
-                    @"bottomLeftSpace":@(0.0f),
-                    @"onSwitch":^(BOOL on){
-                        NSString *chatPwd = [WKApp shared].loginInfo.extra[@"chat_pwd"];
-                        if(!chatPwd || [chatPwd isEqualToString:@""]) {
-//                                     __weak typeof(self) weakSelf = self;
-                            WKConversationPasswordVC *vc = [WKConversationPasswordVC new];
-                            [vc setOnFinish:^{
-                                [[WKChannelSettingManager shared] channel:self.channel chatPwdOn:on];
-                            }];
-                            [[WKNavigationManager shared] pushViewController:vc animated:YES];
-                            return;
-                        }
-                        [[WKChannelSettingManager shared] channel:self.channel chatPwdOn:on];
-                    }
-                }
-            ]
-        };
-    } category:WKPOINT_CATEGORY_CHANNELSETTING sort:89200];
+    
     
    
     

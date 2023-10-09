@@ -50,7 +50,12 @@
     self.labelLbl.text = model.label;
     [self.labelLbl sizeToFit];
 
-    [self.labelLbl setTextColor:[WKApp shared].config.defaultTextColor];
+    if(model.labelColor) {
+        [self.labelLbl setTextColor:model.labelColor];
+    }else{
+        [self.labelLbl setTextColor:[WKApp shared].config.defaultTextColor];
+    }
+    
    
     
 }
@@ -60,8 +65,6 @@
     CGFloat labelLeft = 15.0f;
     self.labelLbl.lim_top = self.lim_height/2.0f - self.labelLbl.lim_height/2.0f;
     self.labelLbl.lim_left = labelLeft;
-    
-    
     
     CGFloat valueLeft = 10.0f;
     self.valueView.lim_height = self.lim_height;

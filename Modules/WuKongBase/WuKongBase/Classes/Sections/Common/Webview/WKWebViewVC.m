@@ -14,6 +14,7 @@
 #import "WKMessageActionManager.h"
 #import "WuKongBase.h"
 #import "WKConversationVC.h"
+#import "WKWebViewService.h"
 @interface WKWebViewVC ()<WKUIDelegate,WKNavigationDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) WKWebViewJavascriptBridge *bridge;
@@ -34,6 +35,8 @@
 @property(nonatomic,strong) UIButton *goBtn;
 @property(nonatomic,strong) UIButton *gobackBtn;
 
+@property(nonatomic,strong) WKWebViewService *webViewService;
+
 @end
 
 @implementation WKWebViewVC
@@ -44,6 +47,8 @@
     [self.view addSubview:self.progressView];
     
     self.navigationBar.rightView = self.moreBtn;
+    
+    self.webViewService.channel = self.channel;
     
     NSString *url = self.url.absoluteString;
     
@@ -69,6 +74,12 @@
     
 }
 
+- (WKWebViewService *)webViewService {
+    if(!_webViewService) {
+        _webViewService = [[WKWebViewService alloc] init];
+    }
+    return _webViewService;
+}
 
 - (UIButton *)moreBtn {
     if(!_moreBtn) {
@@ -231,7 +242,9 @@
            /***/
         self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:_webView];
         [self.bridge setWebViewDelegate:self];
-        [self registerHandlers];
+        self.webViewService.bridge = self.bridge;
+        
+        [self.webViewService registerHandlers];
         
     }
     return _webView;
@@ -274,54 +287,7 @@
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
 }
 
-#pragma mark - 处理者注册
 
--(void) registerHandlers {
-    __weak typeof(self) weakSelf = self;
-    // MOS 的投诉h5 需要,(新的请使用getChannel方法)
-    [self.bridge registerHandler:@"getSession" handler:^(id data, WVJBResponseCallback responseCallback) {
-        responseCallback([WKJsonUtil toJson:@{
-            @"session_id": weakSelf.channel && weakSelf.channel.channelId?weakSelf.channel.channelId:@"",
-            @"session_type":@(weakSelf.channel? weakSelf.channel.channelType:0)
-        }]);
-    }];
-    
-//    // 提交投诉
-//    [self.bridge
-//        registerHandler:@"commitReports"
-//                handler:^(id data, WVJBResponseCallback responseCallback) {
-//                    if ([data isKindOfClass:[NSDictionary class]]) {
-//
-//                    }
-//     }];
-    
-    // 退出webview
-    [self.bridge registerHandler:@"quit" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [[WKNavigationManager shared] popViewControllerAnimated:YES];
-    }];
-    
-    // 获取当前频道
-    [self.bridge registerHandler:@"getChannel" handler:^(id data, WVJBResponseCallback responseCallback) {
-        responseCallback([WKJsonUtil toJson:@{
-            @"channelID": weakSelf.channel && weakSelf.channel.channelId?weakSelf.channel.channelId:@"",
-            @"channelType":@(weakSelf.channel? weakSelf.channel.channelType:0)
-        }]);
-    }];
-    
-    [self.bridge registerHandler:@"showConversation" handler:^(id data, WVJBResponseCallback responseCallback) {
-        if(!data) {
-            return;
-        }
-        
-        WKConversationVC *conversationVC =  [WKConversationVC new];
-        conversationVC.channel = [WKChannel channelID:data[@"channel_id"] channelType:[data[@"channel_type"] intValue]];
-        if(data[@"forward"] && [data[@"forward"] isEqualToString:@"replace"]) {
-            [[WKNavigationManager shared] replacePushViewController:conversationVC animated:YES];
-        }else{
-            [[WKNavigationManager shared] pushViewController:conversationVC animated:YES];
-        }
-    }];
-}
 
 -(UIImage*) imageName:(NSString*)name {
     return [WKApp.shared loadImage:name moduleID:@"WuKongBase"];

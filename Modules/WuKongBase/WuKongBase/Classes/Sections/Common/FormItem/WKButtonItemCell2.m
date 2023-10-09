@@ -28,8 +28,8 @@
 @end
 @implementation WKButtonItemCell2
 
-+ (CGSize)sizeForModel:(WKFormItemModel *)model {
-    return CGSizeMake(WKScreenWidth, 44.0f);
++ (CGSize)sizeForModel:(WKButtonItemModel2 *)model {
+    return CGSizeMake(model.width>0?model.width:WKScreenWidth, model.height>0?model.height:44.0f);
 }
 
 - (void)setupUI {
@@ -66,7 +66,12 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.btn.lim_height = self.lim_height;
-    self.btn.lim_width  = self.lim_width - 30.0f;
+    if(self.model.width>0) {
+        self.btn.lim_width  = self.model.width;
+    }else {
+        self.btn.lim_width  = self.lim_width - 30.0f;
+    }
+    
     self.btn.lim_left = self.lim_width/2.0f - self.btn.lim_width/2.0f;
 }
 @end

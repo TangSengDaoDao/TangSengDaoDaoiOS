@@ -51,6 +51,7 @@
 #import "WKLabelItemSelectCell.h"
 #import "WKConversationAddItem.h"
 #import "UIImageView+WK.h"
+#import "WKAutoDeleteView.h"
 
 #import "UIColor+WK.h"
 #import "WKUserColorUtil.h"
@@ -89,6 +90,7 @@
 #import "WKLabelCell.h"
 #import "WKSMSCodeItemCell.h" // 短信验证码
 #import "WKTextFieldItemCell.h"
+#import "WKAnimateIconCell.h"
 
 //extends
 #import "WKContactsHeaderItem.h"

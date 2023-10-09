@@ -98,7 +98,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) NSMutableArray<WKStream*> *streams; // 流式消息内容
 @property(nonatomic,assign) BOOL streamOn; // 是否开启了stream
 
+@property(nonatomic,assign) NSInteger expire; // 过期时长（单位为秒）
 
+@property(nonatomic,strong) NSDate *expireAt; // 过期时间
 
 @end
 

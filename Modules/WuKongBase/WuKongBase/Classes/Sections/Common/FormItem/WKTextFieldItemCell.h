@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKTextFieldItemModel : WKFormItemModel
 
+@property(nonatomic,copy) NSString *label;
 @property(nonatomic,copy) NSString *placeholder;
 
 @property(nonatomic,assign) BOOL password; // 是否是密码模式

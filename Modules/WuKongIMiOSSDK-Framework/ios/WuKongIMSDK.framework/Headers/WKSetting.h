@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign) BOOL streamOn; // 是否开启流式消息
 
+@property(nonatomic,assign) NSInteger expire; // 消息过期时长（单位秒）
+
 
 -(uint8_t) toUint8;
 
