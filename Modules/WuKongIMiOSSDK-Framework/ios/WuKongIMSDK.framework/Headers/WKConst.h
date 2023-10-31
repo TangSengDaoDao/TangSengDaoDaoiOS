@@ -90,3 +90,6 @@ typedef enum : NSUInteger {
 
 // 排序序号因子
 #define WKOrderSeqFactor 1000
+
+// 默认协议版本
+#define WKDefaultProtoVersion 0x4;

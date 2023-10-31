@@ -202,6 +202,8 @@
         self.autoDeleteView.second = msgAutoDelete;
         if(model.channelInfo.online) {
             self.autoDeleteView.hidden = YES;
+        }else {
+            self.onlineBadgeView.hidden  = YES;
         }
     }else{
         self.autoDeleteView.hidden = YES;

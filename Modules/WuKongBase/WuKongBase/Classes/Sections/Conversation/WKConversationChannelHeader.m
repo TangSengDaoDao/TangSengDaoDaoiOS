@@ -207,6 +207,7 @@
 - (WKUserAvatar *)avatarImgView {
     if(!_avatarImgView) {
         _avatarImgView = [[WKUserAvatar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 38.0f, 38.0f)];
+        _avatarImgView.userInteractionEnabled = NO;
     }
     return _avatarImgView;
 }
