@@ -231,6 +231,10 @@
         messageExtra.editedAt = [dataDict[@"edited_at"] integerValue];
     }
     
+    if(dataDict[@"is_mutual_deleted"]) {
+        messageExtra.isMutualDeleted = [dataDict[@"is_mutual_deleted"] boolValue];
+    }
+    
     NSDictionary *payloadDict;
     NSData *planPayloadData;
     if(!dataDict[@"content_edit"] ||  dataDict[@"content_edit"] == [NSNull null] ) {

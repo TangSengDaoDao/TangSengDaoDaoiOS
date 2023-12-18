@@ -280,6 +280,9 @@
     if(section == 0) {
         return nil;
     }
+    if (!self.sectionTitleArr || self.sectionTitleArr.count == 0) {
+        return nil;
+    }
     NSString *title = [self.sectionTitleArr objectAtIndex:section-1];
     return [self headView:title headHeight:20.0f color:WKApp.shared.config.themeColor];
 }

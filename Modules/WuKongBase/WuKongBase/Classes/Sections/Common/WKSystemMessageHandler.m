@@ -141,6 +141,9 @@ bool needRemind = false; // 是否需要提醒
 }
 
 - (void)onSendack:(WKSendackPacket *)sendackPacket left:(NSInteger)left {
+    if(sendackPacket.header.noPersist) {
+        return;
+    }
     [self playMessageSendOutSound];
 }
 
