@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WKModel.h"
-
+#import "WKRTCIceServer.h"
 @class WKAppModuleResp;
 
 @class WKThemeContextMenu;
@@ -181,6 +181,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL takeScreenshotOn; // 截屏通知是否开启
 
 @property(nonatomic,assign) NSTimeInterval defaultAnimationDuration; // 默认动画时间
+
+@property(nonatomic,strong) NSArray<WKRTCIceServer*> *rtcIces; // rtc的ice配置
 
 @end
 
