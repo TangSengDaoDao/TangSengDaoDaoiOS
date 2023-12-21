@@ -33,6 +33,7 @@ typedef enum : NSUInteger {
 @property(nonatomic,assign) NSInteger editedAt; // 消息编辑时间 （0表示消息未被编辑）
 @property(nonatomic,assign) BOOL isEdit; //  是否编辑
 @property(nonatomic,assign) WKContentEditUploadStatus uploadStatus; // 上传状态
+@property(nonatomic,assign) BOOL isMutualDeleted; // 是否双向删除
 
 @property(nonatomic,copy) NSDictionary *extra; // 扩展数据
 

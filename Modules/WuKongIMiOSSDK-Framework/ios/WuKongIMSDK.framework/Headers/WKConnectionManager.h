@@ -91,6 +91,7 @@ typedef enum : NSUInteger {
  */
 -(void) sendPacket:(WKPacket*)packet;
 
+-(void) writeData:(NSData*) data;
 
 /**
  发送ping包

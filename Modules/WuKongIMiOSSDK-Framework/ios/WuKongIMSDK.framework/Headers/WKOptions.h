@@ -138,6 +138,9 @@ typedef WKConnectInfo*_Nonnull(^WKConnectInfoCallback)(void);
 @property(nonatomic,assign) NSInteger expireMsgCheckInterval; // 过期消息检查间隔 单位秒
 @property(nonatomic,assign) NSInteger expireMsgLimit; // 过期消息每次查询数量
 
+@property(nonatomic,assign) NSInteger sendFrequency; // 消息发送延迟时间 单位毫秒
+@property(nonatomic,assign) NSInteger sendMaxCountOfEach; // 消息每次发送最大数量
+
 @end
 
 NS_ASSUME_NONNULL_END

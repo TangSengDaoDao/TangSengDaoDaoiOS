@@ -55,6 +55,7 @@
 #import "WKConversationManagerInner.h"
 #import "WKFlameManager.h"
 #import "WKMediaManager.h"
+#import "WKMessageQueueManager.h"
 #import "WKMOSContentConvertManager.h"
 #import "WKReactionManager.h"
 #import "WKReceiptManager.h"

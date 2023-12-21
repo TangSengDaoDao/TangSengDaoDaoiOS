@@ -220,6 +220,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void) deleteMessagesWithClientSeqs:(NSArray<NSNumber*>*)ids;
 
+-(void) deleteMessagesWithMessageIDs:(NSArray<NSNumber*>*)messageIDs;
+
+-(void) deleteMessagesWithMessageIDs:(NSArray<NSNumber*>*)messageIDs db:(FMDatabase*)db;
 
 /**
   彻底将消息从数据库删除 （deleteMessage只是标记为删除）
