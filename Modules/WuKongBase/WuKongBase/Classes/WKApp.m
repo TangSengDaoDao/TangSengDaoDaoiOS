@@ -82,6 +82,7 @@
 #import "WKKeyboardService.h"
 #import <ZLPhotoBrowser/ZLPhotoBrowser-Swift.h>
 #import "WKSDWebImageDownloaderOperation.h"
+#import <Bugly/Bugly.h>
 
 @import FPSCounter.Swift;
 //#import <PINRemoteImage/PINImageView+PINRemoteImage.h>
@@ -229,7 +230,19 @@ static WKApp *_instance;
 }
 
 -(void) traceConfig {
-   
+    BuglyConfig *config = [[BuglyConfig alloc] init];
+#ifndef __OPTIMIZE__ // DEBUG模式
+    config.debugMode = true;
+    config.blockMonitorEnable = false;
+    config.reportLogLevel = BuglyLogLevelDebug;
+#else
+    config.reportLogLevel = BuglyLogLevelWarn;
+#endif
+    
+    [Bugly startWithAppId:@"82f8dd98ff" config:config];
+    if([WKApp shared].isLogined) {
+        [Bugly setUserIdentifier: [WKApp shared].loginInfo.uid];
+    }
 }
 
 -(void) debugSetting {

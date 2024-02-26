@@ -60,7 +60,7 @@ TODO: Add long description of the pod here.
 #   s.xcconfig = { "OTHER_LDFLAGS" => "-ObjC" }
 #  s.vendored_libraries = 'WuKongBase/WuKongIMSDK-Framework/ios/*.{a}'
 #  s.resource  = 'WuKongBase/WuKongIMSDK-Framework/ios/WuKongIMSDK.framework/Versions/A/Resources/WuKongIMSDK.bundle'
-#  s.vendored_frameworks = 'WuKongBase/Bugly.framework'
+  s.vendored_frameworks = 'WuKongBase/Bugly.framework'
 #  s.libraries = 'opencore-amrnb', 'opencore-amrwb','vo-amrwbenc', 'sqlite3', 'stdc++','xml2'
   s.libraries = 'c++','stdc++'
 #  s.dependency 'FLEX'
@@ -97,6 +97,7 @@ TODO: Add long description of the pod here.
   s.dependency 'AsyncDisplayKit'
   s.dependency 'FPSCounter', '~> 4.1'
   s.dependency 'librlottie'
+  
 #  s.dependency 'SVGKit'
   
   
