@@ -76,9 +76,9 @@ PODS:
   - WuKongBase (0.1.0):
     - ActionSheetPicker-3.0
     - AFNetworking (~> 4.0)
-    - AsyncDisplayKit
+    - AsyncDisplayKit (~> 1.0)
     - CocoaAsyncSocket (~> 7.6.2)
-    - CocoaLumberjack
+    - CocoaLumberjack (~> 3.0)
     - DGActivityIndicatorView (~> 2.1.1)
     - FMDB/SQLCipher (~> 2.7.5)
     - FPSCounter (~> 4.1)
@@ -86,21 +86,21 @@ PODS:
     - LBXScan/LBXNative (~> 2.5)
     - LBXScan/LBXZXing (~> 2.5)
     - LBXScan/UI (~> 2.5)
-    - librlottie
+    - librlottie (~> 0.1)
     - lottie-ios (~> 2.5.3)
     - M80AttributedLabel (~> 1.9.9)
     - MBProgressHUD (~> 1.1.0)
-    - MJRefresh
+    - MJRefresh (~> 3.0)
     - PromiseKit/CorePromise (~> 6.0)
     - SDWebImage (~> 5.9.1)
-    - SDWebImageLottieCoder
-    - SDWebImageWebPCoder
-    - Toast
+    - SDWebImageLottieCoder (~> 0.1.0)
+    - SDWebImageWebPCoder (~> 0.6.1)
+    - Toast (~> 4.0)
     - TOCropViewController (~> 2.5.3)
     - TZImagePickerController (~> 3.6.4)
     - WuKongIMSDK
-    - YBImageBrowser/NOSD
-    - YYImage/WebP
+    - YBImageBrowser/NOSD (~> 3.0)
+    - YYImage/WebP (~> 1.0.4)
     - ZLImageEditor (~> 1.1.1)
     - ZLPhotoBrowser (~> 4.3.7)
   - WuKongContacts (0.1.0):
@@ -253,7 +253,7 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   TZImagePickerController: 2cad3db94ba70eb947d26c10ff5c66c9a93798c8
-  WuKongBase: 3bc0a4edd61dde1cd5b88bfd0f3618618c8bb522
+  WuKongBase: 50bcf7a6363337314393cf0b9a3bc2629076e7cb
   WuKongContacts: 9a7748952bd1760ba84fe7f595200d4c19d52d8b
   WuKongDataSource: 239cffd62c1d6d14b137102de5ec59b6c1f16cf7
   WuKongIMSDK: d6332b6f14b4a830f39954c31976232a6622e53b

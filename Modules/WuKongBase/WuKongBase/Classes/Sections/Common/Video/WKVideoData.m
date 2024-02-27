@@ -136,9 +136,9 @@ extern CGImageRef YYCGImageCreateDecodedCopy(CGImageRef imageRef, BOOL decodeFor
     return WKVideoCell.self;
 }
 
-- (UIView *)yb_projectiveView {
-    return self.projectiveView;
-}
+//- (UIView *)yb_projectiveView {
+//    return self.projectiveView;
+//}
 
 - (CGRect)yb_imageViewFrameWithContainerSize:(CGSize)containerSize imageSize:(CGSize)imageSize orientation:(UIDeviceOrientation)orientation {
     if (containerSize.width <= 0 || containerSize.height <= 0 || imageSize.width <= 0 || imageSize.height <= 0) return CGRectZero;

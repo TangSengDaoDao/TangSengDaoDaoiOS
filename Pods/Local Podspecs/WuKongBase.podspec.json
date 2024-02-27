@@ -33,6 +33,7 @@
   ],
   "private_header_files": "WuKongBase/Classes/Vendor/**/*",
   "source_files": "WuKongBase/Classes/**/*",
+  "vendored_frameworks": "WuKongBase/Bugly.framework",
   "libraries": [
     "c++",
     "stdc++"
@@ -42,7 +43,7 @@
 
     ],
     "CocoaLumberjack": [
-
+      "~> 3.0"
     ],
     "PromiseKit/CorePromise": [
       "~> 6.0"
@@ -51,7 +52,7 @@
       "~> 4.0"
     ],
     "Toast": [
-
+      "~> 4.0"
     ],
     "MBProgressHUD": [
       "~> 1.1.0"
@@ -63,10 +64,10 @@
       "~> 1.9.9"
     ],
     "YBImageBrowser/NOSD": [
-
+      "~> 3.0"
     ],
     "YYImage/WebP": [
-
+      "~> 1.0.4"
     ],
     "TZImagePickerController": [
       "~>3.6.4"
@@ -81,7 +82,7 @@
       "~> 2.5"
     ],
     "MJRefresh": [
-
+      "~> 3.0"
     ],
     "CocoaAsyncSocket": [
       "~> 7.6.2"
@@ -93,7 +94,7 @@
       "~> 5.9.1"
     ],
     "SDWebImageWebPCoder": [
-
+      "~> 0.6.1"
     ],
     "FMDB/SQLCipher": [
       "~>2.7.5"
@@ -102,7 +103,7 @@
       "~> 2.5.3"
     ],
     "SDWebImageLottieCoder": [
-
+      "~> 0.1.0"
     ],
     "GZIP": [
       "~> 1.3.0"
@@ -117,13 +118,13 @@
 
     ],
     "AsyncDisplayKit": [
-
+      "~> 1.0"
     ],
     "FPSCounter": [
       "~> 4.1"
     ],
     "librlottie": [
-
+      "~> 0.1"
     ]
   },
   "frameworks": [
