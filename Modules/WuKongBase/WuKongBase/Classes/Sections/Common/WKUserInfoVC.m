@@ -167,6 +167,9 @@
     if(self.viewModel.isBlacklist && ![self isFriend]) { // 在黑名单内非好友一律不显示短号
         showShortNo = false;
     }
+    if([shortNo isEqualToString:@""]) {
+        showShortNo = false;
+    }
     
     if(showShortNo) {
         [self.userInfoBoxView addSubview:self.shortNoField];
@@ -187,6 +190,9 @@
     }else if(self.viewModel.channelInfo.follow == WKChannelInfoFollowStrange){
         self.sendBtn.hidden = YES;
         self.footerHeader.hidden = ![self hasVercode];
+        if(self.viewModel.memberOfMy && (self.viewModel.memberOfMy.role==WKMemberRoleCreator || self.viewModel.memberOfMy.role==WKMemberRoleManager  )) {
+            self.footerHeader.hidden = NO;
+        }
     }else {
         self.footerHeader.hidden = YES;
     }

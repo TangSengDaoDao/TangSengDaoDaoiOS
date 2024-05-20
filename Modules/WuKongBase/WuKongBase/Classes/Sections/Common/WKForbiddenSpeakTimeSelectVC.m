@@ -6,7 +6,8 @@
 //
 
 #import "WKForbiddenSpeakTimeSelectVC.h"
-#import "ActionSheetPicker.h"
+#import <ActionSheetPicker_3_0/ActionSheetCustomPickerDelegate.h>
+#import <ActionSheetPicker_3_0/ActionSheetCustomPicker.h>
 
 @interface WKForbiddenSpeakTimeSelectVC ()<WKForbiddenSpeakTimeSelectVMDelegate,ActionSheetCustomPickerDelegate>
 

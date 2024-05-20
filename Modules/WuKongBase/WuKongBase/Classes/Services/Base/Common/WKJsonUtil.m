@@ -35,4 +35,16 @@
   return dic;
 }
 
++(NSArray*) toArray:(NSString*)jsonStr {
+    if (!jsonStr || [jsonStr isEqualToString:@""]) {
+      return nil;
+    }
+    id array = [NSJSONSerialization
+        JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding]
+                   options:NSJSONReadingAllowFragments
+                     error:nil];
+
+    return array;
+}
+
 @end

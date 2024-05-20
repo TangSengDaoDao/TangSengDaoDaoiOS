@@ -479,6 +479,16 @@
             if(resultDict[@"revoke_second"]) {
                 weakSelf.revokeSecond = [resultDict[@"revoke_second"] integerValue];
             }
+            if(resultDict[@"register_invite_on"]) {
+                weakSelf.registerInviteOn = [resultDict[@"register_invite_on"] boolValue];
+            }
+            
+            if(resultDict[@"invite_system_account_join_group_on"]) {
+                weakSelf.inviteSystemAccountJoinGroupOn =  [resultDict[@"invite_system_account_join_group_on"] boolValue];
+            }
+            if(resultDict[@"register_user_must_complete_info_on"]) {
+                weakSelf.registerUserMustCompleteInfoOn = [resultDict[@"register_user_must_complete_info_on"] boolValue];
+            }
            
             
             weakSelf.requestSuccess = true;

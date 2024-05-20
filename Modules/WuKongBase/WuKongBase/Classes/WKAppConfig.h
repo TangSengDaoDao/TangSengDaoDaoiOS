@@ -192,6 +192,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL phoneSearchOff;
 @property(nonatomic,assign) BOOL shortnoEditOff;
 @property(nonatomic,assign) NSInteger revokeSecond; // 撤回时间
+@property(nonatomic,assign) BOOL registerInviteOn; // 是否开启注册邀请
+@property(nonatomic,assign) BOOL inviteSystemAccountJoinGroupOn; // 是否允许邀请系统账号加入群里
+
+@property(nonatomic,assign) BOOL registerUserMustCompleteInfoOn; // 用户注册是否必须要完善信息后才能进入
 
 @property(nonatomic,strong) NSArray<WKAppModuleResp*> *modules;
 

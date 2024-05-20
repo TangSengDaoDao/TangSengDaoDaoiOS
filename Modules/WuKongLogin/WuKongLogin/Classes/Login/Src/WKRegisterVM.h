@@ -24,8 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param zone 区号
 /// @param phone 手机号
 /// @param code 短信验证码
+/// @param inviteCode 邀请码
 /// @param password 密码
--(AnyPromise*) registerByPhone:(NSString*)zone phone:(NSString*)phone code:(NSString*)code password:(NSString*)password;
+-(AnyPromise*) registerByPhone:(NSString*)zone phone:(NSString*)phone code:(NSString*)code inviteCode:(NSString*)inviteCode password:(NSString*)password;
 
 
 /// 更新用户的名字

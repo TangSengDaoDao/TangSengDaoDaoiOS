@@ -139,6 +139,13 @@ static NSString *WKGroupAttrKeyName = @"name";
 /// @param groupNo 群编号
 -(void) groupManager:(WKGroupManager*)manager didGroupExit:(NSString*)groupNo complete:(void(^__nullable)(NSError *error))complete;
 
+
+/// 群解散
+/// @param manager <#manager description#>
+/// @param groupNo 群编号
+-(void) groupManager:(WKGroupManager*)manager didGroupDisband:(NSString*)groupNo complete:(void(^__nullable)(NSError *error))complete;
+
+
 /**
  群设置
  @param manager <#manager description#>
@@ -323,6 +330,10 @@ static NSString *WKGroupAttrKeyName = @"name";
 /// 退出群聊
 /// @param groupNo 群编号
 -(void) didGroupExit:(NSString*)groupNo complete:(void(^__nullable)(NSError * __nullable error))complete;
+
+/// 群解散
+/// @param groupNo 群编号
+-(void) didGroupDisband:(NSString*)groupNo complete:(void(^__nullable)(NSError * __nullable error))complete;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -353,6 +353,20 @@
            WKLogError(@"退出群聊失败！->%@",error);
        });
 }
+
+-(void) groupManager:(WKGroupManager*)manager didGroupDisband:(NSString*)groupNo complete:(void(^__nullable)(NSError *error))complete {
+    [[WKAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"groups/%@/disband",groupNo] parameters:nil].then(^{
+        if(complete) {
+            complete(nil);
+        }
+       }).catch(^(NSError *error){
+           if(complete) {
+               complete(error);
+           }
+           WKLogError(@"退出群聊失败！->%@",error);
+       });
+}
+
 // 群成员设置为管理员
 - (void)groupManager:(nonnull WKGroupManager *)manager groupNo:(nonnull NSString *)groupNo membersToManager:(nonnull NSArray<NSString *> *)members complete:(void (^ _Nullable)(NSError * _Nullable))complete {
     [[WKAPIClient sharedClient] POST:[NSString stringWithFormat:@"groups/%@/managers",groupNo] parameters:members].then(^{

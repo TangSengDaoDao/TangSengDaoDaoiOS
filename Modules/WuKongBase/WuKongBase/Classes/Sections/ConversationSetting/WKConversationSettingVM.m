@@ -411,7 +411,6 @@
                     }
                 },
                ]
-
         };
     } category:WKPOINT_CATEGORY_CHANNELSETTING sort:88700];
 }

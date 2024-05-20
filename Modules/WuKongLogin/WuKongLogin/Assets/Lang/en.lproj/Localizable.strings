@@ -47,3 +47,5 @@
 "上传成功"="Upload successfully";
 "欢迎注册%@"="Welcome to register for %@";
 "注册中"="Registering";
+"邀请码（选填）"="Invitation code (optional)";
+"邀请码（必填）"="Invitation code (required)";

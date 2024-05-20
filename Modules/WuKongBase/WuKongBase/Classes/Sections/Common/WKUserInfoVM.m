@@ -11,6 +11,43 @@
 #import "WKMultiLabelItemCell.h"
 #import "WKForbiddenSpeakTimeSelectVC.h"
 #import "WKCountdownFormItemCell.h"
+
+
+@interface UserModel : WKModel
+
+@property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *zone;
+@property (nonatomic, strong) NSString *phone;
+@property (nonatomic, assign) BOOL mute;
+@property (nonatomic, assign) BOOL top;
+@property (nonatomic, assign) NSInteger sex;
+@property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSString *shortNo;
+@property (nonatomic, assign) BOOL chatPwdOn;
+@property (nonatomic, assign) BOOL screenshot;
+@property (nonatomic, assign) BOOL revokeRemind;
+@property (nonatomic, assign) BOOL receipt;
+@property (nonatomic, assign) BOOL online;
+@property (nonatomic, assign) NSInteger lastOffline;
+@property (nonatomic, assign) NSInteger deviceFlag;
+@property (nonatomic, assign) BOOL follow;
+@property (nonatomic, assign) BOOL beDeleted;
+@property (nonatomic, assign) BOOL beBlacklist;
+@property (nonatomic, strong) NSString *vercode;
+@property (nonatomic, strong) NSString *sourceDesc;
+@property (nonatomic, strong) NSString *remark;
+@property (nonatomic, assign) NSInteger isUploadAvatar;
+@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, assign) BOOL robot;
+@property (nonatomic, assign) BOOL isDestroy;
+@property (nonatomic, assign) BOOL flame;
+@property (nonatomic, assign) NSInteger flameSecond;
+
+@end
+
 @interface WKUserInfoVM ()<WKChannelManagerDelegate>
 
 @property(nonatomic,strong) channelInfoCompletion completion;
@@ -55,21 +92,40 @@
 - (void)loadPersonChannelInfo:(NSString *)uid completion:(channelInfoCompletion)completion {
     self.completion = completion;
     self.uid = uid;
-    WKChannel *channel = [[WKChannel alloc] initWith:uid channelType:WK_PERSON];
-    WKChannelInfo *channelInfo = [[WKSDK shared].channelManager getChannelInfo:channel];
     
-    if(channelInfo) {
-        self.channelInfo = channelInfo;
+    __weak typeof(self) weakSelf = self;
+    [self requestUserDetail:uid].then(^(UserModel *user){
+        // 清空缓存的头像
+        [[SDImageCache sharedImageCache] removeImageForKey:[WKAvatarUtil getAvatar:user.uid?:@""] withCompletion:nil];
+        
+        // 重新缓存用户的channelInfo
+        WKChannelInfo *channelInfo = [weakSelf channelInfoFromUser:user];
+        WKChannel *channel = [[WKChannel alloc] initWith:uid channelType:WK_PERSON];
+        channelInfo.channel = channel;
+        weakSelf.channelInfo = channelInfo;
+        [[WKSDK shared].channelManager addOrUpdateChannelInfo:channelInfo];
         if(completion) {
              completion();
         }
-    }
-    // 远程提取频道信息
-    [[WKSDK shared].channelManager fetchChannelInfo:channel completion:^(WKChannelInfo * channelInfo) {
-        if(channelInfo) {
-            [[WKSDK shared].channelManager addOrUpdateChannelInfo:channelInfo];
-        }
-    }];
+    }).catch(^(NSError *err){
+        [WKNavigationManager.shared.topViewController.view showHUDWithHide:err.domain];
+    });
+    
+//    WKChannel *channel = [[WKChannel alloc] initWith:uid channelType:WK_PERSON];
+//    WKChannelInfo *channelInfo = [[WKSDK shared].channelManager getChannelInfo:channel];
+//    
+//    if(channelInfo) {
+//        self.channelInfo = channelInfo;
+//        if(completion) {
+//             completion();
+//        }
+//    }
+//    // 远程提取频道信息
+//    [[WKSDK shared].channelManager fetchChannelInfo:channel completion:^(WKChannelInfo * channelInfo) {
+//        if(channelInfo) {
+//            [[WKSDK shared].channelManager addOrUpdateChannelInfo:channelInfo];
+//        }
+//    }];
 }
 
 -(AnyPromise*) applyFriend:(NSString*)uid remark:(NSString*)remark vercode:(NSString*)vercode{
@@ -395,6 +451,49 @@
     return  self.channelInfo && self.channelInfo.status == WKChannelStatusBlacklist;
 }
 
+-(AnyPromise*) requestUserDetail:(NSString*)uid {
+    NSString *groupNo = @"";
+    if(self.fromChannel.channelType == WK_GROUP) {
+        groupNo = self.fromChannel.channelId;
+    }
+    return [WKAPIClient.sharedClient GET:[NSString stringWithFormat:@"users/%@",uid] parameters:@{@"group_no":groupNo?:@""} model:UserModel.class];
+}
+
+- (WKChannelInfo *)channelInfoFromUser:(UserModel *)user {
+    WKChannelInfo *info = [WKChannelInfo new];
+    info.channel = [WKChannel personWithChannelID:user.uid];
+    info.name = user.name;
+    info.remark = user.remark;
+    info.logo = user.vercode;  // Assuming 'vercode' is the logo
+    info.stick = user.top;
+    info.mute = user.mute;
+    info.status = user.status;
+    info.receipt = user.receipt;
+    info.flame = user.flame;
+    info.flameSecond = user.flameSecond;
+    info.robot = user.robot;
+    info.category = user.category;
+    info.online = user.online;
+    info.deviceFlag = user.deviceFlag;
+    info.lastOffline = user.lastOffline;
+    info.beDeleted = user.beDeleted;
+    info.beBlacklist = user.beBlacklist;
+    info.follow = user.follow;
+    info.stick = user.top;
+    
+    info.logo = [NSString stringWithFormat:@"users/%@/avatar",user.uid];
+    
+    info.extra[@"sex"] = @(user.sex);
+    
+    [info setExtraValue:user.shortNo?:@"" forKey:WKChannelExtraKeyShortNo];
+    [info setExtraValue:user.sourceDesc?:@"" forKey:WKChannelExtraKeySource];
+    [info setExtraValue:user.vercode?:@"" forKey:WKChannelExtraKeyVercode];
+    [info setSettingValue:user.screenshot forKey:WKChannelExtraKeyScreenshot];
+    [info setSettingValue:user.revokeRemind forKey:WKChannelExtraKeyRevokeRemind];
+    [info setSettingValue:user.chatPwdOn forKey:WKChannelExtraKeyChatPwd];
+    return info;
+}
+
 #pragma mark - 事件
 // 频道数据更新
 -(void) channelInfoUpdate:(WKChannelInfo*)channelInfo {
@@ -405,5 +504,48 @@
         }
     }
 }
+
+@end
+
+
+@implementation UserModel
+
++ (UserModel *)fromMap:(NSDictionary *)dictory type:(ModelMapType)type {
+    UserModel *u = [UserModel new];
+    u.uid = [dictory objectForKey:@"uid"] ?: @"";
+    u.name = [dictory objectForKey:@"name"] ?: @"";
+    u.username = [dictory objectForKey:@"username"] ?: @"";
+    u.email = [dictory objectForKey:@"email"] ?: @"";
+    u.zone = [dictory objectForKey:@"zone"] ?: @"";
+    u.phone = [dictory objectForKey:@"phone"] ?: @"";
+    u.mute = [[dictory objectForKey:@"mute"] boolValue];
+    u.top = [[dictory objectForKey:@"top"] boolValue];
+    u.sex = [[dictory objectForKey:@"sex"] integerValue];
+    u.category = [dictory objectForKey:@"category"] ?: @"";
+    u.shortNo = [dictory objectForKey:@"short_no"] ?: @"";
+    u.chatPwdOn = [[dictory objectForKey:@"chat_pwd_on"] boolValue];
+    u.screenshot = [[dictory objectForKey:@"screenshot"] boolValue];
+    u.revokeRemind = [[dictory objectForKey:@"revoke_remind"] boolValue];
+    u.receipt = [[dictory objectForKey:@"receipt"] boolValue];
+    u.online = [[dictory objectForKey:@"online"] boolValue];
+    u.lastOffline = [[dictory objectForKey:@"last_offline"] integerValue];
+    u.deviceFlag = [[dictory objectForKey:@"device_flag"] integerValue];
+    u.follow = [[dictory objectForKey:@"follow"] boolValue];
+    u.beDeleted = [[dictory objectForKey:@"be_deleted"] boolValue];
+    u.beBlacklist = [[dictory objectForKey:@"be_blacklist"] boolValue];
+    u.vercode = [dictory objectForKey:@"vercode"] ?: @"";
+    u.sourceDesc = [dictory objectForKey:@"source_desc"] ?: @"";
+    u.remark = [dictory objectForKey:@"remark"] ?: @"";
+    u.isUploadAvatar = [[dictory objectForKey:@"is_upload_avatar"] integerValue];
+    u.status = [[dictory objectForKey:@"status"] integerValue];
+    u.robot = [[dictory objectForKey:@"robot"] boolValue];
+    u.isDestroy = [[dictory objectForKey:@"is_destroy"] boolValue];
+    u.flame = [[dictory objectForKey:@"flame"] boolValue];
+    u.flameSecond = [[dictory objectForKey:@"flame_second"] integerValue];
+    return u;
+}
+
+
+
 
 @end

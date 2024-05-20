@@ -49,6 +49,13 @@ static int lastGetCodeTimestamp = 0; // 最后一次获取验证码的时间戳�
 @property(nonatomic,strong) UITextField *passwordTextField; // 密码输入
 @property(nonatomic,strong) UIButton *eyeBtn; // 眼睛关闭
 
+// ---------- 邀请码相关 ----------
+
+@property(nonatomic,strong) UIView *inviteCodeBoxView; // 邀请码box view
+@property(nonatomic,strong) UIView *inviteCodeBottomLineView; // 邀请码底部线
+@property(nonatomic,strong) UITextField *inviteCodeTextField; // 邀请码输入框
+
+
 // ---------- 底部相关 ----------
 @property(nonatomic,strong) UIButton *registerBtn; // 注册按钮
 @property(nonatomic,strong) UILabel *loginTipLbl; // 登录提示
@@ -94,6 +101,10 @@ static int lastGetCodeTimestamp = 0; // 最后一次获取验证码的时间戳�
     [self.passwordBoxView addSubview:self.passwordBottomLineView];
     [self.passwordBoxView addSubview:self.passwordTextField];
     [self.passwordBoxView addSubview:self.eyeBtn];
+    
+    [self.view addSubview:self.inviteCodeBoxView];
+    [self.inviteCodeBoxView addSubview:self.inviteCodeBottomLineView];
+    [self.inviteCodeBoxView addSubview:self.inviteCodeTextField];
     
     [self.view addSubview:self.registerBtn];
     [self.view addSubview:self.loginTipLbl];
@@ -279,6 +290,38 @@ static int lastGetCodeTimestamp = 0; // 最后一次获取验证码的时间戳�
 }
 
 
+// ---------- 邀请码 ----------
+
+- (UIView *)inviteCodeBoxView {
+    if(!_inviteCodeBoxView) {
+        _inviteCodeBoxView = [[UIView alloc] initWithFrame:CGRectMake(0, self.passwordBoxView.lim_bottom+20.0f, WKScreenWidth, self.passwordBoxView.lim_height)];
+    }
+    return _inviteCodeBoxView;
+}
+
+- (UITextField *)inviteCodeTextField {
+    if(!_inviteCodeTextField) {
+        _inviteCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20.0f, self.passwordBoxView.lim_height/2.0f - 20.0f, WKScreenWidth-20*2 - 32.0f, 40.0f)];
+        
+        _inviteCodeTextField.hidden = !WKApp.shared.remoteConfig.registerInviteOn;
+        if(WKApp.shared.remoteConfig.registerInviteOn) {
+            [_inviteCodeTextField setPlaceholder:LLang(@"邀请码（必填）")];
+        }else {
+            [_inviteCodeTextField setPlaceholder:LLang(@"邀请码（选填）")];
+        }
+    }
+    return _inviteCodeTextField;
+}
+
+- (UIView *)inviteCodeBottomLineView {
+    if(!_inviteCodeBottomLineView) {
+        _inviteCodeBottomLineView = [[UIView alloc] initWithFrame:CGRectMake(20.0f, self.inviteCodeBoxView.lim_height, WKScreenWidth-40.0f, 1)];
+        _inviteCodeBottomLineView.layer.backgroundColor = [WKApp shared].config.lineColor.CGColor;
+    }
+    return _inviteCodeBottomLineView;
+}
+
+
 
 // ---------- 底部相关 ----------
 
@@ -286,7 +329,11 @@ static int lastGetCodeTimestamp = 0; // 最后一次获取验证码的时间戳�
 // 注册
 - (UIButton *)registerBtn {
     if(!_registerBtn) {
-        _registerBtn = [[UIButton alloc] initWithFrame:CGRectMake(30.0f, self.passwordBoxView.lim_bottom+82.0f, WKScreenWidth - 60.0f, 40.0f)];
+        CGFloat top = self.passwordBoxView.lim_bottom;
+        if(WKApp.shared.remoteConfig.registerInviteOn) {
+            top = self.inviteCodeBoxView.lim_bottom;
+        }
+        _registerBtn = [[UIButton alloc] initWithFrame:CGRectMake(30.0f,top+82.0f, WKScreenWidth - 60.0f, 40.0f)];
         [_registerBtn setBackgroundColor:[WKApp shared].config.themeColor];
         [_registerBtn setTitle:LLang(@"注册") forState:UIControlStateNormal];
         [_registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -427,9 +474,10 @@ static int lastGetCodeTimestamp = 0; // 最后一次获取验证码的时间戳�
     NSString *zone = self.country;
     NSString *phone = self.mobileTextField.text;
     NSString *password = self.passwordTextField.text;
+    NSString *inviteCode = self.inviteCodeTextField.text;
     [self.view showHUD:LLang(@"注册中")];
     __weak typeof(self) weakSelf = self;
-    [self.viewModel registerByPhone:[NSString stringWithFormat:@"00%@",zone] phone:phone code:code password:password].then(^(WKLoginResp*resp){
+    [self.viewModel registerByPhone:[NSString stringWithFormat:@"00%@",zone] phone:phone code:code inviteCode:inviteCode password:password].then(^(WKLoginResp*resp){
         [weakSelf.view hideHud];
         if(!resp.name || [resp.name isEqualToString:@""]) { // 如果没名字就跳到完善注册资料页面
              [WKLoginVM handleLoginData:resp isSave:NO];

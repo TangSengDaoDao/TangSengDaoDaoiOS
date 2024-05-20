@@ -530,8 +530,38 @@ static NSMutableDictionary *flameNodeCacheDict;
     if([name isEqualToString:@""] && messageModel.from) {
         name = messageModel.from.name;
     }
+   NSString *deviceName = [self getDeviceName:messageModel];
+    if(deviceName && ![deviceName isEqualToString:@""]) {
+        name = [NSString stringWithFormat:@"%@/%@",name,deviceName];
+    }
    
     return name;
+}
+
+
+// 获取消息发送的设备
++(NSString*) getDeviceName:(WKMessageModel*)messageModel {
+    if(!messageModel.clientMsgNo) {
+        return @"";
+    }
+    
+    if([messageModel.clientMsgNo hasSuffix:@"1"]) {
+        return @"Android";
+    }
+    
+    if([messageModel.clientMsgNo hasSuffix:@"2"]) {
+        return @"iOS";
+    }
+    
+    if([messageModel.clientMsgNo hasSuffix:@"3"]) {
+        return @"Web";
+    }
+    
+    if([messageModel.clientMsgNo hasSuffix:@"5"]) {
+        return @"Flutter";
+    }
+    
+    return @"";
 }
 
 +(CGSize) getNicknameSize:(WKMessageModel*)messageModel {

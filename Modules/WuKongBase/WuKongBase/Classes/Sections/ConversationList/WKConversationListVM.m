@@ -7,6 +7,7 @@
 
 #import "WKConversationListVM.h"
 #import "WuKongBase.h"
+#import "WKProhibitwordsService.h"
 @interface WKConversationListVM ()
 @property(nonatomic,strong) NSMutableArray<WKConversationWrapModel*> *conversationWrapModels;
 @property(nonatomic,strong) NSRecursiveLock *conversationsLock;
@@ -58,9 +59,11 @@ static WKConversationListVM *_instance;
                 WKConversationWrapModel *parentConversationWrapModel = [self addOrCreateParentConversation:conversation.parentChannel newConversationWrapModel:wrapModel conversationWrapModels:conversationWrapModels];
                 
                 if(parentConversationWrapModel) {
+                    [self handleProhibitwords:parentConversationWrapModel];
                     [conversationWrapModels addObject:parentConversationWrapModel];
                 }
             }else {
+                [self handleProhibitwords:wrapModel];
                 [conversationWrapModels addObject:wrapModel];
             }
             
@@ -74,14 +77,34 @@ static WKConversationListVM *_instance;
     }
 }
 
+-(void) handleProhibitwords:(WKConversationWrapModel*)model {
+    if(!model.lastMessage) {
+        return;
+    }
+    if(model.lastMessage.contentType != WK_TEXT) {
+        return;
+    }
+    if( model.lastMessage.remoteExtra.isEdit) {
+        if(model.lastMessage.remoteExtra.isEdit) {
+            WKTextContent *content = (WKTextContent*)model.lastMessage.remoteExtra.contentEdit;
+            content.content =[WKProhibitwordsService.shared filter:content.content]; // 违禁词过滤
+            return;
+        }
+        WKTextContent *content = (WKTextContent*)model.lastMessage.content;
+        content.content = [WKProhibitwordsService.shared filter:content.content]; // 违禁词过滤
+    }
+}
+
 -(WKConversationWrapModel*) addOrCreateParentConversation:(WKChannel*) parentChannel newConversationWrapModel:(WKConversationWrapModel*)wrapModel conversationWrapModels:(NSArray<WKConversationWrapModel*>*)conversationWrapModels {
     WKConversationWrapModel *parentConversation = [self getConversationWrap:parentChannel conversations:conversationWrapModels];
     if(parentConversation) {
+        [self handleProhibitwords:wrapModel];
         [parentConversation addOrUpdateChildren:wrapModel];
     }else{
         WKConversation *newParentConversation = [[WKConversation alloc] init];
         newParentConversation.channel = wrapModel.parentChannel;
         WKConversationWrapModel *parentConversationWrap = [[WKConversationWrapModel alloc] initWithConversation:newParentConversation];
+        [self handleProhibitwords:wrapModel];
         [parentConversationWrap addOrUpdateChildren:wrapModel];
         return parentConversationWrap;
     }
@@ -104,6 +127,7 @@ static WKConversationListVM *_instance;
     }
     for (WKConversationWrapModel *conversation in self.conversationWrapModels) {
         if([conversation.channel isEqual:wrapModel.parentChannel]) {
+            [self handleProhibitwords:wrapModel];
             [conversation addOrUpdateChildren:wrapModel];
             return conversation;
         }
@@ -111,6 +135,7 @@ static WKConversationListVM *_instance;
     WKConversation *parentConversation = [[WKConversation alloc] init];
     parentConversation.channel = wrapModel.parentChannel;
     WKConversationWrapModel *parentConversationWrap = [[WKConversationWrapModel alloc] initWithConversation:parentConversation];
+    [self handleProhibitwords:wrapModel];
     [parentConversationWrap addOrUpdateChildren:wrapModel];
     return parentConversationWrap;
 }
@@ -188,12 +213,14 @@ static WKConversationListVM *_instance;
      NSInteger index =[self indexAtChannel:channel];
     if(index!=-1) {
          // [_conversationsLock lock];
+        [self handleProhibitwords:model];
         [self.conversationWrapModels replaceObjectAtIndex:index withObject:model];
          // [_conversationsLock unlock];
     }
 }
 -(void) replaceObjectAtIndex:(NSInteger)index withObject:(WKConversationWrapModel*)model{
     // [self.conversationsLock lock];
+    [self handleProhibitwords:model];
     [self.conversationWrapModels replaceObjectAtIndex:index withObject:model];
     // [self.conversationsLock unlock];
 }
@@ -226,12 +253,14 @@ static WKConversationListVM *_instance;
         WKLogWarn(@"warn: conversationWrapModels数组大小->%ld insert的大小%ld",(long)self.conversationWrapModels.count,(long)insert);
         return;
     }
+    [self handleProhibitwords:model];
     [self.conversationWrapModels insertObject:model atIndex:insert];
    
     // [self.conversationsLock unlock];
 }
 
 -(NSInteger) insert:(WKConversationWrapModel*)model {
+    [self  handleProhibitwords:model];
     WKConversationWrapModel *conversationWrapModel = [self getRealShowConversationWrap:model];
     NSInteger insertPlace =  [self findInsertPlace:conversationWrapModel];
     [self.conversationWrapModels insertObject:conversationWrapModel atIndex:insertPlace];

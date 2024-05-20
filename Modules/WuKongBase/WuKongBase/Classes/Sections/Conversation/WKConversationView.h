@@ -9,6 +9,7 @@
 #import "WKMessageListView.h"
 #import "WKConversationVM.h"
 #import "WKRobotMenusListView.h"
+#import "WKConversationTopView.h"
 @class WKConversationView;
 @class WKConversationContextImpl;
 NS_ASSUME_NONNULL_BEGIN
@@ -41,11 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign) BOOL keepKeyboard; // 是否保持键盘状态
 
+
+// 最近会话顶部视图
+@property(nonatomic,strong) WKConversationTopView *topView;
+
 @property(nonatomic,strong) WKMessageListView *messageListView; // 消息列表
 
 @property(nonatomic,strong)  WKConversationInputPanel *input; // 输入框面板
 
-@property(nonatomic,strong,nullable) UIView *inputParentView; // 输入框的父视图（非必需）
+@property(nonatomic,strong,nullable) UIView *inputParentView; // 输入框的父视图（非必需）如果为空则表示当前view
 
 @property(nonatomic,assign) CGFloat tableOffsetY; // table Y轴的偏移量，使用完记得恢复为0
 

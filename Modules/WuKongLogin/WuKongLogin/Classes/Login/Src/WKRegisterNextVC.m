@@ -42,6 +42,11 @@
     [self.view addSubview:self.okBtn];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
+
 - (NSString *)langTitle {
     return LLang(@"完善个人资料");
 }

@@ -276,11 +276,11 @@
 //    __weak typeof(self) weakSelf = self;
     [[[WKSDK shared] chatManager] setSyncMessageExtraProvider:^(WKChannel * _Nonnull channel, long long extraVersion,NSInteger limit, WKSyncMessageExtraCallback  _Nonnull callback) {
         [[WKAPIClient sharedClient] POST:@"message/extra/sync" parameters:@{
-            @"channel_id": channel.channelId,
+            @"channel_id": channel.channelId?:@"",
             @"channel_type":@(channel.channelType),
             @"extra_version": @(extraVersion),
             @"limit": @(limit),
-            @"source":[WKApp shared].loginInfo.deviceUUID,
+            @"source":[WKApp shared].loginInfo.deviceUUID?:@"",
         }].then(^(NSArray<NSDictionary*> *results){
             NSMutableArray<WKMessageExtra*> *messageExtras = [NSMutableArray array];
             for (NSDictionary *result in results) {

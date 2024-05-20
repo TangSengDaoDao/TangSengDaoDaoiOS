@@ -22,6 +22,8 @@
 #import "WKMergeForwardContent.h"
 #import "WKScreenshotContent.h"
 #import "WKConversationView+Robot.h"
+
+
 @interface WKConversationView ()<WKConversationInputPanelDelegate,WKMultiplePanelDelegate>
 
 @property(nonatomic,strong) WKConversation *currentConversation; // 当前最近会话
@@ -84,6 +86,7 @@
     
 }
 
+
 - (UIView *)inputParentView {
     if(!_inputParentView) {
         return self;
@@ -116,9 +119,12 @@
     
     // 安装表情贴图
     [[WKStickerManager shared] setupIfNeed];
-
+    
+    [self addSubview:self.topView];
     
 }
+
+
 
 -(void) viewWillAppear {
     if(self.keepKeyboard) {
@@ -201,7 +207,12 @@
     if(otherPanel) {
         self.input.lim_top = self.inputParentView.lim_height;
         otherPanel.lim_top = self.inputParentView.lim_height - otherPanel.lim_height;
-        [self.messageListView adjustTableWithOffset:otherPanel.lim_height];
+        if(self.topView.hidden) {
+            [self.messageListView adjustTableWithOffset:otherPanel.lim_height];
+        }else {
+            [self.messageListView adjustTableWithOffset:otherPanel.lim_height + self.topView.lim_height];
+        }
+        
     }else {
         if(self.input.hidden) {
             self.input.lim_top = self.inputParentView.lim_height;
@@ -209,13 +220,31 @@
             self.input.lim_top = self.inputParentView.lim_height - self.input.lim_height;
         }
         if(self.tableOffsetY>0) {
-            [self.messageListView adjustTableWithOffset:self.tableOffsetY];
+            if(self.topView.hidden) {
+                [self.messageListView adjustTableWithOffset:self.tableOffsetY];
+            }else {
+                [self.messageListView adjustTableWithOffset:self.tableOffsetY + self.topView.lim_height];
+            }
+            
         }else {
-            [self.messageListView adjustTableWithOffset:self.input.lim_height];
+            if(self.topView.hidden) {
+                [self.messageListView adjustTableWithOffset:self.input.lim_height];
+            }else {
+                [self.messageListView adjustTableWithOffset:self.input.lim_height+self.topView.lim_height];
+            }
+           
         }
         
     }
-   
+    
+    if(!self.topView.hidden) {
+        self.messageListView.lim_top = self.topView.lim_height;
+        self.messageListView.lim_height = self.lim_height - self.topView.lim_height;
+    } else {
+        self.messageListView.lim_top = 0.0f;
+        self.messageListView.lim_height = self.lim_height;
+    }
+//   
     [self.messageListView layoutConversationPositionBarView];
     
     [self adjustRobotMenusIfNeed];
@@ -366,6 +395,15 @@
         _currentConversation = [[WKSDK shared].conversationManager getConversation:self.channel];
     }
     return _currentConversation;
+}
+
+
+- (WKConversationTopView *)topView {
+    if(!_topView) {
+        _topView = [[WKConversationTopView alloc] initWithFrame:CGRectMake(0.0, 0.0f, self.lim_width, 80.0f)];
+        _topView.backgroundColor =[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f];
+    }
+    return _topView;
 }
 
 - (WKMessageListView *)messageListView {

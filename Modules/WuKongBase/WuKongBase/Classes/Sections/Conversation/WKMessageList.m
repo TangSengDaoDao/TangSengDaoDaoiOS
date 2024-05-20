@@ -8,6 +8,7 @@
 #import "WKMessageList.h"
 #import "WKTimeTool.h"
 #import "WuKongBase.h"
+#import "WKProhibitwordsService.h"
 @interface WKMessageList ()
 
 @property(nonatomic,strong) NSLock *messagesLock;
@@ -26,6 +27,11 @@
 
 
 -(void) insertMessage:(WKMessageModel*)model {
+    if(model.contentType == WK_TEXT) {
+       WKTextContent *content = (WKTextContent*)model.content;
+        content.content = [WKProhibitwordsService.shared filter:content.content]; // 违禁词过滤
+    }
+    
     NSString *date = [self formatMessageDate:model];
     NSMutableArray *messages = self.dateMessageGroups[date];
     if(!messages) {
@@ -67,6 +73,8 @@
     [_messagesLock unlock];
 }
 -(void) addMessage:(WKMessageModel*)message {
+    
+    
     [self.messagesLock lock];
     WKMessageModel *typingMessageModel;
     WKMessageModel *lastMessage = [self lastMessage];
@@ -136,6 +144,7 @@
 
 // 替换最新的消息
 -(void) replaceMessageLast:(WKMessageModel*)model {
+    [self handleProhibitwords:model]; // 处理违禁词
     NSString *date = self.dates.lastObject;
     NSMutableArray *messages = self.dateMessageGroups[date];
     if(messages && messages.count>0) {
@@ -150,6 +159,7 @@
 
 
 -(NSIndexPath*) replaceMessage:(WKMessageModel*)newMessage atIndexPath:(NSIndexPath*)path {
+    [self handleProhibitwords:newMessage]; // 处理违禁词
     [_messagesLock lock];
     if(path) {
        NSMutableArray *messages =  self.dateMessageGroups[self.dates[path.section]];
@@ -175,6 +185,9 @@
 
 
 -(void) addMessageOnly:(WKMessageModel *)message {
+    
+    [self handleProhibitwords:message]; // 处理违禁词
+    
     NSString *date = [self formatMessageDate:message];
     NSMutableArray *messages = self.dateMessageGroups[date];
     if(!messages) {
@@ -184,6 +197,18 @@
     }
     [messages addObject:message];
     
+}
+
+-(void) handleProhibitwords:(WKMessageModel*)messageModel {
+    if(messageModel.contentType == WK_TEXT) {
+        if(messageModel.remoteExtra.isEdit) {
+            WKTextContent *content = (WKTextContent*)messageModel.remoteExtra.contentEdit;
+            content.content =[WKProhibitwordsService.shared filter:content.content]; // 违禁词过滤
+            return;
+        }
+        WKTextContent *content = (WKTextContent*)messageModel.content;
+        content.content = [WKProhibitwordsService.shared filter:content.content]; // 违禁词过滤
+    }
 }
 
 -(WKMessageModel*) lastMessage {

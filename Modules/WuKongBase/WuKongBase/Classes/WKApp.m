@@ -83,6 +83,8 @@
 #import <ZLPhotoBrowser/ZLPhotoBrowser-Swift.h>
 #import "WKSDWebImageDownloaderOperation.h"
 #import <Bugly/Bugly.h>
+#import "WKMyInviteCodeVC.h"
+#import "WKProhibitwordsService.h"
 
 @import FPSCounter.Swift;
 //#import <PINRemoteImage/PINImageView+PINRemoteImage.h>
@@ -582,7 +584,7 @@ static WKApp *_instance;
  @return <#return value description#>
  */
 -(BOOL) isLogined {
-    
+
     return [WKLoginInfo shared].token && ![[WKLoginInfo shared].token isEqualToString:@""];
 }
 
@@ -628,7 +630,7 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
     }];
     
     [WKApp shared].loginInfo.extra[@"enter_background_time"] = @([[NSDate date] timeIntervalSince1970]);
-    [[WKApp shared].loginInfo save];
+    
 //
 //    self.myTimer =[NSTimer scheduledTimerWithTimeInterval:1.0f
 //                            target:self
@@ -907,6 +909,10 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
 -(void) initPointMethods {
     
     __weak typeof(self) weakSelf = self;
+    
+    [self setMethod:WKPOINT_SYNC_PROHIBITWORDS handler:^id _Nullable(id  _Nonnull param) {
+        return WKProhibitwordsService.shared;
+    } category:WKPOINT_CATEGORY_SYNC];
     
     // 显示聊天UI
     [self setMethod:WKPOINT_CONVERSATION_SHOW handler:^id _Nullable(id  _Nonnull param) {
@@ -1414,6 +1420,17 @@ static  UIBackgroundTaskIdentifier _bgTaskToken;
              [[WKNavigationManager shared] pushViewController:[WKMePushSettingVC new] animated:YES];
         }];
     } category:WKPOINT_CATEGORY_ME sort:8000];
+    
+    // 我的邀请码
+    [self setMethod:WKPOINT_ME_INVITE handler:^id _Nullable(id  _Nonnull param) {
+        if(!WKApp.shared.remoteConfig.registerInviteOn) {
+            return nil;
+        }
+        return [WKMeItem initWithTitle:LLangW(@"我的邀请码",weakSelf) icon:[weakSelf imageName:@"Me/Index/IconInviteCode"] onClick:^{
+             [[WKNavigationManager shared] pushViewController:[WKMyInviteCodeVC new] animated:YES];
+        }];
+    } category:WKPOINT_CATEGORY_ME sort:7900];
+   
    
    
     // 通用

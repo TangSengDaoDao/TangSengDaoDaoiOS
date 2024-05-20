@@ -29,13 +29,18 @@ open class HighlightableButton: HighlightTrackingButton {
 open class HighlightTrackingButtonNode: ASButtonNode {
     private var internalHighlighted = false
     
-    public var highligthedChanged: (Bool) -> Void = { _ in }
+   @objc public var highligthedChanged: (Bool) -> Void = { _ in }
     
     private let pointerStyle: PointerStyle?
     private var pointerInteraction: PointerInteraction?
     
     public init(pointerStyle: PointerStyle? = nil) {
         self.pointerStyle = pointerStyle
+        super.init()
+    }
+    
+   override public init() {
+       self.pointerStyle = PointerStyle.default
         super.init()
     }
     

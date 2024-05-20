@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)toDic:(NSString *)jsonStr;
 
++(NSArray*) toArray:(NSString*)jsonStr;
+
 @end
 
 NS_ASSUME_NONNULL_END

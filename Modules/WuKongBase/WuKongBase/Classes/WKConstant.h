@@ -147,6 +147,9 @@
 // 发送视频
 #define WKPOINT_SEND_VIDEO @"panel.send.video"
 
+// 最近会话的顶部面板
+#define WKPOINT_CONVERSATION_TOP_PANEL @"conversation.top.panel"
+
 // ---------- 表情商店相关 ----------
 // 跳到表情商店
 #define WKPOINT_TO_STICKER_STORE @"to.sticker.store"
@@ -218,6 +221,9 @@
 // 安全与隐私
 #define WKPOINT_ME_SECURITY @"me.security"
 
+// 我的邀请码
+#define WKPOINT_ME_INVITE @"me.invite"
+
 // ---------- 通用设置 ----------
 
 #define WKPOINT_CATEGORY_COMMONSETTING @"commonsetting"
@@ -244,6 +250,8 @@
 #define WKPOINT_VIDEOCALL_SUPPORT_FNC @"videocall.support.fnc"
 // 同步联系人
 #define WKPOINT_SYNC_CONTACTS @"sync.contacts"
+// 同步违禁词
+#define WKPOINT_SYNC_PROHIBITWORDS @"sync.prohibitwords"
 
 #define WKPOINT_LABEL_DATA_LIST @"labels.data.list" // 标签数据列表
 #define WKPOINT_LABEL_UI_DETAIL @"labels.ui.detail" // 标签详情UI

@@ -26,6 +26,9 @@
 "用户协议"="User Agreement";
 "隐私政策"="Privacy Policy";
 
+
+
+
 "为了迁移您的本地聊天记录，需要把您的聊天记录上传到服务器以支持新设备下载；"="In order to migrate your local chat records, you need to upload your chat records to the server to support new device download;";
 "聊天记录会以不记名加密的方式存储在服务器；"="Chat records will be stored on the server in the form of anonymous encryption;";
 "为了防止信息泄露，服务器将会于每天的00:00删除当天所有用户上传的聊天记录；"="In order to prevent information disclosure, the server will delete the chat records uploaded by all users at 00:00 every day;";
@@ -559,3 +562,10 @@
 "再想想"="Think again";
 
 
+// WKMyInviteCodeVC
+
+"我的邀请码"="Invitation code";
+"复制"="Copy";
+"禁用"="Disable";
+"启用"="Enable";
+"复制成功"="Copy success";
