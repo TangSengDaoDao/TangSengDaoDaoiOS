@@ -1136,6 +1136,9 @@
     WKMessageBaseCell *baseCell = (WKMessageBaseCell*)cell;
     baseCell.conversationContext = [self.dataProvider conversationContext];
     messageModel.checkboxOn =self.multipleOn;
+    if([baseCell isKindOfClass:[WKMessageCell class]]) {
+        ((WKMessageCell*)baseCell).showNavigateToMessage = self.showNavigateToMessage;
+    }
     [baseCell refresh:messageModel];
     [baseCell onWillDisplay];
 

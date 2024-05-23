@@ -95,6 +95,9 @@
 // 长按菜单 - 消息回应
 #define WKPOINT_LONGMENUS_REACTIONS @"longmenus.reactions"
 
+// 长按菜单 - 置顶
+#define WKPOINT_LONGMENUS_PIN @"longmenus.pin"
+
 
 
 // ---------- 消息扩展 ----------

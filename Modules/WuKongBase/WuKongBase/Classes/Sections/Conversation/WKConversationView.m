@@ -179,6 +179,51 @@
     [self removeDelegates];
 }
 
+
+-(void) showTopView:(BOOL)show animated:(BOOL)animated{
+    if(!self.topView.hidden && show) {
+        return;
+    }
+    if(self.topView.hidden && !show) {
+        return;
+    }
+   
+    if(show) {
+        self.topView.alpha = 0.0f;
+    }else {
+        self.topView.alpha = 1.0f;
+    }
+    self.topView.hidden = NO;
+    
+    if(animated) {
+        [UIView animateWithDuration:0.2f animations:^{
+            if(show) {
+                self.topView.lim_top = 0.0f;
+                self.topView.alpha = 1.0f;
+            }else {
+                self.topView.lim_top = -self.topView.lim_height;
+                self.topView.alpha = 0.0f;
+            }
+           
+            [self layoutSubviews];
+        } completion:^(BOOL finished) {
+            self.topView.hidden = !show;
+            [self.topView layoutSubviews];
+        }];
+    }else {
+        if(show) {
+            self.topView.lim_top = 0.0f;
+            self.topView.alpha = 1.0f;
+        }else {
+            self.topView.lim_top = -self.topView.lim_height;
+            self.topView.alpha = 0.0f;
+        }
+        self.topView.hidden = !show;
+        [self layoutSubviews];
+    }
+    
+}
+
 -(void) addDelegates {
     // 长按菜单隐藏(长按菜单恢复到原来状态)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHideMenu:) name:UIMenuControllerDidHideMenuNotification object:nil];

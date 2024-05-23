@@ -149,6 +149,9 @@
 
 #import "WKMergeForwardDetailCell.h"
 
+#import "WKMessageList.h"
+#import "WKThemeUtil.h"
+
 #define LLang(a) [a Localized:self]
 #define LLangW(a,w) [a Localized:w]
 #define LLangC(a,c) [a LocalizedWithClass:c]

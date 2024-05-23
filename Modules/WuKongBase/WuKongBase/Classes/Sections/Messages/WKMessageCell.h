@@ -67,6 +67,8 @@ typedef enum :NSUInteger {
 // 发送失败按钮
 @property(nonatomic,strong) UIView *sendFailBtn;
 
+@property(nonatomic,assign) BOOL showNavigateToMessage; // 是否显示跳转到消息的按钮
+
 @property(nonatomic,strong) WKTrailingView *trailingView; // 消息尾部视图
 
 @property(nonatomic,assign) BOOL tailWrap; // 尾部是否wrap

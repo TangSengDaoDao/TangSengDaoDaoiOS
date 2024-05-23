@@ -173,6 +173,8 @@ NS_ASSUME_NONNULL_BEGIN
  编辑消息
  */
 -(void) editTo:(WKMessage*)message;
+
+
 // 正在编辑中的消息
 -(WKMessage*) editingMessage;
 
@@ -215,6 +217,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 可见的cell
 -(NSArray<UITableViewCell*>*) visibleCells;
 
+// 是否显示最近会话顶部视图
+-(void) showConversationTopView:(BOOL)show animated:(BOOL)animated;
+
 // 刷新输入框
 -(void) refreshInputView;
 
@@ -222,6 +227,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void) removeInputDelegate:(id<WKConversationInputDelegate>)delegate;
 
+// 导航到指定的消息
+-(void) navigateToMessage:(WKMessageModel*)message;
 
 @end
 

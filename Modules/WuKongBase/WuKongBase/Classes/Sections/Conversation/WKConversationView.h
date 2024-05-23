@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL keepKeyboard; // 是否保持键盘状态
 
 
-// 最近会话顶部视图
-@property(nonatomic,strong) WKConversationTopView *topView;
+
+@property(nonatomic,strong) WKConversationTopView *topView; // 最近会话顶部视图
 
 @property(nonatomic,strong) WKMessageListView *messageListView; // 消息列表
 
@@ -85,6 +85,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) NSArray<WKRobotMenus*> *robotMenus; // 机器人菜单
 @property(nonatomic,assign) BOOL robotInlineOn; // 是否开启了机器人行内搜索
 @property(nonatomic,strong) WKRobot *currentRobotInline; // 当前行内机器人
+
+// 显示顶部视图
+-(void) showTopView:(BOOL)show animated:(BOOL)animated;
 
 @end
 

@@ -19,6 +19,7 @@
 #define WKSecurityLockSize CGSizeMake(12.0f,12.0f)
 #define WKStatusLeft 2.0f // 状态icon左边距离
 #define WKSecurityLockRight 2.0f // 安全锁右边距离
+#define WKPinnedIconSize CGSizeMake(12.0f,12.0f) // 置顶的icon大小
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) UILabel *timeLbl; // 时间
 @property(nonatomic,strong) UIImageView *securityLockImgView; // 安全锁，有此锁说明消息进行了端对端加密
 @property(nonatomic,strong) UILabel *editTipLbl; // 编辑提醒
+
+@property(nonatomic,strong) UIImageView *pinnedImgView; // 置顶icon
 
 @property(nonatomic,assign) BOOL tailWrap; // 尾部是否wrap（是否包含背景框）
 

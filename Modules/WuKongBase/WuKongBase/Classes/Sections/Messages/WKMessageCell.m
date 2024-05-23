@@ -43,6 +43,8 @@ static NSMutableDictionary *flameNodeCacheDict;
 
 @property(nonatomic,strong) UILabel *errorLbl; // 消息发送错误原因
 
+@property(nonatomic,strong) UIButton *navigateToMessageBtn; // 跳到消息的按钮
+
 @property(nonatomic,strong) ContextControllerSourceNode *mainContainerNode;
 
 @property(nonatomic,strong) TapLongTapOrDoubleTapGestureRecognizerWrap *tapLongTapOrDoubleTapGestureRecognizerWrap;
@@ -235,6 +237,8 @@ static NSMutableDictionary *flameNodeCacheDict;
     self.mainContainerNode.targetNodeForActivationProgress = self.mainContextSourceNode.contentNode;
  
     [self.contentView addSubview:self.flameBox];
+    
+    [self.contentView addSubview:self.navigateToMessageBtn];
 }
 
 
@@ -264,6 +268,11 @@ static NSMutableDictionary *flameNodeCacheDict;
                 return;
             }
         }
+        if(!self.navigateToMessageBtn.hidden) {
+            if ([self navigateToMessageAtPoint:recognizer.tapPoint]) {
+                [self navigateToMessagePressed];
+            }
+        }
        
         [self endEditing];
     }
@@ -289,6 +298,10 @@ static NSMutableDictionary *flameNodeCacheDict;
 
 -(BOOL) sendFailAtPoint:(CGPoint)point {
     return CGRectContainsPoint(self.sendFailBtn.frame, point);
+}
+
+-(BOOL) navigateToMessageAtPoint:(CGPoint)point {
+    return CGRectContainsPoint(self.navigateToMessageBtn.frame, point);
 }
 
 
@@ -798,6 +811,13 @@ static NSMutableDictionary *flameNodeCacheDict;
     self.errorLbl.lim_top = self.bubbleBackgroundView.lim_bottom + errorTipTopSpace;
     
     [self layoutMainContextSourceNode];
+    
+    self.navigateToMessageBtn.lim_top = self.bubbleBackgroundView.lim_bottom - self.navigateToMessageBtn.lim_height;
+    if(self.messageModel.isSend) {
+        self.navigateToMessageBtn.lim_left = self.bubbleBackgroundView.lim_left - self.navigateToMessageBtn.lim_width - 8.0f;
+    } else {
+        self.navigateToMessageBtn.lim_left = self.bubbleBackgroundView.lim_right + 8.0f;
+    }
    
 }
 
@@ -1017,6 +1037,32 @@ static NSMutableDictionary *flameNodeCacheDict;
         
     }
     return _errorLbl;
+}
+
+- (UIButton *)navigateToMessageBtn {
+    if(!_navigateToMessageBtn) {
+        _navigateToMessageBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 28.0f, 28.0f)];
+        [_navigateToMessageBtn setImage:[self getImageNameForBaseModule:@"Conversation/Messages/NavigateToMessageIcon"] forState:UIControlStateNormal];
+        
+//        _navigateToMessageBtn.layer.masksToBounds = YES;
+        _navigateToMessageBtn.layer.cornerRadius = _navigateToMessageBtn.lim_height/2.0f;
+        [_navigateToMessageBtn setContentEdgeInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        _navigateToMessageBtn.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f];
+        _navigateToMessageBtn.hidden = !self.showNavigateToMessage;
+        _navigateToMessageBtn.userInteractionEnabled = NO;
+    }
+    return _navigateToMessageBtn;
+}
+
+-(void) navigateToMessagePressed {
+    if(self.conversationContext && [self.conversationContext respondsToSelector:@selector(navigateToMessage:)]) {
+        [self.conversationContext navigateToMessage:self.messageModel];
+    }
+}
+
+- (void)setShowNavigateToMessage:(BOOL)showNavigateToMessage {
+    _showNavigateToMessage = showNavigateToMessage;
+    self.navigateToMessageBtn.hidden = !_showNavigateToMessage;
 }
 
 -(UIImage*) getImageNameForBaseModule:(NSString*)name {

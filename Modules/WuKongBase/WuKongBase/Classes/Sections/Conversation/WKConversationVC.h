@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 定位的orderSeq （如果有值，则会定位到此order_seq的消息）
 @property(nonatomic,assign) uint32_t locationAtOrderSeq;
 
+// 显示最近会话的顶部视图
+-(void) showTopView:(BOOL)show;
+
 @end
 
 NS_ASSUME_NONNULL_END

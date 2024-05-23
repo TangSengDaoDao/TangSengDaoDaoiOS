@@ -30,10 +30,11 @@
 -(void) setupUI {
     
     [self addSubview:self.trailingContentView];
+    [self.trailingContentView addSubview:self.securityLockImgView];
+    [self.trailingContentView addSubview:self.pinnedImgView];
     [self.trailingContentView addSubview:self.editTipLbl];
     [self.trailingContentView addSubview:self.timeLbl];
     [self.trailingContentView addSubview:self.statusImgView];
-    [self.trailingContentView addSubview:self.securityLockImgView];
     
 }
 
@@ -59,6 +60,7 @@
     self.messageModel = messageModel;
     
     self.securityLockImgView.hidden = YES;
+    self.pinnedImgView.hidden = !messageModel.remoteExtra.isPinned;
     
     self.editTipLbl.hidden = !messageModel.remoteExtra.isEdit;
     [self.editTipLbl sizeToFit];
@@ -94,6 +96,8 @@
     self.timeLbl.textColor = color;
     self.securityLockImgView.tintColor = color;
     self.editTipLbl.textColor = color;
+    
+    self.pinnedImgView.tintColor = color;
 }
 
 
@@ -106,11 +110,14 @@
     
     CGFloat timeWidth = [self  getWidthWithText:timeStr height:WKTimeHeight font:WKTimeFontSize];
     
-    CGFloat trailingWidth = WKSecurityLockSize.width + WKSecurityLockRight + timeWidth + WKStatusLeft + WKStatusSize.width;
+    CGFloat trailingWidth = WKPinnedIconSize.width + WKSecurityLockSize.width + WKSecurityLockRight + timeWidth + WKStatusLeft + WKStatusSize.width;
     CGFloat trailingHeight = WKTimeHeight;
     
     bool hasStatus = false; // 是否有状态icon
     bool hasSecurityLock = false;
+    if(!model.remoteExtra.isPinned) {
+        trailingWidth -= WKPinnedIconSize.width;
+    }
     if(model.isSend) {
         hasStatus = true;
     }
@@ -146,34 +153,59 @@
 
 -(void) layoutTrailingView {
   
-
     self.trailingContentView.lim_size = [[self class] size:self.messageModel];
     
-    self.editTipLbl.lim_left = 0.0f;
+    UIView *preview;
+    for (UIView *subview in self.trailingContentView.subviews) {
+        if(subview.hidden) {
+            continue;
+        }
+        subview.lim_centerY_parent = self.trailingContentView;
+        if(preview) {
+            subview.lim_left = preview.lim_right + WKTimeLeftSpace;
+        }else {
+            subview.lim_left = 0.0f;
+        }
+        preview = subview;
+        
+    }
 
-    if(self.editTipLbl.hidden) {
-        self.securityLockImgView.lim_left = 0.0f;
-    }else {
-        self.securityLockImgView.lim_left = self.editTipLbl.lim_right;
-    }
-   
-    self.securityLockImgView.lim_centerY_parent = self.trailingContentView;
-    self.editTipLbl.lim_centerY_parent = self.trailingContentView;
-    self.editTipLbl.lim_top += 1.0f;
-    
-    if(self.securityLockImgView.hidden) {
-        self.timeLbl.lim_left = 0.0f;
-    }else{
-        self.timeLbl.lim_left = self.securityLockImgView.lim_right + WKSecurityLockRight;
-    }
-    if(!self.editTipLbl.hidden) {
-        self.timeLbl.lim_left = self.editTipLbl.lim_right + WKTimeLeftSpace;
-    }
-   
-    self.timeLbl.lim_top = self.trailingContentView.lim_height/2.0f - self.timeLbl.lim_height/2.0f;
-    
-    self.statusImgView.lim_left = self.timeLbl.lim_right + WKStatusLeft;
-    self.statusImgView.lim_top = self.trailingContentView.lim_height/2.0f -  self.statusImgView.lim_height/2.0f;
+//    self.trailingContentView.lim_size = [[self class] size:self.messageModel];
+//    
+//    // pinned
+//    self.pinnedImgView.lim_left = 0.0f;
+//    self.pinnedImgView.lim_centerY_parent = self.trailingContentView;
+//    if(self.pinnedImgView.hidden) {
+//        self.editTipLbl.lim_left = 0.0f;
+//    }else {
+//        self.editTipLbl.lim_left = self.pinnedImgView.lim_right + WKTimeLeftSpace;
+//    }
+//    
+//
+//    if(self.editTipLbl.hidden) {
+//        self.securityLockImgView.lim_left = 0.0f;
+//    }else {
+//        self.securityLockImgView.lim_left = self.editTipLbl.lim_right;
+//    }
+//   
+//    self.securityLockImgView.lim_centerY_parent = self.trailingContentView;
+//    self.editTipLbl.lim_centerY_parent = self.trailingContentView;
+//    self.editTipLbl.lim_top += 1.0f;
+//    
+//    
+//    if(self.securityLockImgView.hidden) {
+//        self.timeLbl.lim_left = 0.0f;
+//    }else{
+//        self.timeLbl.lim_left = self.securityLockImgView.lim_right + WKSecurityLockRight;
+//    }
+//    if(!self.editTipLbl.hidden) {
+//        self.timeLbl.lim_left = self.editTipLbl.lim_right + WKTimeLeftSpace;
+//    }
+//   
+//    self.timeLbl.lim_top = self.trailingContentView.lim_height/2.0f - self.timeLbl.lim_height/2.0f;
+//    
+//    self.statusImgView.lim_left = self.timeLbl.lim_right + WKStatusLeft;
+//    self.statusImgView.lim_top = self.trailingContentView.lim_height/2.0f -  self.statusImgView.lim_height/2.0f;
     
 }
 
@@ -253,6 +285,16 @@
     }
     return _timeLbl;
 }
+
+- (UIImageView *)pinnedImgView {
+    if(!_pinnedImgView) {
+        _pinnedImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, WKPinnedIconSize.width, WKPinnedIconSize.height)];
+        UIImage *img = [self getImageNameForBaseModule:@"Conversation/Messages/Pinned"];
+        _pinnedImgView.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+    return _pinnedImgView;
+}
+
 +(CGFloat)getWidthWithText:(NSString*)text height:(CGFloat)height font:(CGFloat)font{
     CGRect rect = [text boundingRectWithSize:CGSizeMake(MAXFLOAT, height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil];
     return rect.size.width;

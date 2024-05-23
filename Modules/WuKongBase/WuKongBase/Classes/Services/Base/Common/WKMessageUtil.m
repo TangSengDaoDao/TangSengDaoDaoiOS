@@ -234,6 +234,9 @@
     if(dataDict[@"is_mutual_deleted"]) {
         messageExtra.isMutualDeleted = [dataDict[@"is_mutual_deleted"] boolValue];
     }
+    if(dataDict[@"is_pinned"]) {
+        messageExtra.isPinned = [dataDict[@"is_pinned"] boolValue];
+    }
     
     NSDictionary *payloadDict;
     NSData *planPayloadData;

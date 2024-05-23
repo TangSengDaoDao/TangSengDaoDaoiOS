@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign) BOOL scrollEnabled; // 是否启用滚动
 
+@property(nonatomic,assign) BOOL showNavigateToMessage; // 是否显示跳到消息的按钮
+
 // --------------------------------- 共享属性 ---------------------------------
 
 @property(nonatomic,assign) BOOL positionAtBottom; // 当前滑动位置是否在最底部

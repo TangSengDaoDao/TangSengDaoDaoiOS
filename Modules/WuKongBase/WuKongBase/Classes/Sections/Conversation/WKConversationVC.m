@@ -85,14 +85,14 @@
     
     // 获取注入的顶部面板
    UIView *topPanel = [WKApp.shared invoke:WKPOINT_CONVERSATION_TOP_PANEL param:@{@"channel":self.channel,@"context":self.conversationView.conversationContext}];
+    self.conversationView.topView.hidden = YES;
+    self.conversationView.topView.lim_top = -self.conversationView.topView.lim_height;
     if(topPanel) {
-        self.conversationView.topView.hidden = NO;
         self.conversationView.topView.lim_height = topPanel.lim_height;
         [self.conversationView.topView addSubview:topPanel];
-    }else {
-        self.conversationView.topView.hidden = YES;
     }
 }
+
 
 -(void) addDelegates {
     [[WKSDK shared].channelManager addDelegate:self]; // 频道数据监听

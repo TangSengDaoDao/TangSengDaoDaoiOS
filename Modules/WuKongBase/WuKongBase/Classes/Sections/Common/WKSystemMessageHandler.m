@@ -71,8 +71,12 @@ static WKSystemMessageHandler *_instance = nil;
 - (void)onKick:(uint8_t)reasonCode reason:(NSString *)reason {
     [[WKApp shared] logout];
     
+    NSString *tip = reason;
+    if(reasonCode == WK_REASON_KICK) {
+        tip = LLang(@"账号已在其他设备上登录！");
+    }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:LLang(@"提示") message:LLang(@"账号已在其他设备上登录！") preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:LLang(@"提示") message:tip preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:LLang(@"好的") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
              

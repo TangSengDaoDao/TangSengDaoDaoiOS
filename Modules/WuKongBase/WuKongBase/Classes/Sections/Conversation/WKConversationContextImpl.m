@@ -37,11 +37,11 @@
 
 
 // ---------- 长按菜单 ----------
-@property(nonatomic,strong) WKContextMenusVC *messageActionsVC;
-@property(nonatomic,strong) UILongPressGestureRecognizer *messageActionLongPressGesture;
+//@property(nonatomic,strong) WKContextMenusVC *messageActionsVC;
+//@property(nonatomic,strong) UILongPressGestureRecognizer *messageActionLongPressGesture;
 
 ///避免多个cell同时长按
-@property (nonatomic,assign)BOOL messageActionsVCIsShow;
+//@property (nonatomic,assign)BOOL messageActionsVCIsShow;
 
 
 
@@ -139,6 +139,10 @@
         return true;
     }
     return false;
+}
+
+-(void) showConversationTopView:(BOOL)show animated:(BOOL)animated{
+    [self.conversationView showTopView:show animated:animated];
 }
 
 
@@ -244,6 +248,8 @@
     return [self.conversationView.messageListView visibleCells];
 }
 
+
+
 /// 添加@
 /// @param uid 被@人的uid
 -(void) addMention:(NSString *)uid{
@@ -295,7 +301,6 @@
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     NSArray *results = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
-    NSMutableArray *matchs = [[NSMutableArray alloc] init];
     return results;
 }
 

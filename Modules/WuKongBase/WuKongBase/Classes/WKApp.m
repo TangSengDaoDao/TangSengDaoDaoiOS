@@ -234,7 +234,7 @@ static WKApp *_instance;
 -(void) traceConfig {
     BuglyConfig *config = [[BuglyConfig alloc] init];
 #ifndef __OPTIMIZE__ // DEBUG模式
-    config.debugMode = true;
+    config.debugMode = false;
     config.blockMonitorEnable = false;
     config.reportLogLevel = BuglyLogLevelDebug;
 #else
