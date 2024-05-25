@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(void) alert:(NSString*)msg buttonsStatement:(NSArray<NSString*>*)arrayItems chooseBlock:(void (^)(NSInteger buttonIdx))block;
 
++(void) alert:(NSString*)msg targetVC:(UIViewController*)targetVC buttonsStatement:(NSArray<NSString*>*)arrayItems chooseBlock:(void (^)(NSInteger buttonIdx))block;
 
 
 @end

@@ -83,12 +83,15 @@ public class AnimatedCountLabelNode: ASDisplayNode {
         super.init()
     }
     
-    @objc public func setPinnedTitle(left:CGFloat,width:CGFloat,title:String,index:Int) {
+    @objc public func setPinnedTitle(left:CGFloat,width:CGFloat,title:String,index:Int,showNum:Bool) {
        var titleStrings: [AnimatedCountLabelNode.Segment] = []
-       titleStrings.append(.text(0, NSAttributedString(string:title, font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
-        titleStrings.append(.text(1, NSAttributedString(string: " #", font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
-        titleStrings.append(.number(index + 1, NSAttributedString(string: "\(index + 1)", font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
-       
+        titleStrings.append(.text(0, NSAttributedString(string:title, font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
+        if(showNum) {
+            titleStrings.append(.text(1, NSAttributedString(string: " #", font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
+            titleStrings.append(.number(index + 1, NSAttributedString(string: "\(index + 1)", font: Font.medium(15.0), textColor: WKApp.shared().config.themeColor)))
+           
+        }
+        
        let makeTitleLayout = self.asyncLayout()
        let (titleLayout, titleApply) = makeTitleLayout(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), titleStrings)
        titleApply(true)
