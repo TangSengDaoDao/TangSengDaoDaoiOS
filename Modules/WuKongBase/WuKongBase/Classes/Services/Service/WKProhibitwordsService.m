@@ -110,7 +110,7 @@ static WKProhibitwordsService *_instance = nil;
                   
 - (NSString *)filter:(NSString *)message replaceKey:(NSString *)replaceKey{
     replaceKey = replaceKey == nil ? @"*" : replaceKey;
-    message = message.lowercaseString;
+//   NSString  *message = msg.lowercaseString;
     NSMutableArray *retArray = [[NSMutableArray alloc] init];
     NSInteger start = 0;
     while (start < message.length) {
