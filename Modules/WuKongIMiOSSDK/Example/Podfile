@@ -1,0 +1,42 @@
+use_frameworks!
+
+platform :ios, '12.0'
+
+
+post_install do |installer|
+    # 填写你自己的开发者团队的team id
+    dev_team = "H8PU463W68"
+    project = installer.aggregate_targets[0].user_project
+    project.targets.each do |target|
+        target.build_configurations.each do |config|
+            if dev_team.empty? and !config.build_settings['DEVELOPMENT_TEAM'].nil?
+                dev_team = config.build_settings['DEVELOPMENT_TEAM']
+            end
+        end
+    end
+    
+    # Fix bundle targets' 'Signing Certificate' to 'Sign to Run Locally'
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+              config.build_settings['DEVELOPMENT_TEAM'] = dev_team
+            end
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+            config.build_settings['ENABLE_BITCODE'] = 'NO'
+        end
+        
+    end
+end
+
+
+target 'WuKongIMSDK_Example' do
+  pod 'WuKongIMSDK', :path => '../'
+  pod 'AFNetworking', '~> 4.0'
+  pod 'MBProgressHUD', '~> 1.1.0'
+  pod 'MJRefresh', '~> 3.7.5'
+  target 'WuKongIMSDK_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

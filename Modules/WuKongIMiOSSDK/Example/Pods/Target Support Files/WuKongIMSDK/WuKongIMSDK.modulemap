@@ -1,0 +1,6 @@
+framework module WuKongIMSDK {
+  umbrella header "WuKongIMSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

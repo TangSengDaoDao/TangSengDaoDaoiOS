@@ -1,0 +1,6 @@
+framework module _25519 {
+  umbrella header "25519-umbrella.h"
+
+  export *
+  module * { export * }
+}
