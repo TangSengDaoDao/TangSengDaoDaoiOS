@@ -1,4 +1,4 @@
 
 ## 文档地址
 
-https://tangsengdaodao.com/dev/ios/intro.html
+https://tsdaodao.com/dev/ios/intro.html
