@@ -196,6 +196,7 @@
     }else {
         self.footerHeader.hidden = YES;
     }
+
     
     if(self.viewModel.fromChannelInfo && ![self isFriend] && [self forbiddenAddFriend] && ![self isGroupManager]) {
         self.footerHeader.hidden = YES;
@@ -213,6 +214,13 @@
 
 -(BOOL) hasVercode {
     return self.vercode && ![self.vercode isEqualToString:@""];
+}
+
+- (NSString *)vercode {
+    if(!_vercode || [_vercode isEqualToString:@""]) {
+        _vercode = [self.viewModel.channelInfo extraValueForKey:WKChannelExtraKeyVercode];
+    }
+    return _vercode;
 }
 
 -(BOOL) isSelf {
