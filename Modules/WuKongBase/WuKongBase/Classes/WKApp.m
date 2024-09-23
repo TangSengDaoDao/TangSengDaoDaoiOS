@@ -316,6 +316,8 @@ static WKApp *_instance;
     // 配置IM SDK
     [WKSDK shared].connectURL =self.config.connectURL;
     
+    WKSDK.shared.options.syncChannelMessageLimit = [WKApp shared].config.eachPageMsgLimit;
+    
     // 设置IM连接信息回调（当IM需要取连接信息时会调用此方法）
     __weak typeof(self) weakSelf = self;
     [[WKSDK shared].options setConnectInfoCallback:^WKConnectInfo * _Nonnull{

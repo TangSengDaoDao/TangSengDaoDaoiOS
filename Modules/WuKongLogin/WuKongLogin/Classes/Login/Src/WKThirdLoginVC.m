@@ -23,7 +23,7 @@ API_AVAILABLE(ios(13.0))
 @property(nonatomic,strong) UIButton *giteeBtn;
 @property(nonatomic,strong) UIButton *githubBtn;
 
-@property(nonatomic,strong) UIButton *settingBtn; // 服务器设置
+//@property(nonatomic,strong) UIButton *settingBtn; // 服务器设置
 
 @end
 
@@ -36,7 +36,7 @@ API_AVAILABLE(ios(13.0))
     [self.view addSubview:self.tipLbl];
     [self.view addSubview:self.giteeBtn];
     [self.view addSubview:self.githubBtn];
-    [self.view addSubview:self.settingBtn];
+//    [self.view addSubview:self.settingBtn];
     
     
     [self layout];
@@ -116,18 +116,18 @@ API_AVAILABLE(ios(13.0))
     }
     return _githubBtn;
 }
-- (UIButton *)settingBtn {
-    if(!_settingBtn) {
-        _settingBtn = [[UIButton alloc] init];
-        _settingBtn.lim_size = CGSizeMake(32.0f, 32.0f);
-        [_settingBtn setImage:[self image:@"Setting"] forState:UIControlStateNormal];
-        
-        _settingBtn.lim_top = WKApp.shared.config.visibleEdgeInsets.top + 20.0f;
-        _settingBtn.lim_left = self.view.lim_width - _settingBtn.lim_width - 20.0f;
-        [_settingBtn addTarget:self action:@selector(settingPressed) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _settingBtn;
-}
+//- (UIButton *)settingBtn {
+//    if(!_settingBtn) {
+//        _settingBtn = [[UIButton alloc] init];
+//        _settingBtn.lim_size = CGSizeMake(32.0f, 32.0f);
+//        [_settingBtn setImage:[self image:@"Setting"] forState:UIControlStateNormal];
+//        
+//        _settingBtn.lim_top = WKApp.shared.config.visibleEdgeInsets.top + 20.0f;
+//        _settingBtn.lim_left = self.view.lim_width - _settingBtn.lim_width - 20.0f;
+//        [_settingBtn addTarget:self action:@selector(settingPressed) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _settingBtn;
+//}
 
 -(void) settingPressed {
     WKLoginSettingVC *vc = [WKLoginSettingVC new];

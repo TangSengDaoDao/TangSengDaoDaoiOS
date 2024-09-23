@@ -78,7 +78,7 @@
         // 数据每页默认请求大小
         self.pageSize = 20;
         // 每页消息数量
-        self.eachPageMsgLimit = 20;
+        self.eachPageMsgLimit = 30;
         CGRect statusFrame = [UIApplication sharedApplication].statusBarFrame;
         if (@available(iOS 11.0, *)) {
             UIEdgeInsets safeAreaInsets = [UIApplication sharedApplication].keyWindow.safeAreaInsets;

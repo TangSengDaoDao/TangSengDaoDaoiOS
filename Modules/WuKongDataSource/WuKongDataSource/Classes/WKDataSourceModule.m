@@ -168,7 +168,7 @@
             @"version": @(version),
             @"device_uuid": [WKApp shared].loginInfo.deviceUUID,
             @"last_msg_seqs": lastMsgSeqs?:@"",
-            @"msg_count":@([WKSDK shared].options.syncChannelMessageLimit),
+            @"msg_count":@([WKApp shared].config.eachPageMsgLimit),
         }].then(^(NSDictionary* dict){
             
             // ---------- conversation  ----------

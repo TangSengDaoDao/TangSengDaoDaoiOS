@@ -823,7 +823,6 @@
 // 结束滚动
 -(void) endScroll:(UIScrollView*)scrollView {
     self.scrolling = false;
-    NSLog(@"滚动结束。。。。。");
 }
 
 - (void)reloadData {
@@ -1203,7 +1202,6 @@
     [self scrollViewDidScrollOfPosition:scrollView];
     
     CGFloat offset = self.tableView.contentSize.height - (self.tableView.contentOffset.y + self.tableView.lim_height);
-    NSLog(@"offset---->%0.2f",offset);
 }
 
 
@@ -1362,7 +1360,6 @@
          }
      }
     if(tableOffset!=0) {
-        NSLog(@"tableOffset---->%0.2f",tableOffset);
         CGFloat offsetY = self.tableView.contentOffset.y - tableOffset;// 离底部的距离
         [self.tableView setContentOffset:CGPointMake(0, offsetY)];
     }

@@ -577,7 +577,7 @@
 
 
 +(CGSize) getReplyNameSize:(WKMessageModel *)message {
-    return [self getTextSize:message.content.reply.fromName maxWidth:[WKApp shared].config.messageContentMaxWidth - 20*2 fontSize:replyNameFontSize];
+    return [self getTextSize:message.content.reply.fromName?:@"" maxWidth:[WKApp shared].config.messageContentMaxWidth - 20*2 fontSize:replyNameFontSize];
 }
 
 +(CGSize) getReplyContentSize:(WKMessageModel *)message {

@@ -16,8 +16,8 @@
 #import "SELUpdateAlert.h"
 
 
-#define SERVER_IP @"api.botgate.cn"
-#define HTTPS_ON true // https开关
+#define SERVER_IP @"62.234.8.38:8091"
+#define HTTPS_ON false // https开关
 
 
 #define BASE_URL [NSString stringWithFormat:@"%@://%@/v1/",HTTPS_ON?@"https":@"http",SERVER_IP]
