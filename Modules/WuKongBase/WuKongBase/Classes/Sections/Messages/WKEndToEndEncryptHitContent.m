@@ -9,8 +9,8 @@
 #import "WKConstant.h"
 @implementation WKEndToEndEncryptHitContent
 
-+ (NSInteger)contentType {
-    return WK_ENDTOEND_ENCRYPT_HIT;
++ (NSNumber*)contentType {
+    return @(WK_ENDTOEND_ENCRYPT_HIT);
 }
 
 @end

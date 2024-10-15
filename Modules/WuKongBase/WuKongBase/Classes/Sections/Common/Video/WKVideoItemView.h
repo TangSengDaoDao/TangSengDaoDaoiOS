@@ -11,38 +11,38 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WKVideoView;
+@class WKVideoItemView;
 
-@protocol WKVideoViewDelegate <NSObject>
+@protocol WKVideoItemViewDelegate <NSObject>
 @required
 
-- (BOOL)yb_isFreezingForVideoView:(WKVideoView *)view;
+- (BOOL)yb_isFreezingForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_preparePlayForVideoView:(WKVideoView *)view;
+- (void)yb_preparePlayForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_startPlayForVideoView:(WKVideoView *)view;
+- (void)yb_startPlayForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_finishPlayForVideoView:(WKVideoView *)view;
+- (void)yb_finishPlayForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_didPlayToEndTimeForVideoView:(WKVideoView *)view;
+- (void)yb_didPlayToEndTimeForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_playFailedForVideoView:(WKVideoView *)view;
+- (void)yb_playFailedForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_respondsToTapGestureForVideoView:(WKVideoView *)view;
+- (void)yb_respondsToTapGestureForVideoView:(WKVideoItemView *)view;
 
-- (void)yb_cancelledForVideoView:(WKVideoView *)view;
+- (void)yb_cancelledForVideoView:(WKVideoItemView *)view;
 
-- (CGSize)yb_containerSizeForVideoView:(WKVideoView *)view;
+- (CGSize)yb_containerSizeForVideoView:(WKVideoItemView *)view;
 
 - (void)yb_autoPlayCountChanged:(NSUInteger)count;
 
 @end
 
-@interface WKVideoView : UIView
+@interface WKVideoItemView : UIView
 
 @property (nonatomic, strong) UIImageView *thumbImageView;
 
-@property (nonatomic, weak) id<WKVideoViewDelegate> delegate;
+@property (nonatomic, weak) id<WKVideoItemViewDelegate> delegate;
 
 - (void)updateLayoutWithExpectOrientation:(UIDeviceOrientation)orientation containerSize:(CGSize)containerSize;
 

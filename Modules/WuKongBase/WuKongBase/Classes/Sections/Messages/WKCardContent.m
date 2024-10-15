@@ -37,8 +37,8 @@
 }
 
 
-+(NSInteger) contentType {
-    return WK_CARD;
++(NSNumber*) contentType {
+    return @(WK_CARD);
 }
 
 

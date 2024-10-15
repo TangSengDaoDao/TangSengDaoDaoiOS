@@ -9,8 +9,8 @@
 
 @implementation WKEmojiStickerContent
 
-+(NSInteger) contentType {
-    return WK_EMOJI_STICKER;
++(NSNumber*) contentType {
+    return @(WK_EMOJI_STICKER);
 }
 
 @end

@@ -40,7 +40,7 @@
 @end
 
 
-@interface WKVideoCell () <WKVideoDataDelegate, WKVideoViewDelegate, UIGestureRecognizerDelegate>
+@interface WKVideoCell () <WKVideoDataDelegate, WKVideoItemViewDelegate, UIGestureRecognizerDelegate>
 @end
 
 @implementation WKVideoCell {
@@ -310,11 +310,11 @@
 
 #pragma mark - <YBIBVideoViewDelegate>
 
-- (BOOL)yb_isFreezingForVideoView:(WKVideoView *)view {
+- (BOOL)yb_isFreezingForVideoView:(WKVideoItemView *)view {
     return self.yb_isTransitioning();
 }
 
-- (void)yb_preparePlayForVideoView:(WKVideoView *)view {
+- (void)yb_preparePlayForVideoView:(WKVideoItemView *)view {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (!view.isPlaying && !view.isPlayFailed && self.yb_selfPage() == self.yb_currentPage()) {
             [self.yb_auxiliaryViewHandler() yb_showLoadingWithContainer:self];
@@ -322,13 +322,13 @@
     });
 }
 
-- (void)yb_startPlayForVideoView:(WKVideoView *)view {
+- (void)yb_startPlayForVideoView:(WKVideoItemView *)view {
     self.videoView.thumbImageView.hidden = YES;
     [self.yb_backView ybib_videoPlayingAdd:self];
     [self.yb_auxiliaryViewHandler() yb_hideLoadingWithContainer:self];
 }
 
-- (void)yb_didPlayToEndTimeForVideoView:(WKVideoView *)view {
+- (void)yb_didPlayToEndTimeForVideoView:(WKVideoItemView *)view {
     WKVideoData *data = (WKVideoData *)self.yb_cellData;
     if (data.repeatPlayCount == NSUIntegerMax) {
         [view preparPlay];
@@ -340,17 +340,17 @@
     }
 }
 
-- (void)yb_finishPlayForVideoView:(WKVideoView *)view {
+- (void)yb_finishPlayForVideoView:(WKVideoItemView *)view {
     [self.yb_backView ybib_videoPlayingRemove:self];
     [self hideToolViews:NO];
 }
 
-- (void)yb_playFailedForVideoView:(WKVideoView *)view {
+- (void)yb_playFailedForVideoView:(WKVideoItemView *)view {
     [self.yb_auxiliaryViewHandler() yb_hideLoadingWithContainer:self];
     [self.yb_auxiliaryViewHandler() yb_showIncorrectToastWithContainer:self text:YBIBCopywriter.sharedCopywriter.videoError];
 }
 
-- (void)yb_respondsToTapGestureForVideoView:(WKVideoView *)view {
+- (void)yb_respondsToTapGestureForVideoView:(WKVideoItemView *)view {
     if (self.yb_isRotating()) return;
     
     WKVideoData *data = self.yb_cellData;
@@ -361,13 +361,13 @@
     }
 }
 
-- (void)yb_cancelledForVideoView:(WKVideoView *)view {
+- (void)yb_cancelledForVideoView:(WKVideoItemView *)view {
     if (self.yb_isRotating()) return;
     
     [self hideBrowser];
 }
 
-- (CGSize)yb_containerSizeForVideoView:(WKVideoView *)view {
+- (CGSize)yb_containerSizeForVideoView:(WKVideoItemView *)view {
     return self.yb_containerSize(self.yb_currentOrientation());
 }
 
@@ -504,9 +504,9 @@
 
 #pragma mark - getters & setters
 
-- (WKVideoView *)videoView {
+- (WKVideoItemView *)videoView {
     if (!_videoView) {
-        _videoView = [WKVideoView new];
+        _videoView = [WKVideoItemView new];
         _videoView.delegate = self;
     }
     return _videoView;

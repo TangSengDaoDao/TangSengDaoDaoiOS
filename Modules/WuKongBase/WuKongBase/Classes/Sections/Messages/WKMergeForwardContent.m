@@ -93,8 +93,8 @@
     return messageDict;
 }
 
-+(NSInteger) contentType {
-    return WK_MERGEFORWARD;
++(NSNumber*) contentType {
+    return @(WK_MERGEFORWARD);
 }
 
 - (NSString *)conversationDigest {

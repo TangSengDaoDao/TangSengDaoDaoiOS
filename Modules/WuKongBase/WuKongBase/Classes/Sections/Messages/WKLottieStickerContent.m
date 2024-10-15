@@ -35,8 +35,8 @@
     return @".lim";
 }
 
-+(NSInteger) contentType {
-    return WK_LOTTIE_STICKER;
++(NSNumber*) contentType {
+    return @(WK_LOTTIE_STICKER);
 }
 
 - (NSString *)conversationDigest {

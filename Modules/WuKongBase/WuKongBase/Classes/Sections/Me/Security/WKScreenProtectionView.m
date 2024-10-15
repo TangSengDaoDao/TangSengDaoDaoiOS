@@ -19,10 +19,9 @@
 
 - (instancetype)init
 {
-    self = [super init];
+    UIBlurEffect* blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self = [super initWithEffect:blur];
     if (self) {
-        UIBlurEffect* blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        self = [super initWithEffect:blur];
         self.frame =  [UIScreen mainScreen].bounds;
         [self.contentView addSubview:self.logoImgView];
         [self.contentView addSubview:self.securityTipLbl];

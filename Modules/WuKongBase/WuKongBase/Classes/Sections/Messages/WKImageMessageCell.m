@@ -45,6 +45,12 @@
     }
     
     CGSize size = [UIImage lim_sizeWithImageOriginSize:CGSizeMake(imageContent.width, imageContent.height)];
+    if(size.height <= 0) {
+        size.height = 80.0f;
+    }
+    if(size.width <= 0) {
+        size.width = 80.0f;
+    }
     
     CGFloat minWidth = 150.f;
     CGFloat minHeight = 150.0f;

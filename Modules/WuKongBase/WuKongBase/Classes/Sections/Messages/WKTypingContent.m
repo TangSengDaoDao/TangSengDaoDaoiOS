@@ -10,7 +10,7 @@
 @implementation WKTypingContent
 
 
-+(NSInteger) contentType {
-    return WK_TYPING;
++(NSNumber*) contentType {
+    return @(WK_TYPING);
 }
 @end

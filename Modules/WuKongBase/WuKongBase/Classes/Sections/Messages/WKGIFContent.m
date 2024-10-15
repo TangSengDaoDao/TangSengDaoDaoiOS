@@ -31,8 +31,8 @@
     return dataDict;
 }
 
-+(NSInteger) contentType {
-    return WK_GIF;
++(NSNumber*) contentType {
+    return @(WK_GIF);
 }
 
 - (NSString *)conversationDigest {

@@ -10,8 +10,8 @@
 @implementation WKHistorySplitTipContent
 
 
-+(NSInteger) contentType {
-    return WK_HISTORY_SPLIT;
++(NSNumber*) contentType {
+    return @(WK_HISTORY_SPLIT);
 }
 
 - (NSInteger)realContentType {

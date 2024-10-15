@@ -45,7 +45,7 @@
     return self.tip;
 }
 
-+ (NSInteger)contentType {
-    return WK_SCREENSHOT;
++ (NSNumber*)contentType {
+    return @(WK_SCREENSHOT);
 }
 @end

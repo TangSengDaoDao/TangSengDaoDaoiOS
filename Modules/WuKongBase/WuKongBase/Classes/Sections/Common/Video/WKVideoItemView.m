@@ -7,20 +7,20 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import "WKVideoView.h"
+#import "WKVideoItemView.h"
 #import "WKVideoActionBar.h"
 #import "WKVideoTopBar.h"
 #import "YBIBUtilities.h"
 #import "WKApp.h"
 #import <AFNetworking/AFNetworking.h>
 
-@interface WKVideoView () <WKVideoActionBarDelegate,AVAssetResourceLoaderDelegate>
+@interface WKVideoItemView () <WKVideoActionBarDelegate,AVAssetResourceLoaderDelegate>
 @property (nonatomic, strong) WKVideoTopBar *topBar;
 @property (nonatomic, strong) WKVideoActionBar *actionBar;
 @property (nonatomic, strong) UIButton *playButton;
 @end
 
-@implementation WKVideoView {
+@implementation WKVideoItemView {
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
     AVPlayerLayer *_playerLayer;

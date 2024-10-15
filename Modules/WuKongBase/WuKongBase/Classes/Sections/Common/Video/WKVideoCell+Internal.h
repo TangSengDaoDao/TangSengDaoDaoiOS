@@ -7,13 +7,13 @@
 //
 
 #import "WKVideoCell.h"
-#import "WKVideoView.h"
+#import "WKVideoItemView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WKVideoCell ()
 
-@property (nonatomic, strong) WKVideoView *videoView;
+@property (nonatomic, strong) WKVideoItemView *videoView;
 
 @end
 

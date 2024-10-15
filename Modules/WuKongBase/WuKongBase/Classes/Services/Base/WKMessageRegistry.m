@@ -54,8 +54,10 @@ static WKMessageRegistry *_instance;
 
 -(void) registerCellClass:(Class)cellClass forMessageContentClass:(Class)messageContentClass {
     [[WKSDK shared] registerMessageContent:messageContentClass];
-    [self registerCellClass:cellClass forContentType:[messageContentClass contentType]];
+    NSNumber *contentType = [messageContentClass contentType];
+    [self registerCellClass:cellClass forContentType:contentType.integerValue];
 }
+
 
 -(void) registerCellClass:(Class)cellClass forContentType:(NSInteger)contentType {
     [self.messageCellDictLock lock];
