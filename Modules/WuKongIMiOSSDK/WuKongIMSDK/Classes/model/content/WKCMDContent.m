@@ -25,8 +25,8 @@
    
 }
 
-+(NSInteger) contentType {
-    return WK_CMD;
++(NSNumber*) contentType {
+    return @(WK_CMD);
 }
 
 

@@ -28,6 +28,7 @@
 #import "WKConversationManagerInner.h"
 #import "WKMessageQueueManager.h"
 
+
 @interface WKConnectionManager ()<GCDAsyncSocketDelegate>
 
 
@@ -354,6 +355,14 @@ static dispatch_queue_t _imsocketQueue;
     
 }
 
+- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutReadWithTag:(long)tag
+                                                                 elapsed:(NSTimeInterval)elapsed
+               bytesDone:(NSUInteger)length {
+    
+    NSLog(@"read has timed out...");
+    return 0.0;
+}
+
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(nullable NSError *)err {
     NSLog(@"IM连接已断开 -> %@",err);
      self.tempBufferData = [[NSMutableData alloc] init]; // 清楚缓存数据
@@ -371,9 +380,14 @@ static dispatch_queue_t _imsocketQueue;
    
 }
 
+- (void)socket:(GCDAsyncSocket *)sock didReadPartialDataOfLength:(NSUInteger)partialLength tag:(long)tag {
+    NSLog(@"didReadPartialDataOfLength--->%lu",(unsigned long)partialLength);
+}
+
 
 //socket接受消息
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag{
+    
      if ([WKSDK shared].isDebug) {
         NSLog(@"读取到消息-> %@",data);
      }
@@ -382,6 +396,8 @@ static dispatch_queue_t _imsocketQueue;
         NSLog(@"------------解包消息数量--------> %lu",(unsigned long)data.count);
         [self handlePacketData:data];
     }];
+    
+    [sock readDataWithTimeout:-1 tag:0];
 }
 
 // 发送连接包
@@ -584,7 +600,7 @@ static dispatch_queue_t _imsocketQueue;
     int remLengthLength = pos - fixedHeaderLength; // 剩余长度的长度
     if (fixedHeaderLength + remLengthLength + remLength > length) {
         // 固定头的长度 + 剩余长度的长度 + 剩余长度 如果大于 总长度说明分包了
-        NSLog(@"分包了...");
+        NSLog(@"分包了...剩余长度：%d  当前长度：%lu",remLength,(unsigned long)length);
         return packData;
     }else {
         if (fixedHeaderLength + remLengthLength + remLength == length) {
@@ -594,10 +610,16 @@ static dispatch_queue_t _imsocketQueue;
             return [[NSMutableData alloc] init];
         } else {
             // 粘包  大于1个包
-            NSLog(@"粘包  大于1个包");
-            int packetLength = fixedHeaderLength + remLengthLength + remLength;;
-            callback([packData subdataWithRange:NSMakeRange(0, packetLength)]);
-            return [[NSMutableData alloc] initWithData:[packData subdataWithRange:NSMakeRange(packetLength, length-packetLength)]];
+            int packetLength = fixedHeaderLength + remLengthLength + remLength;
+           
+            NSData *fullPackData = [packData subdataWithRange:NSMakeRange(0, packetLength)];
+           
+            callback(fullPackData);
+            NSData *remPackData = [packData subdataWithRange:NSMakeRange(packetLength, length-packetLength)];
+            
+            NSLog(@"粘包  大于1个包，包长度:%i-%lu-%lu-%lu",packetLength,fullPackData.length,remPackData.length,length);
+            
+            return [[NSMutableData alloc] initWithData:remPackData];
         }
     }
 }

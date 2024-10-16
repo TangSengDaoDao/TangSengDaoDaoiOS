@@ -52,10 +52,10 @@ static WKSDK *_instance;
 - (NSMutableDictionary *)messageContentDict {
     if(!_messageContentDict) {
         _messageContentDict = [[NSMutableDictionary alloc] init];
-        [_messageContentDict setObject:[WKTextContent class] forKey:[NSString stringWithFormat:@"%li",(long)[WKTextContent contentType]]];
-        [_messageContentDict setObject:[WKImageContent class] forKey:[NSString stringWithFormat:@"%li",(long)[WKImageContent contentType]]];
-        [_messageContentDict setObject:[WKVoiceContent class] forKey:[NSString stringWithFormat:@"%li",(long)[WKVoiceContent contentType]]];
-        [_messageContentDict setObject:[WKCMDContent class] forKey:[NSString stringWithFormat:@"%li",(long)[WKCMDContent contentType]]];
+        [_messageContentDict setObject:[WKTextContent class] forKey:[NSString stringWithFormat:@"%li",[WKTextContent contentType].longValue]];
+        [_messageContentDict setObject:[WKImageContent class] forKey:[NSString stringWithFormat:@"%li",[WKImageContent contentType].longValue]];
+        [_messageContentDict setObject:[WKVoiceContent class] forKey:[NSString stringWithFormat:@"%li",[WKVoiceContent contentType].longValue]];
+        [_messageContentDict setObject:[WKCMDContent class] forKey:[NSString stringWithFormat:@"%li",[WKCMDContent contentType].longValue]];
         
     }
     return _messageContentDict;
@@ -204,7 +204,12 @@ static WKSDK *_instance;
 
 
 -(void) registerMessageContent:(Class)cls {
-    [self registerMessageContent:cls contentType:[cls contentType]];
+    if (cls && [cls respondsToSelector:@selector(contentType)]) {
+        NSNumber *contentType = [cls contentType];
+        [self registerMessageContent:cls contentType:contentType.integerValue];
+    } else {
+        NSLog(@"Error: Class does not respond to contentType or is nil");
+    }
 }
 
 -(void) registerMessageContent:(Class)cls contentType:(NSInteger)contentType {

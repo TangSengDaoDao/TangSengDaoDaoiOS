@@ -57,7 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 // 设置值到本地扩展字段内
 -(void) setExtra:(id)value key:(NSString*)key;
 
-
 @end
 
 NS_ASSUME_NONNULL_END

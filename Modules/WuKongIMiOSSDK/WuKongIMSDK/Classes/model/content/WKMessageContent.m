@@ -79,7 +79,7 @@ NSString * const WKEntityTypeRobotCommand = @"bot_command";
         if(self.realContentType !=0) {
             [dataDict setObject:@(self.realContentType) forKey:@"type"];
         }else {
-            [dataDict setObject:@([[self class] contentType]) forKey:@"type"];
+            [dataDict setObject:[[self class] contentType] forKey:@"type"];
         }
        
         
@@ -353,19 +353,19 @@ NSString * const WKEntityTypeRobotCommand = @"bot_command";
 }
 
 - (NSInteger)realContentType {
-    NSInteger contentType = [[self class] contentType];
-    if(contentType!=0) {
-        return contentType;
+    NSNumber *contentType = [[self class] contentType];
+    if(contentType && contentType.integerValue != 0) {
+        return contentType.integerValue;
     }
     if(self.contentDict && self.contentDict[@"type"] && [self.contentDict[@"type"] integerValue]!=0) {
         return [self.contentDict[@"type"] integerValue];
     }
     
-    return [[self class] contentType];
+    return [[self class] contentType].integerValue;
 }
 
-+(NSInteger) contentType {
-    return 0;
++(NSNumber*) contentType {
+    return @(0);
 }
 
 - (NSString *)conversationDigest {

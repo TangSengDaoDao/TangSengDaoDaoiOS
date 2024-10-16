@@ -65,8 +65,8 @@
     return @".amr";
 }
 
-+(NSInteger) contentType {
-    return WK_VOICE;
++(NSNumber*) contentType {
+    return @(WK_VOICE);
 }
 
 - (NSString *)conversationDigest {

@@ -37,7 +37,7 @@
        self.dbPrefix = WK_DB_Prefix;
        self.dbDir = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"wukongimdb"];
        self.imageMaxBytes =  1024 * 100; // 100k 缩略图最大大小
-       self.syncChannelMessageLimit = 50;
+       self.syncChannelMessageLimit = 30;
        
        self.messageExtraSyncLimit = 100;
        

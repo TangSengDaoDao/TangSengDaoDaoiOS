@@ -85,7 +85,7 @@
       "~> 3.0"
     ],
     "CocoaAsyncSocket": [
-      "~> 7.6.2"
+      "~> 7.6.5"
     ],
     "TOCropViewController": [
       "~> 2.5.3"

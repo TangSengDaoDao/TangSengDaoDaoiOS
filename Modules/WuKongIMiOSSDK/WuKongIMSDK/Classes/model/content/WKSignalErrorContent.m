@@ -10,8 +10,8 @@
 @implementation WKSignalErrorContent
 
 
-+(NSInteger) contentType {
-    return WK_SIGNAL_ERROR;
++(NSNumber*) contentType {
+    return @(WK_SIGNAL_ERROR);
 }
 
 - (NSString *)conversationDigest {

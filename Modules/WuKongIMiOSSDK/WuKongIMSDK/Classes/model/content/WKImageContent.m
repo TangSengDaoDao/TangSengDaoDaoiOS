@@ -163,8 +163,8 @@
     return dataDict;
 }
 
-+(NSInteger) contentType {
-    return WK_IMAGE;
++(NSNumber*) contentType {
+    return @(WK_IMAGE);
 }
 
 - (NSString *)conversationDigest {

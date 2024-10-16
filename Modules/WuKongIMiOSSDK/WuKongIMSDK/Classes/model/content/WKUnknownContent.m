@@ -9,8 +9,8 @@
 #import "WKConst.h"
 @implementation WKUnknownContent
 
-+(NSInteger) contentType {
-    return WK_UNKNOWN;
++(NSNumber*) contentType {
+    return @(WK_UNKNOWN);
 }
 
 - (NSString *)conversationDigest {

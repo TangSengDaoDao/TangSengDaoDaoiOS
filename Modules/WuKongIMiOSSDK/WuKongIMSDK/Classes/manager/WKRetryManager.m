@@ -365,31 +365,28 @@ static WKRetryManager *_instance;
         [self.retryLock unlock];
         NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
         // 如果重试次数小于目标重试次数并且满足重试时间，则重试
-        if(item && item.retryCount<[WKSDK shared].options.messageRetryCount) {
-            if(item.retryCount<[WKSDK shared].options.messageRetryCount ) {
-                if((now - item.nextRetryTime)>=0) {
-                    if([WKSDK shared].isDebug) {
-                        NSLog(@"重发消息  key:[%@] retryCount: [%ld] nextRetryTime: [%ld]",key,item.retryCount,item.nextRetryTime);
-                    }
-                    item.retryCount++;
-                    item.nextRetryTime =now+[WKSDK shared].options.messageRetryInterval;
-                    [[[WKSDK shared] chatManager] sendMessage:item.message addRetryQueue:false];
+        if(!item) continue;
+        if(item.retryCount<[WKSDK shared].options.messageRetryCount ) {
+            if((now - item.nextRetryTime)>=0) {
+                if([WKSDK shared].isDebug) {
+                    NSLog(@"重发消息  key:[%@] retryCount: [%ld] nextRetryTime: [%ld]",key,item.retryCount,item.nextRetryTime);
                 }
-            }else { // 超过重试次数 消息状态设置为发送失败
-                [self.retryLock lock];
-                [self.retryDict removeObjectForKey:key];
-                [self.retryLock unlock];
-                // 更新消息状态为失败
-                item.message.status =WK_MESSAGE_FAIL;
-                [[WKMessageDB shared] updateMessageStatus:WK_MESSAGE_FAIL withClientSeq:item.message.clientSeq];
-               
-                // 通知上层
-                [[WKSDK shared].chatManager callMessageUpdateDelegate:item.message];
+                item.retryCount++;
+                item.nextRetryTime =now+[WKSDK shared].options.messageRetryInterval;
+                [[[WKSDK shared] chatManager] sendMessage:item.message addRetryQueue:false];
             }
+        }else { // 超过重试次数 消息状态设置为发送失败
+            [self.retryLock lock];
+            [self.retryDict removeObjectForKey:key];
+            [self.retryLock unlock];
+            // 更新消息状态为失败
+            item.message.status =WK_MESSAGE_FAIL;
+            [[WKMessageDB shared] updateMessageStatus:WK_MESSAGE_FAIL withClientSeq:item.message.clientSeq];
            
+            // 通知上层
+            [[WKSDK shared].chatManager callMessageUpdateDelegate:item.message];
         }
     }
-   
 }
 
 // TODO: retrySend如果执行时间过长 removeRetryItem会出现阻塞情况 (待观察)

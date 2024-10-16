@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy,nullable) NSString *format; // 内容格式 默认为普通文本 html,markdown
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

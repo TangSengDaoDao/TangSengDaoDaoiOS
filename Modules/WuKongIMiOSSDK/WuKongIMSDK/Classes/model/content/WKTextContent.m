@@ -28,9 +28,10 @@
     return @{@"content":self.content?:@"",@"format":self.format?:@""};
 }
 
-+(NSInteger) contentType {
-    return WK_TEXT;
++(NSNumber*) contentType {
+    return @(WK_TEXT);
 }
+
 
 - (NSString *)conversationDigest {
     if([self.format isEqualToString:@"html"]) {

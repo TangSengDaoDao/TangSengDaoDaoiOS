@@ -150,7 +150,7 @@ typedef NS_ENUM(NSUInteger, WKMentionedType) {
  你自定义的消息类型，在各个平台上需要保持一致
  @return 正文类型
  */
-+(NSInteger) contentType;
++(NSNumber*) contentType;
 
 
 /// 实际获取到的contentType （这种情况只会一个content对象被指定多个contentType的时候，可以通过这个属性获取到真实的contentType）

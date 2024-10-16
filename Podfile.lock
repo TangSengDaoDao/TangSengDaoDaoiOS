@@ -77,7 +77,7 @@ PODS:
     - ActionSheetPicker-3.0
     - AFNetworking (~> 4.0)
     - AsyncDisplayKit (~> 1.0)
-    - CocoaAsyncSocket (~> 7.6.2)
+    - CocoaAsyncSocket (~> 7.6.5)
     - CocoaLumberjack (~> 3.0)
     - DGActivityIndicatorView (~> 2.1.1)
     - FMDB/SQLCipher (~> 2.7.5)
@@ -112,9 +112,9 @@ PODS:
   - WuKongDataSource (0.1.0):
     - WuKongBase
     - WuKongIMSDK
-  - WuKongIMSDK (1.0.1):
+  - WuKongIMSDK (1.0.9):
     - 25519 (~> 2.0.2)
-    - CocoaAsyncSocket (~> 7.6.4)
+    - CocoaAsyncSocket (~> 7.6.5)
     - FMDB/SQLCipher (~> 2.7.5)
   - WuKongLogin (0.1.0):
     - Masonry
@@ -253,10 +253,10 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   TZImagePickerController: 2cad3db94ba70eb947d26c10ff5c66c9a93798c8
-  WuKongBase: 50bcf7a6363337314393cf0b9a3bc2629076e7cb
+  WuKongBase: 6d67dc6911f38d4fdc337c1ca6261a64a10bd0d7
   WuKongContacts: 9a7748952bd1760ba84fe7f595200d4c19d52d8b
   WuKongDataSource: 239cffd62c1d6d14b137102de5ec59b6c1f16cf7
-  WuKongIMSDK: 127631b32ff3b9d5544ad3f5ce7c0d95f8af6499
+  WuKongIMSDK: fa2b2a1a4d7491617034e30c88a3f80ef695ccc2
   WuKongLogin: 2d596bfee21d022435908bd10ea56739e5e54dc7
   YBImageBrowser: 7ecc8bf33ffa5f3b94c397c29b4f3638dd37f527
   YYImage: 6db68da66f20d9f169ceb94dfb9947c3867b9665

@@ -1004,7 +1004,7 @@
     if(startOrderSeq == 0 && endOrderSeq == 0) {
         if(newMessages.count == 0 ) {
             // 强制同步
-            int limit =  (int)[WKSDK shared].options.syncChannelMessageLimit;
+//            int limit =  (int)[WKSDK shared].options.syncChannelMessageLimit;
             [self calSyncForForce:channel startMessageSeq:0 endMessageSeq:0 pullMode:pullMode limit:limit complete:^(WKSyncChannelMessageModel *model, NSError *error) {
                 if(error) {
                     [weakSelf completePullMessages:messages error:error complete:complete];
@@ -1017,7 +1017,7 @@
             }];
             return;
         }else if(newMessages.count>0 && pullMode == WKPullModeUp) {
-            int limit =  (int)[WKSDK shared].options.syncChannelMessageLimit;
+//            int limit =  (int)[WKSDK shared].options.syncChannelMessageLimit;
             WKMessage *lastMsg = newMessages.lastObject;
             if(maxMessageSeq == 0 || maxMessageSeq != lastMsg.messageSeq ) {
                 [self calSyncForForce:channel startMessageSeq:lastMsg.messageSeq endMessageSeq:0 pullMode:pullMode limit:limit complete:^(WKSyncChannelMessageModel *model, NSError *error) {
@@ -1029,6 +1029,30 @@
                     if(model.messages && model.messages.count>0) {
                         for (WKMessage *m in model.messages) {
                             if(m.messageSeq > lastMsg.messageSeq) {
+                                [lastMessages addObject:m];
+                            }
+                        }
+                        if(lastMessages.count>0) {
+                            // 存储消息
+                            [[WKMessageDB shared] replaceMessages:lastMessages];
+                        }
+                    }
+                   
+                    // 重新调用
+                    [weakSelf pullMessages:channel startOrderSeq:startOrderSeq endOrderSeq:endOrderSeq maxMessageSeq:maxMessageSeq limit:limit pullMode:pullMode  maxExecCount:maxExecCount complete:complete];
+                }];
+                return;
+            }else if(newMessages.count<limit && newMessages.firstObject.messageSeq !=1) { // 如果查询出来的消息数量不满足limit，并且第一条消息不是1，则去服务器拉取
+                WKMessage *firstMsg = newMessages.firstObject;
+                [self calSyncForForce:channel startMessageSeq:newMessages.firstObject.messageSeq endMessageSeq:0 pullMode:WKPullModeDown limit:limit complete:^(WKSyncChannelMessageModel *model, NSError *error) {
+                    if(error) {
+                        [weakSelf completePullMessages:messages error:error complete:complete];
+                        return;
+                    }
+                    NSMutableArray<WKMessage*> *lastMessages = [NSMutableArray array];
+                    if(model.messages && model.messages.count>0) {
+                        for (WKMessage *m in model.messages) {
+                            if(m.messageSeq < firstMsg.messageSeq) {
                                 [lastMessages addObject:m];
                             }
                         }

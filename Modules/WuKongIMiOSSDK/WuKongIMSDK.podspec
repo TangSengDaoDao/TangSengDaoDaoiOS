@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WuKongIMSDK'
-  s.version          = '1.0.1'
+  s.version          = '1.0.9'
   s.summary          = '悟空IM是一款简单，高效，支持完全私有化的即时通讯.'
 
 # This description is used to generate tags and improve search results.
@@ -56,7 +56,7 @@ Pod::Spec.new do |s|
   }
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
-  s.dependency 'CocoaAsyncSocket', '~> 7.6.4'
+  s.dependency 'CocoaAsyncSocket', '~> 7.6.5'
   s.dependency 'FMDB/SQLCipher', '~>2.7.5'
   s.dependency '25519', '~>2.0.2'
 end
