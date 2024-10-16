@@ -1,8 +1,8 @@
 //
-//  ZLWeakProxy.swift
+//  UIGraphicsImageRenderer+ZLPhotoBrowser.swift
 //  ZLPhotoBrowser
 //
-//  Created by long on 2021/3/10.
+//  Created by long on 2023/11/23.
 //
 //  Copyright (c) 2020 Long Zhang <495181165@qq.com>
 //
@@ -26,25 +26,23 @@
 
 import UIKit
 
-class ZLWeakProxy: NSObject {
-    
-    private weak var target: NSObjectProtocol?
-    
-    init(target: NSObjectProtocol) {
-        self.target = target
-        super.init()
+extension ZLPhotoBrowserWrapper where Base: UIGraphicsImageRenderer {
+    static func renderImage(
+        size: CGSize,
+        formatConfig: ((UIGraphicsImageRendererFormat) -> Void)? = nil,
+        imageActions: ((CGContext) -> Void)
+    ) -> UIImage {
+        let format: UIGraphicsImageRendererFormat
+        if #available(iOS 11.0, *) {
+            format = .preferred()
+        } else {
+            format = .default()
+        }
+        formatConfig?(format)
+        
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        return renderer.image { context in
+            imageActions(context.cgContext)
+        }
     }
-    
-    class func proxy(withTarget target: NSObjectProtocol) -> ZLWeakProxy {
-        return ZLWeakProxy(target: target)
-    }
-    
-    override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        return target
-    }
-    
-    override func responds(to aSelector: Selector!) -> Bool {
-        return target?.responds(to: aSelector) ?? false
-    }
-    
 }

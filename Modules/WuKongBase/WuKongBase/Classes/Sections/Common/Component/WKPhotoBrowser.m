@@ -175,7 +175,7 @@ static WKPhotoBrowser *_instance;
 //            session.videoComposition = [weakSelf getVideoComposition:asset];  //修正某些播放器不识别视频Rotation的问题
 //        });
     }else {
-        [ZLPhotoManager fetchAssetFilePathWithAsset:asset completion:^(NSString * filepath) {
+        [ZLPhotoManager fetchAssetFilePathFor:asset completion:^(NSString * _Nullable filepath) {
             completion(filepath);
         }];
     }

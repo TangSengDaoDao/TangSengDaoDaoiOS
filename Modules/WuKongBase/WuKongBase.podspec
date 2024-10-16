@@ -90,7 +90,7 @@ TODO: Add long description of the pod here.
   s.dependency 'lottie-ios', '~> 2.5.3'
   s.dependency 'SDWebImageLottieCoder','~> 0.1.0'
   s.dependency 'GZIP','~> 1.3.0'
-  s.dependency 'ZLPhotoBrowser', '~> 4.3.7'
+  s.dependency 'ZLPhotoBrowser', '~> 4.5'
   s.dependency 'ZLImageEditor', '~> 1.1.1'
   s.dependency 'ActionSheetPicker-3.0'
 #  s.dependency 'VIMediaCache', '~> 0.4'

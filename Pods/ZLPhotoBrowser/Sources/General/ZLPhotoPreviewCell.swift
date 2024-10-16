@@ -29,12 +29,11 @@ import Photos
 import PhotosUI
 
 class ZLPreviewBaseCell: UICollectionViewCell {
-    
     var singleTapBlock: (() -> Void)?
     
-    var currentImage: UIImage? {
-        return nil
-    }
+    var currentImage: UIImage? { nil }
+    
+    var scrollView: UIScrollView? { nil }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,7 +48,9 @@ class ZLPreviewBaseCell: UICollectionViewCell {
     
     @objc func previewVCScroll() {}
     
-    func resetSubViewStatusWhenCellEndDisplay() {}
+    func willDisplay() {}
+    
+    func didEndDisplaying() {}
     
     func resizeImageView(imageView: UIImageView, asset: PHAsset) {
         let size = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
@@ -116,16 +117,14 @@ class ZLPreviewBaseCell: UICollectionViewCell {
     func animateImageFrame(convertTo view: UIView) -> CGRect {
         return .zero
     }
-    
 }
 
 // MARK: local image preview cell
 
 class ZLLocalImagePreviewCell: ZLPreviewBaseCell {
+    override var currentImage: UIImage? { preview.image }
     
-    override var currentImage: UIImage? {
-        return preview.image
-    }
+    override var scrollView: UIScrollView? { preview.scrollView }
     
     lazy var preview: ZLPreviewView = {
         let view = ZLPreviewView()
@@ -171,8 +170,13 @@ class ZLLocalImagePreviewCell: ZLPreviewBaseCell {
         addGestureRecognizer(longGes)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         preview.scrollView.zoomScale = 1
+    }
+    
+    override func animateImageFrame(convertTo view: UIView) -> CGRect {
+        let rect = preview.scrollView.convert(preview.containerView.frame, to: self)
+        return convert(rect, to: view)
     }
     
     @objc func longPressAction(_ ges: UILongPressGestureRecognizer) {
@@ -184,13 +188,11 @@ class ZLLocalImagePreviewCell: ZLPreviewBaseCell {
             longPressBlock?()
         }
     }
-    
 }
 
 // MARK: net image preview cell
 
 class ZLNetImagePreviewCell: ZLLocalImagePreviewCell {
-    
     private lazy var progressView: ZLProgressView = {
         let view = ZLProgressView()
         view.isHidden = true
@@ -222,20 +224,23 @@ class ZLNetImagePreviewCell: ZLLocalImagePreviewCell {
         progressView.frame = CGRect(x: bounds.width / 2 - 20, y: bounds.height / 2 - 20, width: 40, height: 40)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         progressView.isHidden = true
         preview.scrollView.zoomScale = 1
     }
     
+    override func animateImageFrame(convertTo view: UIView) -> CGRect {
+        let rect = preview.scrollView.convert(preview.containerView.frame, to: self)
+        return convert(rect, to: view)
+    }
 }
 
 // MARK: static image preview cell
 
 class ZLPhotoPreviewCell: ZLPreviewBaseCell {
+    override var currentImage: UIImage? { preview.image }
     
-    override var currentImage: UIImage? {
-        return preview.image
-    }
+    override var scrollView: UIScrollView? { preview.scrollView }
     
     private lazy var preview: ZLPreviewView = {
         let view = ZLPreviewView()
@@ -274,7 +279,7 @@ class ZLPhotoPreviewCell: ZLPreviewBaseCell {
         contentView.addSubview(preview)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         preview.scrollView.zoomScale = 1
     }
     
@@ -282,16 +287,14 @@ class ZLPhotoPreviewCell: ZLPreviewBaseCell {
         let rect = preview.scrollView.convert(preview.containerView.frame, to: self)
         return convert(rect, to: view)
     }
-    
 }
 
 // MARK: gif preview cell
 
 class ZLGifPreviewCell: ZLPreviewBaseCell {
+    override var currentImage: UIImage? { preview.image }
     
-    override var currentImage: UIImage? {
-        return preview.image
-    }
+    override var scrollView: UIScrollView? { preview.scrollView }
     
     private lazy var preview: ZLPreviewView = {
         let view = ZLPreviewView()
@@ -347,7 +350,7 @@ class ZLGifPreviewCell: ZLPreviewBaseCell {
         preview.loadGifData()
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         preview.scrollView.zoomScale = 1
     }
     
@@ -355,13 +358,11 @@ class ZLGifPreviewCell: ZLPreviewBaseCell {
         let rect = preview.scrollView.convert(preview.containerView.frame, to: self)
         return convert(rect, to: view)
     }
-    
 }
 
 // MARK: live photo preview cell
 
 class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
-    
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
@@ -420,7 +421,7 @@ class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
         return convert(imageView.frame, to: view)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         PHImageManager.default().cancelImageRequest(livePhotoRequestID)
     }
     
@@ -473,24 +474,24 @@ class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
             }
         })
     }
-    
 }
 
 // MARK: video preview cell
 
 class ZLVideoPreviewCell: ZLPreviewBaseCell {
-    
     override var currentImage: UIImage? {
         return imageView.image
     }
     
     private var player: AVPlayer?
     
-    private var playerLayer: AVPlayerLayer?
+    var playerView = UIView()
+    
+    var playerLayer: AVPlayerLayer?
     
     private lazy var progressView = ZLProgressView()
     
-    private lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
@@ -502,6 +503,12 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
         btn.setImage(.zl.getImage("zl_playVideo"), for: .normal)
         btn.addTarget(self, action: #selector(playBtnClick), for: .touchUpInside)
         return btn
+    }()
+    
+    lazy var singleTapGes: UITapGestureRecognizer = {
+        let ges = UITapGestureRecognizer()
+        ges.addTarget(self, action: #selector(playBtnClick))
+        return ges
     }()
     
     private lazy var syncErrorLabel: UILabel = {
@@ -532,10 +539,8 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
     
     private var fetchVideoDone = false
     
-    private let operationQueue = DispatchQueue(label: "com.ZLPhotoBrowser.ZLVideoPreviewCell")
-    
     var isPlaying: Bool {
-        if player != nil, player?.rate != 0 {
+        if let player, player.rate != 0 {
             return true
         }
         return false
@@ -548,6 +553,8 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
     }
     
     deinit {
+        cancelDownloadVideo()
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         zl_debugPrint("ZLVideoPreviewCell deinit")
     }
     
@@ -564,23 +571,29 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        playerLayer?.frame = bounds
         resizeImageView(imageView: imageView, asset: model.asset)
+        playerView.frame = imageView.frame
+        playerLayer?.frame = playerView.bounds
         let insets = deviceSafeAreaInsets()
-        playBtn.frame = CGRect(x: 0, y: insets.top, width: bounds.width, height: bounds.height - insets.top - insets.bottom)
+        playBtn.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        playBtn.center = CGPoint(x: bounds.midX, y: bounds.midY)
         syncErrorLabel.frame = CGRect(x: 10, y: insets.top + 60, width: bounds.width - 20, height: 35)
         progressView.frame = CGRect(x: bounds.width / 2 - 30, y: bounds.height / 2 - 30, width: 60, height: 60)
     }
     
     override func previewVCScroll() {
-        if player != nil, player?.rate != 0 {
-            pausePlayer(seekToZero: false)
-        }
+        pausePlayer(seekToZero: false)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func willDisplay() {
+        fetchVideo()
+    }
+    
+    override func didEndDisplaying() {
         imageView.isHidden = false
-        player?.currentItem?.seek(to: CMTimeMake(value: 0, timescale: 1))
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+
+        cancelDownloadVideo()
     }
     
     override func animateImageFrame(convertTo view: UIView) -> CGRect {
@@ -588,10 +601,12 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
     }
     
     private func setupUI() {
+        contentView.addSubview(playerView)
         contentView.addSubview(imageView)
         contentView.addSubview(syncErrorLabel)
         contentView.addSubview(progressView)
         contentView.addSubview(playBtn)
+        contentView.addGestureRecognizer(singleTapGes)
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -602,7 +617,9 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
         syncErrorLabel.isHidden = true
         playBtn.isEnabled = false
         player = nil
-        playerLayer?.removeFromSuperlayer()
+        if playerLayer?.superlayer != nil {
+            playerLayer?.removeFromSuperlayer()
+        }
         playerLayer = nil
         
         if imageRequestID > PHInvalidImageRequestID {
@@ -621,7 +638,9 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
         imageRequestID = ZLPhotoManager.fetchImage(for: model.asset, size: size, completion: { image, _ in
             self.imageView.image = image
         })
-        
+    }
+    
+    private func fetchVideo() {
         videoRequestID = ZLPhotoManager.fetchVideo(for: model.asset, progress: { [weak self] progress, _, _, _ in
             self?.progressView.progress = progress
             zl_debugPrint("video progress \(progress)")
@@ -649,21 +668,30 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
         playBtn.setImage(.zl.getImage("zl_playVideo"), for: .normal)
         playBtn.isEnabled = true
         
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        
         player = AVPlayer(playerItem: item)
+        if playerLayer?.superlayer != nil {
+            playerLayer?.removeFromSuperlayer()
+            playerLayer = nil
+        }
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer?.frame = bounds
-        layer.insertSublayer(playerLayer!, at: 0)
+        playerLayer?.frame = playerView.bounds
+        playerView.layer.insertSublayer(playerLayer!, at: 0)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(playFinish), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
     
     @objc private func playBtnClick() {
         let currentTime = player?.currentItem?.currentTime()
         let duration = player?.currentItem?.duration
-        if player?.rate == 0 {
+        if !isPlaying {
             if currentTime?.value == duration?.value {
                 player?.currentItem?.seek(to: CMTimeMake(value: 0, timescale: 1))
             }
             imageView.isHidden = true
+            try? AVAudioSession.sharedInstance().setCategory(.playback)
+            try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
             player?.play()
             playBtn.setImage(nil, for: .normal)
             singleTapBlock?()
@@ -677,38 +705,36 @@ class ZLVideoPreviewCell: ZLPreviewBaseCell {
     }
     
     @objc private func appWillResignActive() {
-        if player != nil, player?.rate != 0 {
-            pausePlayer(seekToZero: false)
-        }
+        pausePlayer(seekToZero: false)
     }
     
     private func pausePlayer(seekToZero: Bool) {
+        guard isPlaying else { return }
+        
         player?.pause()
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         if seekToZero {
             player?.seek(to: .zero)
         }
+        
         playBtn.setImage(.zl.getImage("zl_playVideo"), for: .normal)
         singleTapBlock?()
-        
-        operationQueue.async {
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-        }
     }
     
-    func pauseWhileTransition() {
-        player?.pause()
-        playBtn.setImage(.zl.getImage("zl_playVideo"), for: .normal)
+    private func cancelDownloadVideo() {
+        PHImageManager.default().cancelImageRequest(videoRequestID)
+        videoRequestID = PHInvalidImageRequestID
     }
-    
 }
 
 // MARK: net video preview cell
 
 class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
-    
     private var player: AVPlayer?
     
-    private var playerLayer: AVPlayerLayer?
+    var playerLayer: AVPlayerLayer?
+    
+    var playerView = UIView()
     
     private lazy var playBtn: UIButton = {
         let btn = UIButton(type: .custom)
@@ -717,17 +743,41 @@ class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
         return btn
     }()
     
+    lazy var singleTapGes: UITapGestureRecognizer = {
+        let ges = UITapGestureRecognizer()
+        ges.addTarget(self, action: #selector(playBtnClick))
+        return ges
+    }()
+    
     var isPlaying: Bool {
-        if player != nil, player?.rate != 0 {
+        if let player, player.rate != 0 {
             return true
         }
         return false
     }
     
-    private let operationQueue = DispatchQueue(label: "com.ZLPhotoBrowser.ZLNetVideoPreviewCell")
+    override var currentImage: UIImage? {
+        guard let currentItem = player?.currentItem else { return nil }
+                
+        // 获取当前播放时间
+        let currentTime = currentItem.currentTime()
+        
+        // 使用AVAssetImageGenerator来获取当前帧的图像
+        let imageGenerator = AVAssetImageGenerator(asset: currentItem.asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: currentTime, actualTime: nil)
+            let image = UIImage(cgImage: cgImage)
+            return image
+        } catch {
+            return nil
+        }
+    }
     
     deinit {
-        zl_debugPrint("v deinit")
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        zl_debugPrint("ZLNetVideoPreviewCell deinit")
     }
     
     override init(frame: CGRect) {
@@ -742,17 +792,24 @@ class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        playerLayer?.frame = bounds
-        let insets = deviceSafeAreaInsets()
-        playBtn.frame = CGRect(x: 0, y: insets.top, width: bounds.width, height: bounds.height - insets.top - insets.bottom)
+        
+        playerLayer?.frame = playerView.bounds
+        playBtn.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        playBtn.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    override func resetSubViewStatusWhenCellEndDisplay() {
+    override func didEndDisplaying() {
         player?.currentItem?.seek(to: CMTimeMake(value: 0, timescale: 1))
     }
     
+    override func animateImageFrame(convertTo view: UIView) -> CGRect {
+        return convert(playerView.frame, to: view)
+    }
+    
     private func setupUI() {
+        contentView.addSubview(playerView)
         contentView.addSubview(playBtn)
+        contentView.addGestureRecognizer(singleTapGes)
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -765,6 +822,8 @@ class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
                 player?.currentItem?.seek(to: CMTimeMake(value: 0, timescale: 1))
             }
             player?.play()
+            try? AVAudioSession.sharedInstance().setCategory(.playback)
+            try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
             playBtn.setImage(nil, for: .normal)
             singleTapBlock?()
         } else {
@@ -777,28 +836,24 @@ class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
     }
     
     @objc private func appWillResignActive() {
-        if player != nil, player?.rate != 0 {
-            pausePlayer(seekToZero: false)
-        }
+        pausePlayer(seekToZero: false)
     }
     
     override func previewVCScroll() {
-        if player != nil, player?.rate != 0 {
-            pausePlayer(seekToZero: false)
-        }
+        pausePlayer(seekToZero: false)
     }
     
-    private func pausePlayer(seekToZero: Bool) {
+    func pausePlayer(seekToZero: Bool) {
+        guard isPlaying else { return }
+        
         player?.pause()
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         if seekToZero {
             player?.seek(to: .zero)
         }
+        
         playBtn.setImage(.zl.getImage("zl_playVideo"), for: .normal)
         singleTapBlock?()
-        
-        operationQueue.async {
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-        }
     }
     
     func configureCell(videoUrl: URL, httpHeader: [String: Any]?) {
@@ -812,17 +867,38 @@ class ZLNetVideoPreviewCell: ZLPreviewBaseCell {
         let item = AVPlayerItem(asset: asset)
         player = AVPlayer(playerItem: item)
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer?.frame = bounds
-        layer.insertSublayer(playerLayer!, at: 0)
+        playerLayer?.videoGravity = .resizeAspect
+        playerView.frame = calculatePlayerFrame(for: item)
+        playerLayer?.frame = playerView.bounds
+        playerView.layer.insertSublayer(playerLayer!, at: 0)
         NotificationCenter.default.addObserver(self, selector: #selector(playFinish), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
     
+    private func calculatePlayerFrame(for item: AVPlayerItem) -> CGRect {
+        if let videoTrack = item.asset.tracks(withMediaType: .video).first {
+            let size = videoTrack.naturalSize.applying(videoTrack.preferredTransform)
+            let videoWHRatio = size.width / size.height
+            let cellWHRatio = zl.width / zl.height
+            
+            let videoRect: CGRect
+            if videoWHRatio > cellWHRatio {
+                let videoH = zl.width / videoWHRatio
+                videoRect = CGRect(x: 0, y: (zl.height - videoH) / 2, width: zl.width, height: videoH)
+            } else {
+                let videoW = zl.height * videoWHRatio
+                videoRect = CGRect(x: (zl.width - videoW) / 2, y: 0, width: videoW, height: zl.height)
+            }
+            
+            return videoRect
+        } else {
+            return bounds
+        }
+    }
 }
 
 // MARK: class ZLPreviewView
 
 class ZLPreviewView: UIView {
-    
     private static let defaultMaxZoomScale: CGFloat = 3
     
     private lazy var progressView = ZLProgressView()
@@ -902,11 +978,11 @@ class ZLPreviewView: UIView {
         addSubview(progressView)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapAction(_:)))
-        addGestureRecognizer(singleTap)
+        scrollView.addGestureRecognizer(singleTap)
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapAction(_:)))
         doubleTap.numberOfTapsRequired = 2
-        addGestureRecognizer(doubleTap)
+        scrollView.addGestureRecognizer(doubleTap)
         
         singleTap.require(toFail: doubleTap)
     }
@@ -916,8 +992,8 @@ class ZLPreviewView: UIView {
     }
     
     @objc private func doubleTapAction(_ tap: UITapGestureRecognizer) {
-        let scale: CGFloat = scrollView.zoomScale != scrollView.maximumZoomScale ? scrollView.maximumZoomScale : 1
-        let tapPoint = tap.location(in: self)
+        let scale = scrollView.zoomScale != scrollView.minimumZoomScale ? 1 : scrollView.maximumZoomScale
+        let tapPoint = tap.location(in: scrollView)
         var rect = CGRect.zero
         rect.size.width = scrollView.frame.width / scale
         rect.size.height = scrollView.frame.height / scale
@@ -984,6 +1060,10 @@ class ZLPreviewView: UIView {
         onFetchingGif = false
         fetchGifDone = false
         
+        if ZLPhotoConfiguration.default().gifPlayBlock != nil {
+            imageView.subviews.forEach { $0.removeFromSuperview() }
+        }
+        
         imageRequestID = ZLPhotoManager.fetchImage(for: model.asset, size: requestPhotoSize(gif: true), completion: { [weak self] image, _ in
             guard self?.imageIdentifier == self?.model.ident else {
                 return
@@ -1014,14 +1094,21 @@ class ZLPreviewView: UIView {
             } else {
                 self?.progressView.isHidden = false
             }
-        }, completion: { [weak self] data, _, isDegraded in
-            guard self?.imageIdentifier == self?.model.ident else {
+        }, completion: { [weak self] data, info, isDegraded in
+            guard let `self` = self else { return }
+            guard self.imageIdentifier == self.model.ident else {
                 return
             }
+            
             if !isDegraded {
-                self?.fetchGifDone = true
-                self?.imageView.image = UIImage.zl.animateGifImage(data: data)
-                self?.resetSubViewSize()
+                self.fetchGifDone = true
+                if let gifPlayBlock = ZLPhotoConfiguration.default().gifPlayBlock {
+                    gifPlayBlock(self.imageView, data, info)
+                } else {
+                    self.imageView.image = UIImage.zl.animateGifImage(data: data)
+                }
+                
+                self.resetSubViewSize()
             }
         })
     }
@@ -1121,6 +1208,14 @@ class ZLPreviewView: UIView {
     func resumeGif() {
         guard let m = model else { return }
         guard ZLPhotoConfiguration.default().allowSelectGif, m.type == .gif else { return }
+        
+        let config = ZLPhotoConfiguration.default()
+        
+        if config.gifPlayBlock != nil, let resumeGIFBlock = config.resumeGIFBlock {
+            resumeGIFBlock(imageView)
+            return
+        }
+        
         guard imageView.layer.speed != 1 else { return }
         
         let pauseTime = imageView.layer.timeOffset
@@ -1134,17 +1229,23 @@ class ZLPreviewView: UIView {
     func pauseGif() {
         guard let m = model else { return }
         guard ZLPhotoConfiguration.default().allowSelectGif, m.type == .gif else { return }
+        
+        let config = ZLPhotoConfiguration.default()
+        
+        if config.gifPlayBlock != nil, let pauseGIFBlock = config.pauseGIFBlock {
+            pauseGIFBlock(imageView)
+            return
+        }
+        
         guard imageView.layer.speed != 0 else { return }
         
         let pauseTime = imageView.layer.convertTime(CACurrentMediaTime(), from: nil)
         imageView.layer.speed = 0
         imageView.layer.timeOffset = pauseTime
     }
-    
 }
 
 extension ZLPreviewView: UIScrollViewDelegate {
-    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return containerView
     }
@@ -1158,5 +1259,4 @@ extension ZLPreviewView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         resumeGif()
     }
-    
 }

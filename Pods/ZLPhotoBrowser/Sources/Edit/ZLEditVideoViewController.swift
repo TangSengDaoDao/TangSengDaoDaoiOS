@@ -26,6 +26,7 @@
 
 import UIKit
 import Photos
+import AVFoundation
 
 public class ZLEditVideoViewController: UIViewController {
     private static let frameImageSize = CGSize(width: CGFloat(round(50.0 * 2.0 / 3.0)), height: 50.0)
@@ -45,7 +46,7 @@ public class ZLEditVideoViewController: UIViewController {
     
     private lazy var doneBtn: UIButton = {
         let btn = UIButton(type: .custom)
-        btn.setTitle(localLanguageTextValue(.done), for: .normal)
+        btn.setTitle(localLanguageTextValue(.editFinish), for: .normal)
         btn.setTitleColor(.zl.bottomToolViewBtnNormalTitleColor, for: .normal)
         btn.titleLabel?.font = ZLLayout.bottomToolTitleFont
         btn.addTarget(self, action: #selector(doneBtnClick), for: .touchUpInside)
@@ -64,7 +65,7 @@ public class ZLEditVideoViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = ZLCollectionViewFlowLayout()
         layout.itemSize = ZLEditVideoViewController.frameImageSize
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -155,7 +156,7 @@ public class ZLEditVideoViewController: UIViewController {
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        deviceIsiPhone() ? .portrait : .all
     }
     
     deinit {
@@ -168,6 +169,8 @@ public class ZLEditVideoViewController: UIViewController {
         if videoRequestID > PHInvalidImageRequestID {
             PHImageManager.default().cancelImageRequest(videoRequestID)
         }
+        
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
     
     /// initialize
@@ -190,6 +193,8 @@ public class ZLEditVideoViewController: UIViewController {
 
         setupUI()
         
+        try? AVAudioSession.sharedInstance().setCategory(.playback)
+        try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
@@ -221,7 +226,11 @@ public class ZLEditVideoViewController: UIViewController {
         
         let cancelBtnW = localLanguageTextValue(.cancel).zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: btnH)).width
         cancelBtn.frame = CGRect(x: 20, y: view.bounds.height - insets.bottom - btnH, width: cancelBtnW, height: btnH)
-        let doneBtnW = localLanguageTextValue(.done).zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: btnH)).width + 20
+        let doneBtnW = (doneBtn.currentTitle ?? "")
+            .zl.boundingRect(
+                font: ZLLayout.bottomToolTitleFont,
+                limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: btnH)
+            ).width + 20
         doneBtn.frame = CGRect(x: view.bounds.width - doneBtnW - 20, y: view.bounds.height - insets.bottom - btnH, width: doneBtnW, height: btnH)
         
         collectionView.frame = CGRect(x: 0, y: doneBtn.frame.minY - bottomBtnAndColSpacing - ZLEditVideoViewController.frameImageSize.height, width: view.bounds.width, height: ZLEditVideoViewController.frameImageSize.height)
@@ -266,12 +275,12 @@ public class ZLEditVideoViewController: UIViewController {
         cleanTimer()
         
         let d = CGFloat(interval) * clipRect().width / ZLEditVideoViewController.frameImageSize.width
-        if Second(round(d)) < ZLPhotoConfiguration.default().minSelectVideoDuration {
-            let message = String(format: localLanguageTextValue(.shorterThanMaxVideoDuration), ZLPhotoConfiguration.default().minSelectVideoDuration)
+        if ZLPhotoConfiguration.Second(round(d)) < ZLPhotoConfiguration.default().minSelectVideoDuration {
+            let message = String(format: localLanguageTextValue(.shorterThanMinVideoDuration), ZLPhotoConfiguration.default().minSelectVideoDuration)
             showAlertView(message, self)
             return
         }
-        if Second(round(d)) > ZLPhotoConfiguration.default().maxSelectVideoDuration {
+        if ZLPhotoConfiguration.Second(round(d)) > ZLPhotoConfiguration.default().maxSelectVideoDuration {
             let message = String(format: localLanguageTextValue(.longerThanMaxVideoDuration), ZLPhotoConfiguration.default().maxSelectVideoDuration)
             showAlertView(message, self)
             return
@@ -285,8 +294,7 @@ public class ZLEditVideoViewController: UIViewController {
             return
         }
         
-        let hud = ZLProgressHUD(style: ZLPhotoUIConfiguration.default().hudStyle)
-        hud.show()
+        let hud = ZLProgressHUD.show(toast: .processing)
         
         ZLVideoManager.exportEditVideo(for: avAsset, range: getTimeRange()) { [weak self] url, error in
             hud.hide()
@@ -362,10 +370,10 @@ public class ZLEditVideoViewController: UIViewController {
         let item = AVPlayerItem(asset: avAsset)
         let player = AVPlayer(playerItem: item)
         playerLayer.player = player
-        startTimer()
         
         measureCount = Int(duration / interval)
         collectionView.reloadData()
+        startTimer()
         requestVideoMeasureFrameImage()
     }
     
@@ -402,11 +410,26 @@ public class ZLEditVideoViewController: UIViewController {
         RunLoop.main.add(timer!, forMode: .common)
         
         indicator.isHidden = false
-        indicator.frame = CGRect(x: leftSideView.frame.minX, y: leftSideView.frame.minY, width: 2, height: leftSideView.frame.height)
-        indicator.layer.removeAllAnimations()
         
+        let indicatorW: CGFloat = 2
+        let indicatorH = leftSideView.zl.height
+        let indicatorY = leftSideView.zl.top
+        var indicatorFromX = leftSideView.zl.left
+        var indicatorToX = rightSideView.zl.right - indicatorW
+        
+        if isRTL() {
+            swap(&indicatorFromX, &indicatorToX)
+        }
+        
+        let fromFrame = CGRect(x: indicatorFromX, y: indicatorY, width: indicatorW, height: indicatorH)
+        indicator.frame = fromFrame
+        
+        var toFrame = fromFrame
+        toFrame.origin.x = indicatorToX
+        
+        indicator.layer.removeAllAnimations()
         UIView.animate(withDuration: duration, delay: 0, options: [.allowUserInteraction, .curveLinear, .repeat], animations: {
-            self.indicator.frame = CGRect(x: self.rightSideView.frame.maxX - 2, y: self.rightSideView.frame.minY, width: 2, height: self.rightSideView.frame.height)
+            self.indicator.frame = toFrame
         }, completion: nil)
     }
     
@@ -419,16 +442,33 @@ public class ZLEditVideoViewController: UIViewController {
     }
     
     private func getStartTime() -> CMTime {
-        var rect = collectionView.convert(clipRect(), from: view)
-        rect.origin.x -= frameImageBorderView.frame.minX
-        let second = max(0, CGFloat(interval) * rect.minX / ZLEditVideoViewController.frameImageSize.width)
-        return CMTimeMakeWithSeconds(Float64(second), preferredTimescale: avAsset.duration.timescale)
+        var oneFrameDuration = interval
+        if measureCount > 10 {
+            // 如果measureCount > 10，计算出框选区域外，每一帧图片占的时长
+            oneFrameDuration = (avAsset.duration.seconds - Double(ZLPhotoConfiguration.default().maxEditVideoTime)) / Double(measureCount - 10)
+        }
+        
+        let offsetX = collectionView.contentOffset.x
+        let previousSecond = offsetX / ZLEditVideoViewController.frameImageSize.width * oneFrameDuration
+        
+        // 框选区域内起始时长
+        let innerRect = frameImageBorderView.convert(clipRect(), from: view)
+        let innerPreviousSecond: TimeInterval
+        if isRTL() {
+            innerPreviousSecond = (frameImageBorderView.zl.width - innerRect.maxX) / ZLEditVideoViewController.frameImageSize.width * interval
+        } else {
+            innerPreviousSecond = innerRect.minX / ZLEditVideoViewController.frameImageSize.width * interval
+        }
+        
+        let totalDuration = max(0, previousSecond + round(innerPreviousSecond))
+        
+        return CMTimeMakeWithSeconds(Float64(totalDuration), preferredTimescale: avAsset.duration.timescale)
     }
     
     private func getTimeRange() -> CMTimeRange {
         let start = getStartTime()
         let d = CGFloat(interval) * clipRect().width / ZLEditVideoViewController.frameImageSize.width
-        let duration = CMTimeMakeWithSeconds(Float64(d), preferredTimescale: avAsset.duration.timescale)
+        let duration = CMTimeMakeWithSeconds(Float64(round(d)), preferredTimescale: avAsset.duration.timescale)
         return CMTimeRangeMake(start: start, duration: duration)
     }
     

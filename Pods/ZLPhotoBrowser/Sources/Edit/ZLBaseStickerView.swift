@@ -4,21 +4,40 @@
 //
 //  Created by long on 2022/11/28.
 //
+//  Copyright (c) 2020 Long Zhang <495181165@qq.com>
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 import UIKit
 
 protocol ZLStickerViewDelegate: NSObject {
-    // Called when scale or rotate or move.
-    func stickerBeginOperation(_ sticker: UIView)
+    /// Called when scale or rotate or move.
+    func stickerBeginOperation(_ sticker: ZLBaseStickerView)
     
-    // Called during scale or rotate or move.
-    func stickerOnOperation(_ sticker: UIView, panGes: UIPanGestureRecognizer)
+    /// Called during scale or rotate or move.
+    func stickerOnOperation(_ sticker: ZLBaseStickerView, panGes: UIPanGestureRecognizer)
     
-    // Called after scale or rotate or move.
-    func stickerEndOperation(_ sticker: UIView, panGes: UIPanGestureRecognizer)
+    /// Called after scale or rotate or move.
+    func stickerEndOperation(_ sticker: ZLBaseStickerView, panGes: UIPanGestureRecognizer)
     
-    // Called when tap sticker.
-    func stickerDidTap(_ sticker: UIView)
+    /// Called when tap sticker.
+    func stickerDidTap(_ sticker: ZLBaseStickerView)
     
     func sticker(_ textSticker: ZLTextStickerView, editText text: String)
 }
@@ -33,12 +52,7 @@ protocol ZLStickerViewAdditional: NSObject {
     func addScale(_ scale: CGFloat)
 }
 
-enum ZLStickerLayout {
-    static let borderWidth = 1 / UIScreen.main.scale
-    static let edgeInset: CGFloat = 20
-}
-
-class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
+class ZLBaseStickerView: UIView, UIGestureRecognizerDelegate {
     private enum Direction: Int {
         case up = 0
         case right = 90
@@ -46,11 +60,17 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         case left = 270
     }
     
+    var id: String
+    
+    var borderWidth = 1 / UIScreen.main.scale
+    
     var firstLayout = true
     
     let originScale: CGFloat
     
     let originAngle: CGFloat
+    
+    var maxGesScale: CGFloat
     
     var originTransform: CGAffineTransform = .identity
     
@@ -63,8 +83,6 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
     var gesRotation: CGFloat = 0
     
     var gesScale: CGFloat = 1
-    
-    var maxGesScale: CGFloat = 4
     
     var onOperation = false
     
@@ -86,7 +104,7 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         return pan
     }()
     
-    var state: T {
+    var state: ZLBaseStickertState {
         fatalError()
     }
     
@@ -100,7 +118,18 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         cleanTimer()
     }
     
+    class func initWithState(_ state: ZLBaseStickertState) -> ZLBaseStickerView? {
+        if let state = state as? ZLTextStickerState {
+            return ZLTextStickerView(state: state)
+        } else if let state = state as? ZLImageStickerState {
+            return ZLImageStickerView(state: state)
+        } else {
+            return nil
+        }
+    }
+    
     init(
+        id: String = UUID().uuidString,
         originScale: CGFloat,
         originAngle: CGFloat,
         originFrame: CGRect,
@@ -109,16 +138,18 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         totalTranslationPoint: CGPoint = .zero,
         showBorder: Bool = true
     ) {
+        self.id = id
         self.originScale = originScale
         self.originAngle = originAngle
         self.originFrame = originFrame
+        maxGesScale = 4 / originScale
         super.init(frame: .zero)
         
         self.gesScale = gesScale
         self.gesRotation = gesRotation
         self.totalTranslationPoint = totalTranslationPoint
         
-        borderView.layer.borderWidth = ZLStickerLayout.borderWidth
+        borderView.layer.borderWidth = borderWidth
         hideBorder()
         if showBorder {
             startTimer()
@@ -189,7 +220,6 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
     @objc func tapAction(_ ges: UITapGestureRecognizer) {
         guard gesIsEnabled else { return }
         
-        superview?.bringSubviewToFront(self)
         delegate?.stickerDidTap(self)
         startTimer()
     }
@@ -200,18 +230,23 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         let scale = min(maxGesScale, gesScale * ges.scale)
         ges.scale = 1
         
-        guard scale != gesScale else {
-            return
+        var scaleChanged = false
+        if scale != gesScale {
+            gesScale = scale
+            scaleChanged = true
         }
-        
-        gesScale = scale
         
         if ges.state == .began {
             setOperation(true)
         } else if ges.state == .changed {
-            updateTransform()
+            if scaleChanged {
+                updateTransform()
+            }
         } else if ges.state == .ended || ges.state == .cancelled {
-            setOperation(false)
+            // 当有拖动时，在panAction中执行setOperation(false)
+            if gesTranslationPoint == .zero {
+                setOperation(false)
+            }
         }
     }
     
@@ -226,7 +261,9 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
         } else if ges.state == .changed {
             updateTransform()
         } else if ges.state == .ended || ges.state == .cancelled {
-            setOperation(false)
+            if gesTranslationPoint == .zero {
+                setOperation(false)
+            }
         }
     }
     
@@ -263,7 +300,6 @@ class ZLBaseStickerView<T>: UIView, UIGestureRecognizerDelegate {
             onOperation = true
             cleanTimer()
             borderView.layer.borderColor = UIColor.white.cgColor
-            superview?.bringSubviewToFront(self)
             delegate?.stickerBeginOperation(self)
         } else if !isOn, onOperation {
             onOperation = false
@@ -346,7 +382,7 @@ extension ZLBaseStickerView: ZLStickerViewAdditional {
         let diffX: CGFloat = (origin.x - newOrigin.x)
         let diffY: CGFloat = (origin.y - newOrigin.y)
         
-        let direction = direction(for: originScale)
+        let direction = direction(for: originAngle)
         if direction == .right {
             transform = transform.translatedBy(x: diffY, y: -diffX)
             originTransform = originTransform.translatedBy(x: diffY / originScale, y: -diffX / originScale)

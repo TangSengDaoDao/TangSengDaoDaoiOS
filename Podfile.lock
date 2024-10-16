@@ -102,7 +102,7 @@ PODS:
     - YBImageBrowser/NOSD (~> 3.0)
     - YYImage/WebP (~> 1.0.4)
     - ZLImageEditor (~> 1.1.1)
-    - ZLPhotoBrowser (~> 4.3.7)
+    - ZLPhotoBrowser (~> 4.5)
   - WuKongContacts (0.1.0):
     - FMDB/SQLCipher (~> 2.7.5)
     - Masonry
@@ -131,9 +131,9 @@ PODS:
   - ZLImageEditor (1.1.7):
     - ZLImageEditor/Core (= 1.1.7)
   - ZLImageEditor/Core (1.1.7)
-  - ZLPhotoBrowser (4.3.9):
-    - ZLPhotoBrowser/Core (= 4.3.9)
-  - ZLPhotoBrowser/Core (4.3.9)
+  - ZLPhotoBrowser (4.5.5):
+    - ZLPhotoBrowser/Core (= 4.5.5)
+  - ZLPhotoBrowser/Core (4.5.5)
 
 DEPENDENCIES:
   - Aspects
@@ -253,7 +253,7 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   TZImagePickerController: 2cad3db94ba70eb947d26c10ff5c66c9a93798c8
-  WuKongBase: 6d67dc6911f38d4fdc337c1ca6261a64a10bd0d7
+  WuKongBase: c0f055a22823b599f49655a79cbfaa142ba6b954
   WuKongContacts: 9a7748952bd1760ba84fe7f595200d4c19d52d8b
   WuKongDataSource: 239cffd62c1d6d14b137102de5ec59b6c1f16cf7
   WuKongIMSDK: fa2b2a1a4d7491617034e30c88a3f80ef695ccc2
@@ -261,7 +261,7 @@ SPEC CHECKSUMS:
   YBImageBrowser: 7ecc8bf33ffa5f3b94c397c29b4f3638dd37f527
   YYImage: 6db68da66f20d9f169ceb94dfb9947c3867b9665
   ZLImageEditor: ee86f044fb7c5dec6b5de49eb7bb6fd42286f2ae
-  ZLPhotoBrowser: 02b3569b8f702d2e153e8fdb1f6b32fef3a2867c
+  ZLPhotoBrowser: 6fb0eff03c8269001e29ef233e7bdab0691e05fe
 
 PODFILE CHECKSUM: 8f3d987a251697eb20ae68cfc22750d44234e37b
 

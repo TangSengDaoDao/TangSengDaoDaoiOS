@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "ZLWeakProxy.h"
 #import "ZLPhotoBrowser.h"
 
 FOUNDATION_EXPORT double ZLPhotoBrowserVersionNumber;

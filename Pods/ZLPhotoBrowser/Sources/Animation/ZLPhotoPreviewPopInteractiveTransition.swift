@@ -25,21 +25,36 @@
 //  THE SOFTWARE.
 
 import UIKit
+import AVFoundation
 
 class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransition {
     weak var transitionContext: UIViewControllerContextTransitioning?
     
     weak var viewController: ZLPhotoPreviewController?
     
+    lazy var dismissPanGes: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(dismissPanAction(_:)))
+        pan.delegate = self
+        return pan
+    }()
+    
     var shadowView: UIView?
     
     var imageView: UIImageView?
+    
+    var playerLayer: AVPlayerLayer?
     
     var imageViewOriginalFrame: CGRect = .zero
     
     var startPanPoint: CGPoint = .zero
     
-    var interactive: Bool = false
+    var interactive = false
+    
+    var currentCell: ZLPreviewBaseCell?
+    /// 取消动画时候，是否需要将Y值修正为0
+    var needCorrectYToZeroWhenCancel = false
+    
+    var translationBeforeInteractive: CGPoint = .zero
     
     var shouldStartTransition: ((CGPoint) -> Bool)?
     
@@ -49,63 +64,110 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
     
     var finishTransition: (() -> Void)?
     
+    deinit {
+        zl_debugPrint("ZLPhotoPreviewPopInteractiveTransition deinit")
+    }
+    
     init(viewController: ZLPhotoPreviewController) {
-        super.init()
         self.viewController = viewController
-        let dismissPan = UIPanGestureRecognizer(target: self, action: #selector(dismissPanAction(_:)))
-        viewController.view.addGestureRecognizer(dismissPan)
+        super.init()
+        
+        viewController.view.addGestureRecognizer(dismissPanGes)
     }
     
     @objc func dismissPanAction(_ pan: UIPanGestureRecognizer) {
-        let point = pan.location(in: viewController?.view)
+        guard canStartPan() else { return }
         
         if pan.state == .began {
-            guard shouldStartTransition?(point) == true else {
-                interactive = false
-                return
-            }
-            startPanPoint = point
-            interactive = true
-            startTransition?()
-            viewController?.navigationController?.popViewController(animated: true)
+            beginInterative(pan)
         } else if pan.state == .changed {
-            guard interactive else {
+            if !interactive {
+                beginInterative(pan)
+                if interactive {
+                    translationBeforeInteractive = pan.translation(in: viewController?.view)
+                }
                 return
             }
+            
             let result = panResult(pan)
-            imageView?.frame = result.frame
+            imageView?.transform = CGAffineTransform(scaleX: result.scale, y: result.scale)
+            imageView?.center = CGPoint(x: result.frame.midX, y: result.frame.midY)
+//            imageView?.frame = result.frame
+            
             shadowView?.alpha = pow(result.scale, 2)
             
             update(result.scale)
         } else if pan.state == .cancelled || pan.state == .ended {
-            guard interactive else {
-                return
-            }
+            guard interactive else { return }
             
             let vel = pan.velocity(in: viewController?.view)
             let p = pan.translation(in: viewController?.view)
-            let percent: CGFloat = max(0.0, p.y / (viewController?.view.bounds.height ?? UIScreen.main.bounds.height))
+            let transY = p.y - translationBeforeInteractive.y
+            let percent = max(0.0, transY / (viewController?.view.bounds.height ?? UIScreen.main.bounds.height))
             
-            let dismiss = vel.y > 300 || (percent > 0.1 && vel.y > -300)
+            let dismiss = vel.y > 300 || (percent > 0.1 && vel.y >= 0)
             
             if dismiss {
                 finish()
             } else {
                 cancel()
             }
+            
             imageViewOriginalFrame = .zero
             startPanPoint = .zero
+            translationBeforeInteractive = .zero
             interactive = false
         }
+    }
+    
+    /// 判断是否开始手势
+    func canStartPan() -> Bool {
+        guard !interactive else { return true }
+        
+        guard let viewController,
+              let cell = viewController.collectionView.cellForItem(
+                  at: IndexPath(row: viewController.currentIndex, section: 0)
+              ) as? ZLPreviewBaseCell,
+              let scrollView = cell.scrollView,
+              let contentView = scrollView.subviews.first else {
+            return true
+        }
+        
+        let convertRect = contentView.convert(contentView.bounds, to: scrollView)
+        if scrollView.isZooming ||
+            scrollView.isZoomBouncing ||
+            scrollView.contentOffset.y > 0 ||
+            // cell放大时候，当拖拽到最左和最右时，会拉动vc的collectionView，这时不能进行pop动画
+            (convertRect.minX != 0 && contentView.zl.width > scrollView.zl.width) {
+            return false
+        }
+        
+        return true
+    }
+    
+    /// 开始手势
+    func beginInterative(_ pan: UIPanGestureRecognizer) {
+        guard !interactive else { return }
+        
+        let vel = pan.velocity(in: viewController?.view)
+        if abs(vel.x) >= abs(vel.y) || vel.y <= 0 {
+            return
+        }
+        
+        startPanPoint = pan.location(in: viewController?.view)
+        interactive = true
+        startTransition?()
+        viewController?.navigationController?.popViewController(animated: true)
     }
     
     func panResult(_ pan: UIPanGestureRecognizer) -> (frame: CGRect, scale: CGFloat) {
         // 拖动偏移量
         let translation = pan.translation(in: viewController?.view)
+        let transY = translation.y - translationBeforeInteractive.y
         let currentTouch = pan.location(in: viewController?.view)
         
         // 由下拉的偏移值决定缩放比例，越往下偏移，缩得越小。scale值区间[0.3, 1.0]
-        let scale = min(1.0, max(0.3, 1 - translation.y / UIScreen.main.bounds.height))
+        let scale = min(1.0, max(0.3, 1 - transY / UIScreen.main.bounds.height))
         
         let width = imageViewOriginalFrame.size.width * scale
         let height = imageViewOriginalFrame.size.height * scale
@@ -144,6 +206,7 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
             return
         }
         
+        currentCell = cell
         shadowView = UIView(frame: containerView.bounds)
         shadowView?.backgroundColor = ZLPhotoUIConfiguration.default().previewVCBgColor
         containerView.addSubview(shadowView!)
@@ -153,10 +216,20 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
         imageView = UIImageView(frame: fromImageViewFrame)
         imageView?.contentMode = .scaleAspectFill
         imageView?.clipsToBounds = true
-        imageView?.image = cell.currentImage
+        
+        if let videoCell = cell as? ZLVideoPreviewCell, let playerLayer = videoCell.playerLayer, videoCell.imageView.isHidden {
+            playerLayer.removeFromSuperlayer()
+            self.playerLayer = playerLayer
+            imageView?.layer.insertSublayer(playerLayer, at: 0)
+        } else {
+            imageView?.image = cell.currentImage
+        }
+        
         containerView.addSubview(imageView!)
+        containerView.addSubview(fromVC.view)
         
         imageViewOriginalFrame = imageView!.frame
+        resetViewStatus(isStart: true)
     }
     
     override func finish() {
@@ -177,7 +250,7 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
         let toVCVisiableIndexPaths = toVC.collectionView.indexPathsForVisibleItems
         
         var diff = 0
-        if !ZLPhotoConfiguration.default().sortAscending {
+        if !ZLPhotoUIConfiguration.default().sortAscending {
             if toVC.showCameraCell {
                 diff = -1
             }
@@ -204,8 +277,11 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
             toFrame = toVC.collectionView.convert(toCell.frame, to: transitionContext.containerView)
         }
         
-        UIView.animate(withDuration: 0.25, animations: {
-            if let toFrame = toFrame {
+        toVC.endPopTransition()
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            if let toFrame, self.playerLayer == nil {
+                self.imageView?.transform = .identity
                 self.imageView?.frame = toFrame
             } else {
                 self.imageView?.alpha = 0
@@ -232,15 +308,73 @@ class ZLPhotoPreviewPopInteractiveTransition: UIPercentDrivenInteractiveTransiti
             return
         }
         
+        var toFrame = imageViewOriginalFrame
+        if needCorrectYToZeroWhenCancel {
+            toFrame.origin.y = 0
+        }
+        
         UIView.animate(withDuration: 0.25, animations: {
-            self.imageView?.frame = self.imageViewOriginalFrame
+            self.imageView?.transform = .identity
+            self.imageView?.frame = toFrame
             self.shadowView?.alpha = 1
         }) { _ in
+            self.resetViewStatus(isStart: false)
+            if let playerLayer = self.playerLayer {
+                playerLayer.removeFromSuperlayer()
+                (self.currentCell as? ZLVideoPreviewCell)?.playerView.layer.insertSublayer(playerLayer, at: 0)
+            }
+            self.currentCell = nil
+            self.playerLayer = nil
             self.imageView?.removeFromSuperview()
             self.shadowView?.removeFromSuperview()
             self.cancelTransition?()
             transitionContext.cancelInteractiveTransition()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
+    }
+    
+    func resetViewStatus(isStart: Bool) {
+        currentCell?.scrollView?.isScrollEnabled = !isStart
+        currentCell?.scrollView?.pinchGestureRecognizer?.isEnabled = !isStart
+        (currentCell as? ZLVideoPreviewCell)?.singleTapGes.isEnabled = !isStart
+        
+        guard let transitionContext = transitionContext,
+              let fromVC = transitionContext.viewController(forKey: .from) as? ZLPhotoPreviewController else {
+            return
+        }
+        
+        fromVC.view.backgroundColor = isStart ? .clear : ZLPhotoUIConfiguration.default().previewVCBgColor
+        fromVC.collectionView.isHidden = isStart
+    }
+}
+
+extension ZLPhotoPreviewPopInteractiveTransition: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let point = gestureRecognizer.location(in: viewController?.view)
+        let shouldBegin = shouldStartTransition?(point) == true
+        if shouldBegin,
+           let viewController,
+           let cell = viewController.collectionView.cellForItem(
+               at: IndexPath(row: viewController.currentIndex, section: 0)
+           ) as? ZLPreviewBaseCell,
+           let scrollView = cell.scrollView {
+            let contentSizeH = scrollView.contentSize.height
+            needCorrectYToZeroWhenCancel = contentSizeH > scrollView.zl.height && scrollView.contentOffset.y >= 0
+        }
+        
+        return shouldBegin
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if otherGestureRecognizer is UITapGestureRecognizer,
+           otherGestureRecognizer.view is UIScrollView {
+            return false
+        }
+        
+        if otherGestureRecognizer == viewController?.collectionView.panGestureRecognizer {
+            return false
+        }
+        
+        return !(viewController?.collectionView.isDragging ?? false)
     }
 }

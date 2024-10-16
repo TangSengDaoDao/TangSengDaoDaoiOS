@@ -1,9 +1,10 @@
-[![Version](https://img.shields.io/cocoapods/v/ZLPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/ZLPhotoBrowser)
+[![Version](https://img.shields.io/github/v/tag/longitachi/ZLPhotoBrowser.svg?color=blue&include_prereleases=&sort=semver)](https://cocoapods.org/pods/ZLPhotoBrowser)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![SPM supported](https://img.shields.io/badge/SwiftPM-supported-E57141.svg)](https://swift.org/package-manager/)
-[![License](https://img.shields.io/cocoapods/l/ZLPhotoBrowser.svg?style=flat)](https://raw.githubusercontent.com/longitachi/ZLPhotoBrowser/master/LICENSE)
-[![Platform](https://img.shields.io/cocoapods/p/ZLPhotoBrowser.svg?style=flat)](https://github.com/longitachi/ZLPhotoBrowser/wiki)
+[![License](https://img.shields.io/badge/license-MIT-black)](https://raw.githubusercontent.com/longitachi/ZLPhotoBrowser/master/LICENSE)
+[![Platform](https://img.shields.io/badge/Platforms-iOS-blue?style=flat)](https://img.shields.io/badge/Platforms-iOS-blue?style=flat)
 ![Language](https://img.shields.io/badge/Language-%20Swift%20-E57141.svg)
+[![Usage](https://img.shields.io/badge/Usage-Doc-yarn?style=flat)](https://github.com/longitachi/ZLPhotoBrowser/wiki/How-to-use-(Swift))
 
 ![image](https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/preview_with_title.png)
 
@@ -14,21 +15,20 @@ English | [简体中文](https://github.com/longitachi/ZLPhotoBrowser/blob/maste
 ZLPhotoBrowser is a Wechat-like image picker. Support select normal photos, videos, gif and livePhoto. Support edit image and crop video.
 
 ### Directory
-* [Features](#Features)
-* [Requirements](#Requirements)
-* [Usage](#Usage)
-* [Change Log](#ChangeLog)
-* [Languages](#Languages)
-* [Installation(Support Cocoapods/Carthage/SPM)](#Installation)
-* [Support](#Support)
-* [Demo Effect](#DemoEffect)
+* [Features](#features)
+* [Requirements](#requirements)
+* [Usage](#usage)
+* [Change Log](#change-log)
+* [Languages](#languages)
+* [Installation(Support Cocoapods/Carthage/SPM)](#installation)
+* [Support](#support)
+* [Demo Effect](#demo-effect)
 
 Detailed usage of `Swift` and `OC`, please refer to [Wiki](https://github.com/longitachi/ZLPhotoBrowser/wiki).
 
 If you only want to use the image edit feature, please move to [ZLImageEditor](https://github.com/longitachi/ZLImageEditor).
 
-### <a id="Features"></a>Features
-- [x] iOS14 supported.
+### Features
 - [x] Portrait and landscape.
 - [x] Two framework style.
 - [x] Preview selection (Support drag and drop).
@@ -50,12 +50,12 @@ If you only want to use the image edit feature, please move to [ZLImageEditor](h
 
 > If you have good needs and suggestions in use, or encounter any bugs, please create an issue and I will reply in time.
  
-### <a id="Requirements"></a>Requirements
+### Requirements
  * iOS 10.0
  * Swift 5.x
- * Xcode 12.x
+ * Xcode 13.x
  
-### <a id="Usage"></a>Usage
+### Usage
  - Preview selection
  ```swift
  let ps = ZLPhotoPreviewSheet()
@@ -88,39 +88,36 @@ If you only want to use the image edit feature, please move to [ZLImageEditor](h
  ```
  
  
-### <a id="ChangeLog"></a>Change Log
+### Change Log
 > [More logs](https://github.com/longitachi/ZLPhotoBrowser/blob/master/CHANGELOG.md)
 ```
-● 4.3.9
+● 4.5.5
   Add:
-    Support for customizing the item spacing, row spacing, and column count of the thumbnail view controller.
-    Moves the camera configuration-related properties from ZLPhotoConfiguration to ZLCameraConfiguration.
-    Update the UI style of camera interface.
-    Support callback directly after taking picture.
-    Increase the maximum zoom ratio of stickers.
-● 4.3.8
-  Add:
-    Support direct callback after selecting thumbnail.
-    Add horizontal adjust slider.
+    The ZLImagePreviewController interface supports gesture-driven pull-down return animations.
+    Update the API for obtaining album permissions.
   Fix:
-    Fix the bug of wrong size when merging videos.
-    Hide redo button when filtering or color adjusting.
-● 4.3.7
+    Fixed the bug that mosaics were not displayed during painting.
+● 4.5.4
   Add:
-    Modify the parameter type of selectImageBlock and use ZLResultModel for callback. Delete shouldAnialysisAsset property.
-    Photo editor adapts to iPad.
-    Arabic supported.
-    Support redo in graffiti and mosaic tools.
-    Support for modifying the tint color of the image editor icon.
+    Support iOS18.
+    Enhance the user experience of the image cropping interface and optimize the animation effects.
+    Support for setting `VideoMirrored` in the custom camera.
   Fix:
-    Fix the bug of getting the wrong version of the video when editing the video.
+    Fix the issue where some UI elements are displayed incorrectly on phones without a notch.
+● 4.5.3
+  Add:
+    Support customizing the alert for when there is no permission.
+    Add configuration option to center tools in tools collection view.
+  Fix:
+    Fix the bug where the crop ratio view is not hidden when there is only one ratio in the cropping interface.
+    Fix a bug that may cause failure when saving images from iCloud to local storage.
 ...
 ```
 
-### <a id="Languages"></a>Languages
-🇨🇳 Chinese, 🇺🇸 English, 🇯🇵 Japanese, 🇫🇷 French, 🇩🇪 German, 🇷🇺 Russian, 🇻🇳 Vietnamese, 🇰🇷 Korean, 🇲🇾 Malay, 🇮🇹 Italian, 🇮🇩 Indonesian, 🇪🇸 Spanish, 🇵🇹 Portuguese, 🇹🇷 Turkish, 🇸🇦 Arabic.
+### Languages
+🇨🇳 Chinese, 🇺🇸 English, 🇯🇵 Japanese, 🇫🇷 French, 🇩🇪 German, 🇷🇺 Russian, 🇻🇳 Vietnamese, 🇰🇷 Korean, 🇲🇾 Malay, 🇮🇹 Italian, 🇮🇩 Indonesian, 🇪🇸 Spanish, 🇵🇹 Portuguese, 🇹🇷 Turkish, 🇸🇦 Arabic, 🇳🇱 Dutch.
 
-### <a id="Installation"></a>Installation
+### Installation
 There are four ways to use ZLPhotoBrowser in your project:
 
   - using CocoaPods
@@ -168,15 +165,15 @@ If you get an error like `Building universal frameworks with common architecture
 Rebuild with --use-xcframeworks to create an xcframework bundle instead.` [Click this link](https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md).
 
 #### Swift Package Manager
-1. Select File > Swift Packages > Add Package Dependency. Enter https://github.com/longitachi/ZLPhotoBrowser.git in the "Choose Package Repository" dialog.
-2. In the next page, specify the version resolving rule as "Up to Next Major" with "4.0.9" as its earliest version.
+1. Select File > Add Packages. Enter https://github.com/longitachi/ZLPhotoBrowser.git in the "Choose Package Repository" dialog.
+2. In the next page, specify the version resolving rule as "Up to Next Major" with "4.5.5" as its earliest version.
 3. After Xcode checking out the source and resolving the version, you can choose the "ZLPhotoBrowser" library and add it to your app target.
 
-### <a id="Support"></a> Support
+### Support
 * [**★ Star**](#) this repo.
 * Support with <img src="https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/ap.png" width = "100" height = "125" /> or <img src="https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/wp.png" width = "100" height = "125" /> or <img src="https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/pp.png" width = "150" height = "125" />
 
-### <a id="DemoEffect"></a> Demo Effect
+### Demo Effect
 - Selection
 ![image](https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/%E5%BF%AB%E9%80%9F%E9%80%89%E6%8B%A9.gif)
 ![image](https://github.com/longitachi/ImageFolder/blob/master/ZLPhotoBrowser/%E7%9B%B8%E5%86%8C%E5%86%85%E9%83%A8%E9%80%89%E6%8B%A9.gif)
