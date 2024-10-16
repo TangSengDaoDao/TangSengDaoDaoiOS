@@ -141,7 +141,8 @@
     WKMessage *message = [WKMessage new];
     message.messageSeq = 1;
     message.content = [WKEndToEndEncryptHitContent new];
-    message.contentType = [[message.content class] contentType];
+    NSNumber *contentType = [[message.content class] contentType];
+    message.contentType = contentType.integerValue;
     return [[WKMessageModel alloc] initWithMessage:message];
 }
 - (WKMessageList *)messageList {

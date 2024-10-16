@@ -145,7 +145,7 @@ static WKTypingManager *_instance = nil;
     content.typingName = fromName;
     typingMessage.content = content;
     
-    typingMessage.contentType = [WKTypingContent contentType];
+    typingMessage.contentType = [WKTypingContent contentType].integerValue;
     return typingMessage;
 }
 
