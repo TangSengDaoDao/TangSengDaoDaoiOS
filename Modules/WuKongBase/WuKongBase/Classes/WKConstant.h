@@ -307,6 +307,8 @@ typedef enum : NSUInteger {
     
     WK_TYPING = 101, // 正在输入
     
+    WK_SCREENSHOT = 20, // 截屏通知
+    
     // 1000-2000 为系统消息
     WK_FRIEND_REQUEST = 1000, // 好友邀请请求（这个消息应该不使用了，因为走cmd了）
     WK_GROUP_MEMBERADD = 1002, // 添加群成员
@@ -325,7 +327,7 @@ typedef enum : NSUInteger {
     
     WK_GROUP_FORBIDDEN_ADD_FRIEND = 1013, // 群内禁止互加好友
     
-    WK_SCREENSHOT = 1014, // 截屏通知
+   
     
     WK_GROUP_UPGRADE = 1022, // 群升级
     
