@@ -129,7 +129,7 @@ static WKMessageExtraDB *_instance;
     [[WKDB sharedDB].dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
        FMResultSet *resultSet = [db executeQuery:SQL_MESSAGE_EXTRA_MAX_VERSION,channel.channelId?:@"",@(channel.channelType)];
         if(resultSet.next) {
-            maxVersion = [resultSet intForColumn:@"max_version"];
+            maxVersion = [resultSet longLongIntForColumn:@"max_version"];
         }
         [resultSet close];
     }];

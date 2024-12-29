@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString*)getUUID;
 
-+(NSString*) getClientMsgNo:(NSString*)custId toCustId:(NSString*)toCustId chatId:(NSString*)chatId;
++(NSString*) getClientMsgNo:(NSInteger)clientMsgDeviceId;
 @end
 
 NS_ASSUME_NONNULL_END

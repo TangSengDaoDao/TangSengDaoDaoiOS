@@ -110,7 +110,7 @@
     if(clientMsgNo && ![clientMsgNo isEqualToString:@""]) {
         message.clientMsgNo = clientMsgNo;
     }else{
-        message.clientMsgNo = [WKUUIDUtil getClientMsgNo:fromUid toCustId:channel.channelId chatId:@""];
+        message.clientMsgNo = [WKUUIDUtil getClientMsgNo:WKSDK.shared.options.clientMsgDeviceId];
     }
     
     
@@ -199,17 +199,19 @@
     return store;
 }
 
--(void) saveMessages:(NSArray<WKMessage*>*)messages {
+-(NSArray<WKMessage*>*) saveMessages:(NSArray<WKMessage*>*)messages {
     if(!messages || messages.count<=0) {
-        return;
+        return nil;
     }
     for (WKMessage *message in messages) {
         message.isDeleted = ![self needStoreOfIntercept:message];
     }
     // 保存消息
-    [[WKMessageDB shared] saveMessages:messages];
+    NSArray<WKMessage*> *newMessages = [[WKMessageDB shared] saveMessages:messages];
     // 更新最近会话
-    [self addOrUpdateConversationWithMessages:messages];
+    [self addOrUpdateConversationWithMessages:newMessages];
+    
+    return newMessages;
 }
 
 -(void) addOrUpdateMessages:(NSArray<WKMessage*>*)messages  {
@@ -547,15 +549,13 @@
 -(void) handleMessages:(NSArray<WKMessage*>*) messages {
     
     // 存储消息
-    NSArray<WKMessage*> *storeMessages = [[WKMessageDB shared] saveMessages:[self filterNeedStoreMessages:messages]];
+    [self saveMessages:[self filterNeedStoreMessages:messages]];
+    
     // 流消息
     NSArray<WKMessage*> *streamMessages =  [self filterStreamMessagesWithStreamFlagIng:messages];
-    
     NSArray<WKStream*> *streams;
     if(streamMessages && streamMessages.count>0) {
-        
         streams = [self getStreams:streamMessages];
-        
         // 保存流式消息
         NSMutableArray<WKStream*> *needStoreStreams = [NSMutableArray array]; // 需要存储的流
         for (WKMessage *m in streamMessages) {
@@ -566,6 +566,7 @@
         [WKMessageDB.shared saveOrUpdateStreams:needStoreStreams];
     }
     
+    // cmd消息
     NSArray<WKCMDModel*> *cmds = [self getCMDModels:messages]; // 获取命令消息
     if(cmds && cmds.count>0) {
        NSArray<WKCMDMessage*> *cmdMessages = [self getCMDMessages:messages];
@@ -575,11 +576,6 @@
     }
     
     NSArray<WKMessage*> *commonMessages  = [self filterNoCMDAndNoStreamMessages:messages]; // 非cmd消息和流消息
-    
-    if(storeMessages && storeMessages.count>0) {
-        // 更新最近会话(只有需要存储的消息才更新最近会话)
-        [self addOrUpdateConversationWithMessages:storeMessages];
-    }
     
     // 调用委托通知上层 不管存不存的消息都需要通知到delegate
     [self callRecvMessagesDelegate:commonMessages];
@@ -648,7 +644,7 @@
     NSMutableArray *newMessages = [NSMutableArray array];
     if(messages && messages.count>0) {
         for (WKMessage *message in messages) {
-            if((message.isDeleted == 0 && message.contentType != WK_CMD)) {
+            if(message.contentType != WK_CMD) {
                 if(!message.setting.streamOn ||  (message.setting.streamOn && message.streamFlag == WKStreamFlagStart)) {
                     [newMessages addObject:message];
                 }

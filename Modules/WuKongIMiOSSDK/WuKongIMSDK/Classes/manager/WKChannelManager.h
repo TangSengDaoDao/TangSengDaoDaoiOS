@@ -54,7 +54,7 @@ typedef void  (^WKChannelInfoBlock)(WKChannelInfo*);
 -(void) fetchChannelInfo:(WKChannel*) channel;
 
 /**
-  添加频道请求（此方法时候大量cell获取频道数据）
+  添加频道请求（此方法适合大量cell获取频道数据）
  */
 -(void) addChannelRequest:(WKChannel*)channel complete:(void(^_Nullable)(NSError *error,bool notifyBefore))complete;
 

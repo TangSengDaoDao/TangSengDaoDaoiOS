@@ -32,7 +32,7 @@
 + (CGSize)sizeForMessage:(WKMessageModel *)model {
      WKSystemContent *content = (WKSystemContent*)model.content;
      NSString *text = content.displayContent;
-    CGSize contentSize;
+    CGSize contentSize = CGSizeMake(0.0f, 0.0f);
     if(text) {
         contentSize =  [[self class] getTextSize:text maxWidth:WKScreenWidth - WK_SYSTEM_TEXT_SPACE];
     }

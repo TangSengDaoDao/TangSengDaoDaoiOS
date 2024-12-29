@@ -631,6 +631,7 @@ static dispatch_queue_t _imsocketQueue;
     }
     self.lastMsgTimeInterval = [[NSDate date] timeIntervalSince1970];
     NSMutableArray<WKPacket*> *packets = [NSMutableArray array];
+    NSLog(@"包数量--->%lu",dataList.count);
     for (NSData *data in dataList) {
        WKPacket *packet =  [[WKSDK shared].coder decode:data];
         if(!packet) {

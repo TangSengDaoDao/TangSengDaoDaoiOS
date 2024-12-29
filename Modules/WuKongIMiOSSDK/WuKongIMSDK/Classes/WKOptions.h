@@ -141,6 +141,9 @@ typedef WKConnectInfo*_Nonnull(^WKConnectInfoCallback)(void);
 @property(nonatomic,assign) NSInteger sendFrequency; // 消息发送延迟时间 单位毫秒
 @property(nonatomic,assign) NSInteger sendMaxCountOfEach; // 消息每次发送最大数量
 
+// 客户端消息设备id，如果设置了每条消息的clientMsgNo里将带这个标记
+@property(nonatomic,assign) NSInteger clientMsgDeviceId;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WuKongIMSDK'
-  s.version          = '1.0.9'
+  s.version          = '1.1.0'
   s.summary          = '悟空IM是一款简单，高效，支持完全私有化的即时通讯.'
 
 # This description is used to generate tags and improve search results.

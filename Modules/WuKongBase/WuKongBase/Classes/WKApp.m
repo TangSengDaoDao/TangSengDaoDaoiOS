@@ -374,6 +374,8 @@ static WKApp *_instance;
         // 同步安全提醒敏感词
         [[WKSecurityTipManager shared] syncIfNeed];
         
+        [weakSelf enterApp];
+        
         return nil;
     }];
     
@@ -401,6 +403,8 @@ static WKApp *_instance;
         }
 //        // 同步联系人
         [[WKSyncService shared] sync];
+        
+        [self enterApp];
     }else {
         [[WKApp shared] invoke:WKPOINT_LOGIN_SHOW param:nil];
     }
@@ -434,6 +438,16 @@ static WKApp *_instance;
 //    [[SDWebImageManager sharedManager] setCacheKeyFilter:[[SDWebImageCacheKeyFilter alloc] initWithBlock:^NSString * _Nullable(NSURL * _Nonnull url) {
 //        return [url absoluteString];
 //    }]];
+}
+
+// 进入app
+-(void) enterApp {
+    [WKAPIClient.sharedClient GET:[NSString stringWithFormat:@"user/devices/%@",[UIDevice getUUID]] parameters:nil].then(^(NSDictionary *result){
+        NSLog(@"result---->%@",result);
+        if(result && result[@"id"]) {
+            [WKSDK.shared.options setClientMsgDeviceId: [result[@"id"] integerValue]];
+        }
+    });
 }
 
 - (void)registerForNotification {
