@@ -24,6 +24,8 @@
 @property(nonatomic,strong) WKSearchbarView *searchbarView;
 @property(nonatomic,strong) UIView *tableHeader;
 
+@property(nonatomic,strong) UILabel *contactsCountLbl; // 联系人数量
+
 @end
 
 @implementation WKContactsVC
@@ -118,6 +120,9 @@
     [self.items insertObject:[NSMutableArray arrayWithArray:headerItems] atIndex:0];
    
     NSArray<WKChannelInfo*> *channelInfos = [[WKChannelInfoDB shared] queryChannelInfosWithStatusAndFollow:WKChannelStatusNormal follow:WKChannelInfoFollowFriend];
+    if(channelInfos) {
+        self.contactsCountLbl.text = [NSString stringWithFormat:LLang(@"%ld个朋友"),(long)channelInfos.count];
+    }
     NSMutableArray *items = [NSMutableArray array];
     if(channelInfos) {
         for (NSInteger i=0; i<channelInfos.count; i++) {
@@ -130,6 +135,7 @@
     if(items.count>0) {
         [self sortAndGroup:items];
     }
+    
 }
 
 -(WKContactsCellModel*) toContactsCellModel:(WKChannelInfo*)channelInfo {
@@ -190,7 +196,7 @@
         _tableView.backgroundColor=[UIColor clearColor];
         
         _tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-        _tableView.tableFooterView = [[UIView alloc] init];
+//        _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.estimatedRowHeight = 0;
         _tableView.estimatedSectionHeaderHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
@@ -203,6 +209,8 @@
         
          _tableView.tableHeaderView = self.tableHeader;
         
+        _tableView.tableFooterView = [self tableFooterView];
+        
     }
     return _tableView;
 }
@@ -211,6 +219,25 @@
     [super loadView];
     [self.view addSubview:self.tableView];
 }
+
+-(UIView*) tableFooterView {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.lim_width, 44.0f)];
+    [footerView addSubview:self.contactsCountLbl];
+    self.contactsCountLbl.frame = footerView.frame;
+    footerView.backgroundColor = WKApp.shared.config.backgroundColor;
+    return footerView;
+}
+
+-(UILabel*) contactsCountLbl {
+    if(!_contactsCountLbl) {
+        _contactsCountLbl = [[UILabel alloc] init];
+        _contactsCountLbl.textColor = WKApp.shared.config.tipColor;
+        _contactsCountLbl.font = [WKApp.shared.config appFontOfSize:WKApp.shared.config.footerTipFontSize];
+        [_contactsCountLbl setTextAlignment:NSTextAlignmentCenter];
+    }
+    return _contactsCountLbl;
+}
+
 
 // 头部字母部分
 -(UIView*) headView:(NSString*)title headHeight:(CGFloat)headHheght color:(UIColor*)color{

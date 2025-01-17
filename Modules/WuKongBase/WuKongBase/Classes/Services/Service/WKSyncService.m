@@ -35,13 +35,20 @@ static WKSyncService *_instance = nil;
 - (void)sync:(void (^)(NSError *))callback {
     MBProgressHUD *hub = [[self rootViewController].view showHUDWithDim];
        hub.hidden = YES;
+    
+    // 创建一个 dispatch_group
+       dispatch_group_t group = dispatch_group_create();
+    
        dispatch_async(dispatch_get_global_queue(0, 0), ^{
            
            NSArray<id<WKSync>> *syncServices = [[WKApp shared] invokes:WKPOINT_CATEGORY_SYNC param:nil];
            if(syncServices) {
-               dispatch_semaphore_t sema = dispatch_semaphore_create(0);
                for (id<WKSync> syncService in syncServices) {
                    if([syncService needSync]) {
+                       
+                       // 进入 dispatch_group
+                       dispatch_group_enter(group);
+                       
                        dispatch_async(dispatch_get_main_queue(), ^{
                            if(syncService.title) {
                                hub.hidden = NO;
@@ -49,22 +56,34 @@ static WKSyncService *_instance = nil;
                            }
                           
                        });
-                       
-                       [syncService sync:^(NSError *error) {
-                           dispatch_semaphore_signal(sema);
-                       }];
+                       dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                           // 在主线程中更新 HUD
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               if (syncService.title) {
+                                   hub.hidden = NO;
+                                   hub.label.text = syncService.title;
+                               }
+                           });
+                           [syncService sync:^(NSError *error) {
+                               dispatch_group_leave(group);
+                           }];
+                       });
+                      
                    }
                }
-               dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+               // 在所有同步任务完成后执行隐藏 HUD 和回调
+               dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                   [hub hideAnimated:YES];
+                   if(callback) {
+                       callback(nil);
+                   }
+               });
                
-           }
-           dispatch_async(dispatch_get_main_queue(), ^{
-               
-               [hub hideAnimated:YES];
+           }else {
                if(callback) {
                    callback(nil);
                }
-           });
+           }
        });
 }
 

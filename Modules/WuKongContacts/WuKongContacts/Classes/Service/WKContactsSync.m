@@ -15,8 +15,9 @@
 - (void)sync:(void (^)(NSError *))callback {
     NSString *cacheKey = [NSString stringWithFormat:@"%@_%@",[WKApp shared].loginInfo.uid,@"friend_version"];
     NSString *friendMaxVersion = [[NSUserDefaults standardUserDefaults] stringForKey:cacheKey];
-    NSInteger limit = 100;
+    NSInteger limit = 200;
     __weak typeof(self) weakSelf = self;
+    __strong typeof(weakSelf) strongSelf = weakSelf;
     [[WKAPIClient sharedClient] GET:[NSString stringWithFormat:@"friend/sync"] parameters:@{@"version":friendMaxVersion?:@"",@"api_version":@"1",@"limit":@(limit)}].then(^(NSArray<NSDictionary*>* contacts){
         if(contacts && contacts.count>0) {
             NSMutableArray *channelInfos = [NSMutableArray array];
@@ -45,16 +46,9 @@
              [[WKSDK shared].channelManager addOrUpdateChannelInfos:channelInfos];
             
             if(contacts.count>=limit) {
-                [weakSelf sync:callback];
+                [strongSelf sync:callback];
                 return;
             }
-            
-//            if([WKSDK shared].options.proto == WK_PROTO_MOS) {
-//                // MOS协议暂时不把联系人信息缓存到频道信息内，因为数据还有缺失
-//            }else {
-//                // 添加或更新sdk的频道信息
-//                [[WKSDK shared].channelManager addOrUpdateChannelInfos:channelInfos];
-//            }
         }
         // 通知联系人更新
         [[NSNotificationCenter defaultCenter] postNotificationName:WK_NOTIFY_CONTACTS_UPDATE object:nil];
@@ -72,8 +66,8 @@
 
 
 - (NSString *)title {
-    return nil;
-//    return LLang(@"同步联系人");
+//    return nil;
+    return LLang(@"同步联系人");
 }
 
 
