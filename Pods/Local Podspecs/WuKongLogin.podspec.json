@@ -33,15 +33,11 @@
     "MapKit"
   ],
   "dependencies": {
-    "WuKongBase": [
-
-    ],
+    "WuKongBase": [],
     "PromiseKit/CorePromise": [
       "~> 6.0"
     ],
-    "Masonry": [
-
-    ],
+    "Masonry": [],
     "SDWebImage": [
       "~> 5.9.1"
     ]

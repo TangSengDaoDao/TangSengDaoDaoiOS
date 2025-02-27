@@ -143,12 +143,19 @@
 #define WKPOINT_CATEGORY_PANELFUNCITEM_CARD @"panel.func.item.card"
 // file
 #define WKPOINT_CATEGORY_PANELFUNCITEM_FILE @"panel.func.item.file"
+// 搜索记录里的文件item视图
+#define WKPOINT_SEARCH_ITEM_FILE @"search.item.file"
+
+
 // call
 #define WKPOINT_CATEGORY_PANELFUNCITEM_CALL @"panel.func.item.call"
 // more
 #define WKPOINT_CATEGORY_PANELFUNCITEM_MORE @"panel.func.item.more"
 // 发送视频
 #define WKPOINT_SEND_VIDEO @"panel.send.video"
+
+// 历史消息搜索里的小视频item
+#define WKPOINT_SEARCH_ITEM_VIDEO @"search.item.video"
 
 // 最近会话的顶部面板
 #define WKPOINT_CONVERSATION_TOP_PANEL @"conversation.top.panel"

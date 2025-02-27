@@ -46,6 +46,7 @@
 #import "WKPhotoBrowser.h"
 #import "WKPwdKeyboardInputView.h"
 #import "WKStickerImageView.h"
+#import "WKTabbar.h"
 #import "WKTabPageView.h"
 #import "WKTextViewVC.h"
 #import "WKTipLabel.h"

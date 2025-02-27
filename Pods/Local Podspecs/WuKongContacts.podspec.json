@@ -31,20 +31,14 @@
   ],
   "source_files": "WuKongContacts/Classes/**/*",
   "dependencies": {
-    "WuKongBase": [
-
-    ],
+    "WuKongBase": [],
     "PromiseKit/CorePromise": [
       "~> 6.0"
     ],
     "FMDB/SQLCipher": [
       "~>2.7.5"
     ],
-    "Masonry": [
-
-    ],
-    "WuKongIMSDK": [
-
-    ]
+    "Masonry": [],
+    "WuKongIMSDK": []
   }
 }

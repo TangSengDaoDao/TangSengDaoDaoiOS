@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy) NSString *keyword; // 默认关键字
 
+@property(nonatomic,strong) WKChannel *channel;
+
 @end
 
 NS_ASSUME_NONNULL_END

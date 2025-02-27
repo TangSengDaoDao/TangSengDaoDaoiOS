@@ -314,7 +314,7 @@
 
 // WKGlobalSearchVM
 
-"联系人"="Contact";
+"联系人"="Contacts";
 "更多联系人"="More contacts";
 "更多群聊"="More group chats";
 "更多聊天记录"="More chat history";
@@ -569,3 +569,10 @@
 "禁用"="Disable";
 "启用"="Enable";
 "复制成功"="Copy success";
+
+// search
+"查找聊天内容"="Search Chat Content";
+"群组"="Group";
+"文件"="File";
+"图片/视频"="Images/Videos";
+"[系统消息]" = "[System Message]";

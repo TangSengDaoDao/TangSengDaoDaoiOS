@@ -26,6 +26,7 @@
 @property(nonatomic,strong) WKUserAvatar *avatarImgView;
 @property(nonatomic,strong) UILabel *nameLbl;
 @property(nonatomic,strong) UILabel *contentLbl;
+@property(nonatomic,strong) UILabel *timeLbl;
 
 @end
 
@@ -48,30 +49,61 @@
     
     // content
     self.contentLbl = [[UILabel alloc] init];
-    [self.contentLbl setFont:[UIFont systemFontOfSize:14.0f]];
+    [self.contentLbl setFont:[WKApp.shared.config appFontOfSize:14.0f]];
     [self.contentLbl setTextColor:[UIColor grayColor]];
     [self addSubview:self.contentLbl];
+    
+    // time
+    self.timeLbl = [[UILabel alloc] init];
+    [self.timeLbl setFont:[WKApp.shared.config appFontOfSize:12.0f]];
+    [self.timeLbl setTextColor:[UIColor grayColor]];
+    [self addSubview:self.timeLbl];
 }
 
 - (void)refresh:(WKSearchMessageModel *)model {
     [super refresh:model];
     
-    self.avatarImgView.url = model.avatar;
-    self.nameLbl.text = model.name;
+    NSString *avatar = @"";
+    NSString *name = @"";
+    
+    WKChannelInfo *channelInfo = [WKSDK.shared.channelManager getChannelInfo:model.channel];
+    if(channelInfo) {
+        avatar = [WKApp.shared getImageFullUrl:channelInfo.logo].absoluteString;
+        name = channelInfo.displayName;
+    }else {
+        [WKSDK.shared.channelManager fetchChannelInfo:model.channel];
+    }
+    
+    self.avatarImgView.url = avatar;
+    self.nameLbl.text = name;
     self.contentLbl.attributedText = nil;
     if(model.content && ![model.content isEqualToString:@""]) {
-         NSMutableAttributedString *contentAttr = [[NSMutableAttributedString alloc] initWithString:model.content];
-        if(model.keyword && ![model.keyword isEqualToString:@""]) {
-            NSRange colorRange = [[model.content lowercaseString] rangeOfString:[model.keyword lowercaseString]];
-            [contentAttr addAttribute:NSForegroundColorAttributeName value:[WKApp shared].config.themeColor range:colorRange];
-        }
-        self.contentLbl.attributedText = contentAttr;
+        self.contentLbl.attributedText = [self highlightText:model.content];
     }else {
         self.contentLbl.text = [NSString stringWithFormat:LLang(@"%d 条相关聊天记录"),[model.messageCount intValue]];
     }
     
+    self.timeLbl.text = [WKTimeTool getTimeStringAutoShort2:[NSDate dateWithTimeIntervalSince1970:model.timestamp] mustIncludeTime:true];
+    [self.timeLbl sizeToFit];
+    
 }
 
+-(NSMutableAttributedString*)  highlightText:(NSString*)text {
+    NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"<mark>(.*?)</mark>" options:NSRegularExpressionCaseInsensitive error:nil];
+    
+    NSArray* matches = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+    
+    for (NSTextCheckingResult* match in [matches reverseObjectEnumerator]) {
+        NSRange contentRange = [match rangeAtIndex:1];
+        NSString* content = [text substringWithRange:contentRange]; // 提取内容
+        NSAttributedString* highlightedString = [[NSAttributedString alloc] initWithString:content attributes:@{NSForegroundColorAttributeName: WKApp.shared.config.themeColor}];
+        // 替换 <mark> 标签部分，并保留属性
+        [attributedString replaceCharactersInRange:[match range] withAttributedString:highlightedString];
+    }
+    
+    return attributedString;
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -95,6 +127,9 @@
     self.contentLbl.lim_height = 15.0f;
     self.contentLbl.lim_left = self.nameLbl.lim_left;
     self.contentLbl.lim_top = self.nameLbl.lim_bottom + 10.0f;
+    
+    self.timeLbl.lim_top = self.nameLbl.lim_top;
+    self.timeLbl.lim_left = self.lim_width - self.timeLbl.lim_width - 10.0f;
 }
 
 @end

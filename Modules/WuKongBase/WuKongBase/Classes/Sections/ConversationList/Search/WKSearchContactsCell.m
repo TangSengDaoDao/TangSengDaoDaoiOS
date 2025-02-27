@@ -23,7 +23,7 @@
 
 @interface WKSearchContactsCell ()
 
-@property(nonatomic,strong) UIImageView *avatarImgView;
+@property(nonatomic,strong) WKUserAvatar *avatarImgView;
 @property(nonatomic,strong) UILabel *nameLbl;
 @property(nonatomic,strong) UILabel *containLbl;
 @property(nonatomic,strong) WKSearchContactsModel *searchModel;
@@ -40,7 +40,7 @@
     [super setupUI];
     
     // avatar
-    self.avatarImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 48.0f, 48.0f)];
+    self.avatarImgView = [[WKUserAvatar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 48.0f, 48.0f)];
     self.avatarImgView.layer.masksToBounds = YES;
     self.avatarImgView.layer.cornerRadius = self.avatarImgView.lim_height/2.0f;
     [self addSubview:self.avatarImgView];
@@ -60,13 +60,11 @@
     [super refresh:model];
     self.searchModel = model;
     
-    NSMutableAttributedString *nameAttr = [[NSMutableAttributedString alloc] initWithString:model.name];
-    if(model.keyword) {
-        NSRange colorRange = [[model.name lowercaseString] rangeOfString:[model.keyword lowercaseString]];
-        [nameAttr addAttribute:NSForegroundColorAttributeName value:[WKApp shared].config.themeColor range:colorRange];
-    }
+    NSMutableAttributedString *nameAttr = [self highlightText:model.name?:@""];
+    
     self.nameLbl.attributedText = nameAttr;
-    [self.avatarImgView lim_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[WKApp shared].config.defaultAvatar];
+    self.avatarImgView.url = model.avatar;
+
     
     self.containLbl.hidden = YES;
     if(model.contain && ![model.contain isEqualToString:@""]) {
@@ -79,6 +77,23 @@
         [containAttr insertAttributedString:[[NSAttributedString alloc] initWithString:LLang(@"包含:")] atIndex:0];
         self.containLbl.attributedText = containAttr;
     }
+}
+
+-(NSMutableAttributedString*)  highlightText:(NSString*)text {
+    NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"<mark>(.*?)</mark>" options:NSRegularExpressionCaseInsensitive error:nil];
+    
+    NSArray* matches = [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
+    
+    for (NSTextCheckingResult* match in [matches reverseObjectEnumerator]) {
+        NSRange contentRange = [match rangeAtIndex:1];
+        NSString* content = [text substringWithRange:contentRange]; // 提取内容
+        NSAttributedString* highlightedString = [[NSAttributedString alloc] initWithString:content attributes:@{NSForegroundColorAttributeName: WKApp.shared.config.themeColor}];
+        // 替换 <mark> 标签部分，并保留属性
+        [attributedString replaceCharactersInRange:[match range] withAttributedString:highlightedString];
+    }
+    
+    return attributedString;
 }
 
 - (void)layoutSubviews {

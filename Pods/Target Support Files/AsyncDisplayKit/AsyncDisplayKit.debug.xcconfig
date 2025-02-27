@@ -6,6 +6,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) MINIMAL_ASD
 OTHER_LDFLAGS = $(inherited) -l"c++" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreText" -framework "Foundation" -framework "QuartzCore" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_DEVELOPMENT_LANGUAGE = ${DEVELOPMENT_LANGUAGE}
 PODS_ROOT = ${SRCROOT}
 PODS_TARGET_SRCROOT = ${PODS_ROOT}/AsyncDisplayKit
 PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates

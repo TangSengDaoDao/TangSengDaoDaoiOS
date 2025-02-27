@@ -18,6 +18,7 @@
 #import "WKMultiLabelItemCell.h"
 #import "WKTableSectionUtil.h"
 #import "WKGroupQRCodeVC.h"
+#import "WKGlobalSearchResultController.h"
 
 @interface WKConversationSettingVM ()<WKChannelManagerDelegate>
 
@@ -226,6 +227,25 @@
         };
     } category:WKPOINT_CATEGORY_CHANNELSETTING sort:89700];
     
+    
+    [[WKApp shared] setMethod:@"channelsetting.hsitory" handler:^id _Nullable(id  _Nonnull param) {
+        return @{
+            @"height":WKSectionHeight,
+            @"items":@[
+                @{
+                    @"class":WKLabelItemModel.class,
+                    @"label":LLang(@"查找聊天内容"),
+                    @"showBottomLine":@(NO),
+                    @"showTopLine":@(NO),
+                    @"onClick":^{
+                        WKGlobalSearchResultController *vc = [WKGlobalSearchResultController new];
+                        vc.channel = weakSelf.channel;
+                        [[WKNavigationManager shared] pushViewController:vc animated:NO];
+                    }
+                }
+            ]
+        };
+    } category:WKPOINT_CATEGORY_CHANNELSETTING sort:89600];
     
     
     [[WKApp shared] setMethod:@"channelsetting.mute" handler:^id _Nullable(id  _Nonnull param) {

@@ -59,6 +59,11 @@ typedef enum : NSUInteger {
     }
 }
 
+// 重置上拉状态
+-(void) resetPullupState {
+    [self.tableView.mj_footer setHidden:NO];
+}
+
 -(void) reloadRemoteData {
     __weak typeof(self) weakSelf = self;
     [self refreshUIState:UIStateLoading];
@@ -364,6 +369,10 @@ typedef enum : NSUInteger {
 
 - (void)baseTableReloadRemoteData:(WKBaseTableVM *)vm {
     [self reloadRemoteData];
+}
+
+-(void) baseTableResetPullupState:(WKBaseTableVM *)vm {
+    [self resetPullupState];
 }
 
 @end

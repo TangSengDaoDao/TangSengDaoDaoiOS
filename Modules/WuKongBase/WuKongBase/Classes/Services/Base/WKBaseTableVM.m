@@ -35,4 +35,11 @@
         [self.delegateR baseTableReloadRemoteData:self];
     }
 }
+
+-(void) resetPullupState {
+    if(self.delegateR && [self.delegateR respondsToSelector:@selector(baseTableResetPullupState:)]) {
+        [self.delegateR baseTableResetPullupState:self];
+    }
+}
+
 @end

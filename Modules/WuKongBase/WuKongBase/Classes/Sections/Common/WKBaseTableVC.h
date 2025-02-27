@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 重新加载远程数据
 -(void)reloadRemoteData;
 
+/// 重置上拉状态
+-(void) resetPullupState;
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;

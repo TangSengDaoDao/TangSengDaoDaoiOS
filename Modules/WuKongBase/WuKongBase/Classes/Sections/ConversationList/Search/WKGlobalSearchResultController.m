@@ -6,11 +6,15 @@
 //
 #import "WKGlobalSearchVM.h"
 #import "WKGlobalSearchResultController.h"
+#import "WKTabbar.h"
 #define searchBarHeight 36.0f
 @interface WKGlobalSearchResultController ()<WKChannelManagerDelegate>
-@property(nonatomic,strong) WKGlobalSearchVM *vm;
-@property(nonatomic,strong) UITextField *searchBarInput;
-@property(nonatomic,strong) UIView *searchBarView;
+@property(nonatomic,strong) WKGlobalSearchVM *vm; // 搜索逻辑
+
+@property(nonatomic,strong) UITextField *searchBarInput; // 搜索输入框
+@property(nonatomic,strong) UIView *searchBarView; // 输入框的bar
+
+@property(nonatomic,strong) WKTabbar *tabbar; // 顶部搜索类型的tabbar
 
 
 
@@ -23,29 +27,36 @@
     self = [super init];
     if (self) {
         self.vm = [WKGlobalSearchVM new];
+        self.vm.enablePullup = true;
+        self.viewModel = self.vm;
     }
     return self;
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    
     self.vm.searchType = self.searchType;
+    self.vm.channel = self.channel;
+    
+    [super viewDidLoad];
+   
     [self.navigationBar addSubview:self.searchBarView];
     [self.searchBarView addSubview:self.searchBarInput];
+    [self.view addSubview:self.tabbar];
     
     [self.searchBarInput becomeFirstResponder];
     
     self.searchBarInput.text = self.keyword;
-    __weak typeof(self) weakSelf = self;
-    if(self.keyword && ![self.keyword isEqualToString:@""]) {
-       
-        [weakSelf.vm search:weakSelf.keyword callback:^(NSArray<WKFormSection *> * _Nonnull items) {
-            weakSelf.items = [NSMutableArray arrayWithArray:items];
-            [weakSelf.tableView reloadData];
-        }];
-    }
+    self.vm.keyword = self.keyword;
     
     [[WKSDK shared].channelManager addDelegate:self];
+    
+    self.tabbar.lim_bottom = self.tableView.lim_top;
+    
+}
+- (CGRect)tableViewFrame {
+    CGRect rect = [self visibleRect];
+    return CGRectMake(0.0f, rect.origin.y + self.tabbar.lim_height + 4.0f, rect.size.width, rect.size.height - self.tabbar.lim_height - 4.0f);
 }
 
 - (void)dealloc {
@@ -87,10 +98,49 @@
     return _searchBarView;
 }
 
-- (CGRect)tableViewFrame {
-    CGRect rect = [self visibleRect];
-    return CGRectMake(0.0f, rect.origin.y + 4.0f, rect.size.width, rect.size.height - 4.0f);
+- (WKTabbar *)tabbar {
+    if(!_tabbar) {
+        __weak typeof(self) weakSelf = self;
+        NSMutableArray<WKTabbarItem*> *items = [NSMutableArray array];
+        
+        BOOL existFileModule = [WKApp.shared hasMethod:WKPOINT_SEARCH_ITEM_FILE]; // 是否存在文件模块
+        [items addObject:[[WKTabbarItem alloc] initWithTitle:LLang(@"聊天") onClick:^{
+            [weakSelf.vm changeTabType:@"all"];
+        }]];
+        
+        if(!self.vm.searchInChannel) {
+            [items addObject:[[WKTabbarItem alloc] initWithTitle:LLang(@"联系人") onClick:^{
+                [weakSelf.vm changeTabType:@"contacts"];
+            }]];
+            [items addObject:[[WKTabbarItem alloc] initWithTitle:LLang(@"群组") onClick:^{
+                [weakSelf.vm changeTabType:@"group"];
+            }]];
+        }
+       
+        
+        if(self.vm.searchInChannel) { // 在频道内搜才有这个
+            [items addObject:[[WKTabbarItem alloc] initWithTitle:LLang(@"图片/视频") onClick:^{
+                [weakSelf.vm changeTabType:@"media"];
+            }]];
+        }
+        
+        
+        if(existFileModule) {
+            [items addObject:[[WKTabbarItem alloc] initWithTitle:LLang(@"文件") onClick:^{
+                [weakSelf.vm changeTabType:@"file"];
+            }]];
+        }
+        
+        CGFloat space = 15.0f;
+        _tabbar = [[WKTabbar alloc] initWithItems:items width:WKScreenWidth - space*2];
+        
+        _tabbar.lim_left = space;
+    
+    }
+    return _tabbar;
 }
+
+
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
      [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -107,11 +157,7 @@
 #pragma mark -- 事件
 
 - (void)textFieldEditingChanged:(UITextField *)textField {
-    __weak typeof(self) weakSelf = self;
-    [self.vm search:textField.text callback:^(NSArray<WKFormSection *> * _Nonnull items) {
-           weakSelf.items = [NSMutableArray arrayWithArray:items];
-           [weakSelf.tableView reloadData];
-       }];
+    [self.vm changeKeyword:textField.text];
 }
 
 // 重写返回事件

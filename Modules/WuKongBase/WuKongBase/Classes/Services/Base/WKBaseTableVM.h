@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void) baseTableReloadData:(WKBaseTableVM*)vm;
 
 -(void) baseTableReloadRemoteData:(WKBaseTableVM*)vm;
+
+-(void) baseTableResetPullupState:(WKBaseTableVM*)vm;
 @end
 
 @interface WKBaseTableVM : WKBaseVM
@@ -49,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 重新加载远程数据
 -(void) reloadRemoteData;
+
+// 重置上拉状态
+-(void) resetPullupState;
 
 @end
 
