@@ -97,10 +97,10 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/../Modules/WuKongIMiOSSDK-Framework/ios/WuKongIMSDK.framework/WuKongIMSDK.bundle"
+  install_resource "${PODS_ROOT}/../Modules/WuKongFile/WuKongFile.framework/WuKongFile_images.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/../Modules/WuKongIMiOSSDK-Framework/ios/WuKongIMSDK.framework/WuKongIMSDK.bundle"
+  install_resource "${PODS_ROOT}/../Modules/WuKongFile/WuKongFile.framework/WuKongFile_images.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

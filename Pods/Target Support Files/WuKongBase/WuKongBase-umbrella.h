@@ -242,6 +242,7 @@
 #import "WKGlobalSearchVM.h"
 #import "WKSearchContactsCell.h"
 #import "WKSearchHeaderCell.h"
+#import "WKSearchMediaCell.h"
 #import "WKSearchMessageCell.h"
 #import "WKSearchMoreCell.h"
 #import "WKSearchbarView.h"

@@ -1,2 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS/Pods-TangSengDaoDaoiOSBase-TangSengDaoDaoiOS-resources.sh
-${PODS_ROOT}/../Modules/WuKongIMiOSSDK-Framework/ios/WuKongIMSDK.framework/WuKongIMSDK.bundle
+${PODS_ROOT}/../Modules/WuKongFile/WuKongFile.framework/WuKongFile_images.bundle
