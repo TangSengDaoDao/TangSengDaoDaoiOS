@@ -40,7 +40,7 @@ TODO: Add long description of the pod here.
 
   
  
-  s.private_header_files = 'WuKongBase/Classes/Vendor/**/*'
+  s.private_header_files = 'WuKongBase/Classes/Vendor/**/*', 'WuKongBase/Classes/Sections/Conversation/Avatar/*.h'
   s.source_files = 'WuKongBase/Classes/**/*'
 #  s.preserve_paths = 'ios/arm/*.{a}'
 #   s.vendored_frameworks  = 'ios/WuKongIMSDK.framework'

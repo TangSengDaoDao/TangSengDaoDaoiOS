@@ -64,6 +64,10 @@ typedef enum :NSUInteger {
 
 // 头像
 @property(nonatomic,strong) WKUserAvatar *avatarImgView;
+// The conversation list owns group avatars; standalone message cells keep their own avatar.
+@property(nonatomic,assign) BOOL avatarManagedByList;
++ (BOOL)showsSenderAvatarForMessage:(WKMessageModel *)message;
++ (void)openSenderInfoForMessage:(WKMessageModel *)message;
 // 发送失败按钮
 @property(nonatomic,strong) UIView *sendFailBtn;
 

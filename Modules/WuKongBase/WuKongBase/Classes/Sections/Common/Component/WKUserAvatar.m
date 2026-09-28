@@ -9,6 +9,7 @@
 
 #import "WKApp.h"
 #import "UIView+WK.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface WKUserAvatar ()
@@ -47,17 +48,23 @@
 }
 
 - (void)setUrl:(NSString *)url {
-    _url = url;
-    [_avatarImgView loadImage:[NSURL URLWithString:url] placeholderImage:[WKApp shared].config.defaultAvatar];
+    _url = [url copy];
+    [self.avatarImgView sd_cancelCurrentImageLoad];
+    [self.avatarImgView loadImage:url.length ? [NSURL URLWithString:url] : nil placeholderImage:[WKApp shared].config.defaultAvatar];
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth {
     _borderWidth = borderWidth;
     self.avatarImgView.frame = CGRectMake(borderWidth/2.0f, borderWidth/2.0f, self.frame.size.width -borderWidth, self.frame.size.height - borderWidth);
+    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    self.avatarBox.frame = self.bounds;
+    self.avatarImgView.frame = CGRectInset(self.bounds, self.borderWidth / 2.0f, self.borderWidth / 2.0f);
+    self.avatarBox.layer.cornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) * 0.4f;
+    self.avatarImgView.layer.cornerRadius = MIN(self.avatarImgView.bounds.size.width, self.avatarImgView.bounds.size.height) * 0.4f;
     [self.avatarBox setBackgroundColor:[WKApp shared].config.cellBackgroundColor];
 }
 

@@ -15,6 +15,7 @@
 #import "WKTypingManager.h"
 #import "WKMessageListView+Position.h"
 #import "WKConversationListVM.h"
+#import "Avatar/WKMessageAvatarController.h"
 #import <WuKongBase/WuKongBase-Swift.h>
 @interface WKMessageListView ()<UITableViewDelegate,UITableViewDataSource,WKConversationTableViewDelegate,WKChannelManagerDelegate,WKChatManagerDelegate,WKReactionManagerDelegate,WKConnectionManagerDelegate,WKTypingManagerDelegate,WKReminderManagerDelegate>
 
@@ -27,6 +28,7 @@
 
 @property(nonatomic,assign) BOOL multipleOn;
 @property(nonatomic,strong,nullable) WKMessageModel *lastMessageInner;
+@property(nonatomic,strong) WKMessageAvatarController *avatarController;
 
 @end
 
@@ -45,6 +47,7 @@
     
     self.clipsToBounds = YES;
     [self addSubview:self.tableView];
+    self.avatarController = [[WKMessageAvatarController alloc] initWithMessageListView:self];
     [self initPosition];
     
     [self addDelegates];
@@ -126,6 +129,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self.tableView setNeedsLayout];
 }
 
 
@@ -372,6 +376,7 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(offset, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    [self.tableView setNeedsLayout];
 }
 
 -(void) enablePullup:(BOOL) enable {
@@ -833,6 +838,7 @@
 // 设置多选模式
 -(void) setMultipleOn:(BOOL)multiple selectedMessage:(WKMessageModel * _Nullable)messageModel {
     self.multipleOn = multiple;
+    self.avatarController.multipleChoice = multiple;
     // 先取消所有选中的
     [self cancelAllSelected];
     
@@ -900,6 +906,7 @@
 
 
 -(void) refreshCell:(WKMessageModel*) messageModel {
+    [self.avatarController invalidateData];
 
     NSIndexPath *indexPath =  [self.dataProvider replaceMessage:messageModel atClientMsgNo:messageModel.message.clientMsgNo];
     if(indexPath) {
@@ -1097,6 +1104,14 @@
 
 # pragma mark -- 列表委托 UITableViewDataSource && UITableViewDelegate
 
+- (void)tableViewMessagesDidChange:(UITableView *)tableView {
+    [self.avatarController invalidateData];
+}
+
+- (void)tableViewDidLayoutMessages:(UITableView *)tableView {
+    [self.avatarController updateLayout];
+}
+
 - (void)tableView:(UITableView *)tableView touchesTime:(NSTimeInterval)timestamp {
     if(timestamp<0.5f) {
         if(timestamp<0.5f) {
@@ -1136,6 +1151,7 @@
     baseCell.conversationContext = [self.dataProvider conversationContext];
     messageModel.checkboxOn =self.multipleOn;
     if([baseCell isKindOfClass:[WKMessageCell class]]) {
+        ((WKMessageCell*)baseCell).avatarManagedByList = YES;
         ((WKMessageCell*)baseCell).showNavigateToMessage = self.showNavigateToMessage;
     }
     [baseCell refresh:messageModel];
@@ -1200,6 +1216,7 @@
     self.scrolling = true;
     [self updateBrowseToOrderSeq];
     [self scrollViewDidScrollOfPosition:scrollView];
+    [self.avatarController updateLayout];
     
     CGFloat offset = self.tableView.contentSize.height - (self.tableView.contentOffset.y + self.tableView.lim_height);
 }
@@ -1444,6 +1461,7 @@
 #pragma mark - WKChannelManagerDelegate
 // 频道信息更新
 -(void) channelInfoUpdate:(WKChannelInfo*)channelInfo {
+    [self.avatarController updateSender:channelInfo];
     if([self.channel isEqual:channelInfo.channel]) { // 更新的当前会话的信息
         self.channelInfo = channelInfo;
     }else { // 更新的当前聊里页面的发送者的信息

@@ -81,6 +81,8 @@ static NSMutableDictionary *flameNodeCacheDict;
 
 - (void)prepareForReuse {
     [super prepareForReuse];
+    _avatarManagedByList = NO;
+    self.avatarImgView.hidden = YES;
 //    if(self.flameNode) {
 //        [self.flameNode.view removeFromSuperview];
 //    }
@@ -293,7 +295,8 @@ static NSMutableDictionary *flameNodeCacheDict;
 }
 
 -(BOOL) avatarTapAtPoint:(CGPoint)point {
-    return CGRectContainsPoint(self.avatarImgView.frame, point);
+    return !self.avatarImgView.hidden && !self.avatarManagedByList
+        && CGRectContainsPoint(self.avatarImgView.frame, point);
 }
 
 -(BOOL) sendFailAtPoint:(CGPoint)point {
@@ -337,18 +340,21 @@ static NSMutableDictionary *flameNodeCacheDict;
 }
 
 -(void) onAvatarTap {
-    
-    if(self.messageModel.channel.channelType == WK_CustomerService) {
+    [[self class] openSenderInfoForMessage:self.messageModel];
+}
+
++ (void)openSenderInfoForMessage:(WKMessageModel *)message {
+    if(message.channel.channelType == WK_CustomerService) {
         return;
     }
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:self.messageModel.fromUid?:@"" forKey:@"uid"];
-    if(self.messageModel.channel) {
-        [paramDict setObject:self.messageModel.channel forKey:@"channel"];
+    [paramDict setObject:message.fromUid?:@"" forKey:@"uid"];
+    if(message.channel) {
+        [paramDict setObject:message.channel forKey:@"channel"];
     }
     NSString *code = @"";
-    if(self.messageModel.memberOfFrom) {
-        code = self.messageModel.memberOfFrom.extra[@"vercode"];
+    if(message.memberOfFrom) {
+        code = message.memberOfFrom.extra[@"vercode"];
         paramDict[@"vercode"] = code?:@"";
     }
    
@@ -406,8 +412,6 @@ static NSMutableDictionary *flameNodeCacheDict;
     self.showCheckBox = model.checkboxOn;
     self.bubbleBackgroundView.image = [self bubbleImage];
     
-    WKBubblePostion bubblePosition = [[self class] bubblePosition:self.messageModel];
-    
     if(model.checkboxOn && model.contentType != WK_TYPING) {
         self.mainContainerNode.isGestureEnabled = NO;
         [self.tapLongTapOrDoubleTapGestureRecognizerWrap.gesture setEnabled:NO];
@@ -446,14 +450,9 @@ static NSMutableDictionary *flameNodeCacheDict;
         self.nameLbl.hidden = YES;
     }
     
-    if(model.isSend) {
-        self.avatarImgView.url = [WKApp shared].loginInfo.extra[@"avatar"];
-    }else {
-        if(model.from) { // 如果有发送者信息
-            self.avatarImgView.url = [WKAvatarUtil getFullAvatarWIthPath:model.from.logo];
-        }else {
-            self.avatarImgView.avatarImgView.image = nil;
-        }
+    if (!self.avatarManagedByList) {
+        self.avatarImgView.url = model.isSend ? ([WKApp shared].loginInfo.extra[@"avatar"] ?: @"")
+            : (model.from.logo.length ? [WKAvatarUtil getFullAvatarWIthPath:model.from.logo] : @"");
     }
     self.sendFailBtn.hidden = YES;
     if([self needError:model]) {
@@ -470,14 +469,7 @@ static NSMutableDictionary *flameNodeCacheDict;
     self.trailingView.lim_size =  CGSizeMake(trailingSize.width + 15.0f, trailingSize.height + 4.0);
     [self.trailingView refresh:self.messageModel];
     
-    self.avatarImgView.hidden = NO;
-    
-    if(bubblePosition == WKBubblePostionMiddle || bubblePosition == WKBubblePostionFirst) {
-        self.avatarImgView.hidden = YES;
-    }
-    if([self.messageModel isSend] || self.messageModel.isPersonChannel) {
-        self.avatarImgView.hidden = YES;
-    }
+    [self updateAvatarVisibility];
     
     // 回应
     if(self.messageModel.reactions && self.messageModel.reactions.count>0) {
@@ -583,6 +575,24 @@ static NSMutableDictionary *flameNodeCacheDict;
     return nicknameSize;
 }
 
+
++ (BOOL)showsSenderAvatarForMessage:(WKMessageModel *)message {
+    return message && message.fromUid.length > 0 && !message.isSend && !message.isPersonChannel
+        && !message.message.isDeleted && !message.remoteExtra.isMutualDeleted
+        && ![self isSystemOrRevoke:message] && message.contentType != WK_TYPING;
+}
+
+- (void)setAvatarManagedByList:(BOOL)avatarManagedByList {
+    _avatarManagedByList = avatarManagedByList;
+    [self updateAvatarVisibility];
+}
+
+- (void)updateAvatarVisibility {
+    WKBubblePostion position = [[self class] bubblePosition:self.messageModel];
+    self.avatarImgView.hidden = self.avatarManagedByList
+        || ![[self class] showsSenderAvatarForMessage:self.messageModel]
+        || position == WKBubblePostionFirst || position == WKBubblePostionMiddle;
+}
 
 // 气泡位置
 +(WKBubblePostion) bubblePosition:(WKMessageModel*)messageModel {

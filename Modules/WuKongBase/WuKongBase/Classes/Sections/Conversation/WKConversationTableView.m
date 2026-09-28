@@ -17,6 +17,64 @@
 
 @implementation WKConversationTableView
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    if ([self.conversationTableDelegate respondsToSelector:@selector(tableViewDidLayoutMessages:)]) {
+        [self.conversationTableDelegate tableViewDidLayoutMessages:self];
+    }
+}
+
+- (void)messagesWillChange {
+    if ([self.conversationTableDelegate respondsToSelector:@selector(tableViewMessagesDidChange:)]) {
+        [self.conversationTableDelegate tableViewMessagesDidChange:self];
+    }
+}
+
+- (void)reloadData {
+    [self messagesWillChange];
+    [super reloadData];
+}
+
+- (void)reloadRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super reloadRowsAtIndexPaths:indexPaths withRowAnimation:animation];
+}
+
+- (void)insertRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
+}
+
+- (void)deleteRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super deleteRowsAtIndexPaths:indexPaths withRowAnimation:animation];
+}
+
+- (void)moveRowAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath {
+    [self messagesWillChange];
+    [super moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+}
+
+- (void)reloadSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super reloadSections:sections withRowAnimation:animation];
+}
+
+- (void)insertSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super insertSections:sections withRowAnimation:animation];
+}
+
+- (void)deleteSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation {
+    [self messagesWillChange];
+    [super deleteSections:sections withRowAnimation:animation];
+}
+
+- (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection {
+    [self messagesWillChange];
+    [super moveSection:section toSection:newSection];
+}
+
 - (instancetype)init
 {
     self = [super init];

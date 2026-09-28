@@ -1608,6 +1608,7 @@
 		6672EDB90D5B03CD28C15BE7F1857D42 /* NSBag.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B2A5D239DB1127B237B0119F4C029B /* NSBag.m */; };
 		66880872BE2988E610FB2460905EDFC8 /* UIImagePickerController+RACSignalSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 713A207C3665A51FACA336ABEE3E6B5D /* UIImagePickerController+RACSignalSupport.m */; };
 		668DB55B5A0B70ABB239D7899516AE0D /* RACSignalProvider.d in Sources */ = {isa = PBXBuildFile; fileRef = DEFBF27274B72450B2BF5C4A4CB7689B /* RACSignalProvider.d */; };
+		66930C786116D6DA97E352B4 /* WKMessageAvatarController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C2C513AD64D0BA7A61A2104 /* WKMessageAvatarController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		66C85D827843F64A27BD73E540005D65 /* M80AttributedLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E385C8FFF455A64BD6F31D2945C8DDF /* M80AttributedLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66E36C6654D8C41BEE1DD18241DE7F6D /* muxi.h in Headers */ = {isa = PBXBuildFile; fileRef = 588E8715E26EEEC0E8FCD15385608F31 /* muxi.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		66E94EC3962DA917D5B577829DC3FF32 /* ZXRSSUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 192C6E77989076D6939E351B19735BAC /* ZXRSSUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1992,6 +1993,7 @@
 		7D783874A4BEA90B1B1F92E4160F90D6 /* ZXUPCEANExtension2Support.h in Headers */ = {isa = PBXBuildFile; fileRef = BA5975C260DA7E7EFD85FDFE8D3648FE /* ZXUPCEANExtension2Support.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D7F9495947F96C5023B0F5C514F9583 /* WKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 841F92A2AD01669AD6F6177FC01157C9 /* WKIconButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D7FB8CA7353711592675E017C74E10C /* UIScrollView+ZLPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E472A333C091FDF2759823E46A5562 /* UIScrollView+ZLPhotoBrowser.swift */; };
+		7DA8C362831A2EC4E7F2086B /* WKMessageAvatarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADCECE269C54A788BC5CFC /* WKMessageAvatarController.m */; };
 		7DAD4461C13832BD3B8A8F17385DA4DE /* ActionSheetPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F2DAA159288E8EA65D21A876B1386BA /* ActionSheetPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DAFF72983EDF508A60B85804945D3A6 /* RateTransposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EECC364A1A7EFA5A85F5C1BD376C313 /* RateTransposer.cpp */; };
 		7DB2740E3690683D23BFFFFC1EC06578 /* WKConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC9B0E06F9AE6E052B058B86E739B92 /* WKConversation.m */; };
@@ -2349,6 +2351,7 @@
 		92E8AC33246DE268B83223B8E39E4155 /* NSString+RACKeyPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5A33476675F354B0B07BACA785607 /* NSString+RACKeyPathUtilities.m */; };
 		92F717D08A3EACF7933B9FFEBD97E034 /* vpathmesure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DDD6A379B852E3D67B9B8ACE660CC80 /* vpathmesure.cpp */; };
 		92F796D5E9A144D06346D5672345D1BF /* Starscream-framework-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A2E01D0E20C1C3D4ECCAABFE7298A /* Starscream-framework-dummy.m */; };
+		93139168F99BBFA8CC6AECDC /* WKMessageAvatarLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 965176BDD5FDF3B8CDEB9BA2 /* WKMessageAvatarLayout.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9323D1EEB36AC4D60FF48BB32CA5052A /* WKContactsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1B5C2441CFB086C6AC02485D7A7E97 /* WKContactsCell.m */; };
 		9339B8E2B87529F1EA457CC6587A726E /* WuKongIMSDKHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = BAB4E69F6378FA72A19326DBA9285BDE /* WuKongIMSDKHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		935BED260E420C502ECA6482619CE1F4 /* WKConversationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 675E9A515561543FC75D8E556988F87C /* WKConversationView.m */; };
@@ -3082,6 +3085,7 @@
 		BFEF4C245AB98DE80A44830DAA451316 /* ZXRSSPair.h in Headers */ = {isa = PBXBuildFile; fileRef = F65E6081651C7081A7738166071E6E79 /* ZXRSSPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFF76AE7F5848B5719286219BCA3DBDB /* ASMainThreadDeallocation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2483AB72F28F818EC890AF812F65722E /* ASMainThreadDeallocation.mm */; };
 		C00092E3E6BB12FBD18111E1A5AEDB88 /* SDImageAPNGCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD5EB7979ED06AE97F741EB9A5053AC /* SDImageAPNGCoder.m */; };
+		C027A9A967E1CE8EC02A8E1B /* WKMessageAvatarLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DB29A96E442C587917C852 /* WKMessageAvatarLayout.m */; };
 		C02C27525530EB6DC67782CC56E2AF36 /* RACEmptySequence.h in Headers */ = {isa = PBXBuildFile; fileRef = CB34391B41D4EC09E5DB07D24D9EB74E /* RACEmptySequence.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C03C9EB8FAE316B842866342325D5FFB /* WKMorePanel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 170DD506F5E48CAFBF3ECA0B5E907F2C /* WKMorePanel2.m */; };
 		C0425C97BEF22F2CCDC6F456A85F0524 /* WKMeQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA0FD352C7C013734C1D81EC5ACBC0 /* WKMeQRCodeVC.m */; };
@@ -5133,6 +5137,7 @@
 		12BB95E7852FD971885BE79509AF827A /* RACEXTRuntimeExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RACEXTRuntimeExtensions.m; path = ReactiveObjC/extobjc/RACEXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		12D71AB94E1542496A2140FA77415DCF /* WKChatManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = WKChatManager.m; sourceTree = "<group>"; };
 		12DA44206CFA24BECD7CE217C41F7A3B /* ZLWeakProxy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZLWeakProxy.swift; path = Sources/General/ZLWeakProxy.swift; sourceTree = "<group>"; };
+		12DB29A96E442C587917C852 /* WKMessageAvatarLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = WKMessageAvatarLayout.m; sourceTree = "<group>"; };
 		12EF2C8C301DF04C323D2B4637A50503 /* SDImageCacheConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCacheConfig.m; path = SDWebImage/Core/SDImageCacheConfig.m; sourceTree = "<group>"; };
 		12F82746302BFF2B40D7E7A23187D057 /* WKCountingLabel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = WKCountingLabel.m; sourceTree = "<group>"; };
 		130D0BB349E0330AEFF6D8F67E713F02 /* DGActivityIndicatorRotatingSquaresAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DGActivityIndicatorRotatingSquaresAnimation.m; path = DGActivityIndicatorView/Animations/DGActivityIndicatorRotatingSquaresAnimation.m; sourceTree = "<group>"; };
@@ -6062,6 +6067,7 @@
 		4C1D9278CC2AF73A1F8171DD10E13C37 /* RACDelegateProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RACDelegateProxy.m; path = ReactiveObjC/RACDelegateProxy.m; sourceTree = "<group>"; };
 		4C1E3BC2F39D38F95897E11EA1C9406A /* ge_p2_dbl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ge_p2_dbl.h; path = Sources/ed25519/ge_p2_dbl.h; sourceTree = "<group>"; };
 		4C219F70F180DF9727B711D977EC3207 /* DGActivityIndicatorBallGridPulseAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DGActivityIndicatorBallGridPulseAnimation.m; path = DGActivityIndicatorView/Animations/DGActivityIndicatorBallGridPulseAnimation.m; sourceTree = "<group>"; };
+		4C2C513AD64D0BA7A61A2104 /* WKMessageAvatarController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = WKMessageAvatarController.h; sourceTree = "<group>"; };
 		4C59A7804CED37EE9DA5C8AAFC4CE5A6 /* WKGrowingTextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = WKGrowingTextView.h; sourceTree = "<group>"; };
 		4C5F41A657DC9F0974008A4FD589A0FE /* neon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = neon.h; path = src/dsp/neon.h; sourceTree = "<group>"; };
 		4C65D2247C2CAEE9BABF850CC5C10A6F /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "Objective-C/TOCropViewController/Resources/ja.lproj"; sourceTree = "<group>"; };
@@ -6756,6 +6762,7 @@
 		774BEBACBE2E23B125A561D611FC5C9E /* JCVideoRecordProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JCVideoRecordProgressView.m; sourceTree = "<group>"; };
 		775943DACE1EE37FBBEA2FD98982E70E /* GZIP.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GZIP.h; path = GZIP/GZIP.h; sourceTree = "<group>"; };
 		778A0E431D7F3A36503513831D273332 /* ZXUPCEReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZXUPCEReader.h; path = LBXScan/LBXZXing/ZXingObjc/oned/ZXUPCEReader.h; sourceTree = "<group>"; };
+		77ADCECE269C54A788BC5CFC /* WKMessageAvatarController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = WKMessageAvatarController.m; sourceTree = "<group>"; };
 		77B2E4C32A31F7A2127C25008E65BF46 /* WKThirdLoginVC.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = WKThirdLoginVC.h; sourceTree = "<group>"; };
 		77D132B686D60D9E75D8B04F371FBACC /* ZXPDF417HighLevelEncoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZXPDF417HighLevelEncoder.m; path = LBXScan/LBXZXing/ZXingObjc/pdf417/encoder/ZXPDF417HighLevelEncoder.m; sourceTree = "<group>"; };
 		77D8589214D7AAB69F0B91C607E7E961 /* denoise.c */ = {isa = PBXFileReference; includeInIndex = 1; path = denoise.c; sourceTree = "<group>"; };
@@ -7189,6 +7196,7 @@
 		961E6EFCACCA7852418490EAE06536E7 /* TZImagePickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TZImagePickerController.debug.xcconfig; sourceTree = "<group>"; };
 		9632523CFD95187E7DC07B8B3CEA172C /* WKCollectionViewGridLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = WKCollectionViewGridLayout.m; sourceTree = "<group>"; };
 		9646D123EE2F7A2D4A14FA4B8737B8BD /* WuKongDataSource.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WuKongDataSource.debug.xcconfig; sourceTree = "<group>"; };
+		965176BDD5FDF3B8CDEB9BA2 /* WKMessageAvatarLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = WKMessageAvatarLayout.h; sourceTree = "<group>"; };
 		9662262EB484BC475C3E3D33B85D9E1D /* ContextMenuActionNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContextMenuActionNode.swift; sourceTree = "<group>"; };
 		9662E7CCEF43B812CCED8FA9721707B5 /* DGActivityIndicatorBallZigZagAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DGActivityIndicatorBallZigZagAnimation.m; path = DGActivityIndicatorView/Animations/DGActivityIndicatorBallZigZagAnimation.m; sourceTree = "<group>"; };
 		96777B3EDEF99679B9926C36AA098AD2 /* ValuePipe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValuePipe.swift; sourceTree = "<group>"; };
@@ -12901,6 +12909,18 @@
 			name = NOSD;
 			sourceTree = "<group>";
 		};
+		80CC74AB3DD97B778DFACA0E /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				965176BDD5FDF3B8CDEB9BA2 /* WKMessageAvatarLayout.h */,
+				12DB29A96E442C587917C852 /* WKMessageAvatarLayout.m */,
+				4C2C513AD64D0BA7A61A2104 /* WKMessageAvatarController.h */,
+				77ADCECE269C54A788BC5CFC /* WKMessageAvatarController.m */,
+			);
+			name = Avatar;
+			path = Avatar;
+			sourceTree = "<group>";
+		};
 		80CD91414743A85B6CF79DC876C3C8E3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -13059,6 +13079,7 @@
 				3A819C6CC7B57AE95265B071AC57DFC1 /* Multiple */,
 				03E5DF8FA11B318C75FE52C2A3508D08 /* Panel */,
 				F84206F9D4EE6650E47DD71BE44E721A /* Services */,
+				80CC74AB3DD97B778DFACA0E /* Avatar */,
 			);
 			name = Conversation;
 			path = Conversation;
@@ -16324,6 +16345,8 @@
 				95952144AD88276A655B5388009A82B2 /* ZCCustomKeyBoardView.h in Headers */,
 				69B143FEB2D7BCFF0F3BBF4AAFA74744 /* ZCTradeInputView.h in Headers */,
 				8EFA9363E4070F011B5C91C8D3E0D9EE /* ZCTradeView.h in Headers */,
+				93139168F99BBFA8CC6AECDC /* WKMessageAvatarLayout.h in Headers */,
+				66930C786116D6DA97E352B4 /* WKMessageAvatarController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -21404,6 +21427,8 @@
 				A69DD2F9AD2C9C78A192AB8FD5C5CDC4 /* ZCCustomKeyBoardView.m in Sources */,
 				CAC084C3F9114E92BD1F73749B9AC76D /* ZCTradeInputView.m in Sources */,
 				03887CB2CF7CF59DEF2B75E00D900A10 /* ZCTradeView.m in Sources */,
+				C027A9A967E1CE8EC02A8E1B /* WKMessageAvatarLayout.m in Sources */,
+				7DA8C362831A2EC4E7F2086B /* WKMessageAvatarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

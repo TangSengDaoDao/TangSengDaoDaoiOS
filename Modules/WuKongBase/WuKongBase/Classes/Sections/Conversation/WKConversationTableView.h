@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol WKConversationTableViewDelegate <NSObject>
 
 @optional
+- (void)tableViewMessagesDidChange:(UITableView *)tableView;
+- (void)tableViewDidLayoutMessages:(UITableView *)tableView;
 
 - (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)tableView:(UITableView *)tableView touchesEnd:(NSSet *)touches withEvent:(UIEvent *)event;
